@@ -1,8 +1,7 @@
 package Model;
 
 
-import tools.InfoHolder;
-import tools.LogWriter;
+import Tools.LogWriter;
 
 import java.io.File;
 
@@ -16,8 +15,8 @@ public class Duel {
     private LogWriter logWriter;
 
 
-    public Duel(File player1Dir, File player2Dir){
-        board = new Board();
+    public Duel(File player1Dir, File player2Dir, int boardSize){
+        board = new Board(boardSize);
         player1 = new Player(player1Dir);
         player2 = new Player(player2Dir);
         logWriter = new LogWriter("duelLog");
@@ -37,10 +36,10 @@ public class Duel {
     }
 
     private void sendStartInfo(){
-        player1.sendMessage(InfoHolder.BOARD_SIZE+"");
+        player1.sendMessage(board.getBoardSize()+"");
         System.out.println(player1.getMessage());
 
-        player2.sendMessage(InfoHolder.BOARD_SIZE+"");
+        player2.sendMessage(board.getBoardSize()+"");
         System.out.println(player2.getMessage());
 
         player1.sendMessage("START");
@@ -50,7 +49,7 @@ public class Duel {
         player2.sendMessage("STOP");
     }
     private void handleDuel(){
-        logWriter.writeTitle(InfoHolder.BOARD_SIZE,player1.getNick(),player2.getNick());
+        logWriter.writeTitle(board.getBoardSize(),player1.getNick(),player2.getNick());
 
         while(true){
             String move1 = player1.getMessage();

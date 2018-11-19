@@ -1,7 +1,7 @@
 package Controll;
 
 
-import Model.CustomDialog;
+import Tools.DialogReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -12,9 +12,8 @@ import javafx.scene.layout.Pane;
 import Model.Duel;
 import Model.Tournament;
 import Model.Player;
-import tools.InfoHolder;
-import tools.InfoReader;
-import tools.LogWriter;
+import Tools.InfoReader;
+import Tools.LogWriter;
 
 import java.io.File;
 import java.util.*;
@@ -40,34 +39,33 @@ public class Controller {
     private Label tournamentText;
 
 
-    CustomDialog dialog = new CustomDialog();
     File player1directory;
     File player2directory;
     File tournamentDirectory;
     Player winner;
+    int boardSize = 5;
 
     public void changeSizeButtonPressed(){
-        int boardSize = dialog.initNumberDialog("Board size", "Set board size", 5, 3, 50);
-        InfoHolder.BOARD_SIZE = boardSize;
+        boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
         sizeText.setText("Board size: "+boardSize+"x"+boardSize);
     }
 
     public void selectPlayersButtonPressed(){
-        player1directory = dialog.initDirectoryChooser("Choose Player 1 directory",mainPane);
+        player1directory = DialogReader.readDirectoryFromDialog("Choose Player 1 directory",mainPane);
         player1Text.setText("Player 1: "+InfoReader.read(player1directory)[1]);
 
-        player2directory = dialog.initDirectoryChooser("Choose Player 2 directory",mainPane);
+        player2directory = DialogReader.readDirectoryFromDialog("Choose Player 2 directory",mainPane);
         player2Text.setText("Player 2: "+InfoReader.read(player2directory)[1]);
     }
 
     public void pressButton(ActionEvent event){
-        Duel duel = new Duel(player1directory,player2directory);
+        Duel duel = new Duel(player1directory,player2directory, boardSize);
         winner = duel.startDuel();
         winnerText.setText("Winner: " + winner.getNick());
     }
 
     public void selectTournamentDirPressed(){
-        tournamentDirectory = dialog.initDirectoryChooser("Choose Tournament directory",mainPane);
+        tournamentDirectory = DialogReader.readDirectoryFromDialog("Choose Tournament directory",mainPane);
     }
 
     public void startTournamentPressed(){
@@ -77,7 +75,7 @@ public class Controller {
             list.add(tournamentDirectory.listFiles()[i]);
         }
 
-        Tournament tournament = new Tournament(list);
+        Tournament tournament = new Tournament(list, boardSize);
         tournament.makeTournament();
 
         LogWriter log = new LogWriter("tournamentLog");

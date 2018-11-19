@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 public class Tournament {
     private HashMap<String,Integer> scoreList;
     private List<File> playersDirList;
+    private int boardSize;
 
-    public Tournament(List playersDirList){
+    public Tournament(List playersDirList, int boardSize){
         this.playersDirList = playersDirList;
+        this.boardSize = boardSize;
         scoreList = new HashMap<>();
     }
 
@@ -18,7 +20,7 @@ public class Tournament {
 
         for(int i = 0; i < playersDirList.size();i++){
             for(int j = i + 1;j < playersDirList.size();j++){
-                    Duel duel = new Duel(playersDirList.get(i),playersDirList.get(j));
+                    Duel duel = new Duel(playersDirList.get(i),playersDirList.get(j), boardSize);
                     Player winner = duel.startDuel();
 
                     scoreList.put(winner.getDirName(),scoreList.get(winner.getDirName())+1);
@@ -28,7 +30,7 @@ public class Tournament {
     }
 
     private void sortScoreList(){
-        Map<String, Integer> sortedMap = scoreList.entrySet().stream()
+        scoreList = scoreList.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }

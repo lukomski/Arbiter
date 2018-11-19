@@ -1,6 +1,6 @@
 package Model;
 
-import tools.InfoReader;
+import Tools.InfoReader;
 
 import java.io.*;
 

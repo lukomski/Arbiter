@@ -1,15 +1,15 @@
 package Model;
 
-import tools.InfoHolder;
-
 public class Board {
     private boolean [][]matrix;
+    private int boardSize;
 
-    public Board(){
-        matrix = new boolean[InfoHolder.BOARD_SIZE][InfoHolder.BOARD_SIZE];
-        for(int i=0;i<InfoHolder.BOARD_SIZE;i++){
-            for(int j=0;j<InfoHolder.BOARD_SIZE;j++){
-                matrix[i][j]=false;
+    public Board(int boardSize){
+        this.boardSize = boardSize;
+        matrix = new boolean[boardSize][boardSize];
+        for(int i = 0;i < boardSize;i++){
+            for(int j = 0;j < boardSize;j++){
+                matrix[i][j] = false;
             }
         }
     }
@@ -26,25 +26,30 @@ public class Board {
 
     }
     public boolean isMovePossible(){
-        for(int i=0;i<InfoHolder.BOARD_SIZE;i++){
-            for(int j=0;j<InfoHolder.BOARD_SIZE;j++){
+        for(int i=0;i<boardSize;i++){
+            for(int j=0;j<boardSize;j++){
                 if(!matrix[i][j]){
                     if(j!=0 && !matrix[i][j-1])
                         return true;
-                    if(j!=InfoHolder.BOARD_SIZE-1 && !matrix[i][j+1])
+                    if(j!=boardSize-1 && !matrix[i][j+1])
                         return true;
                     if(i!=0 && !matrix[i-1][j])
                         return true;
-                    if(i!=InfoHolder.BOARD_SIZE-1 && !matrix[i+1][j])
+                    if(i!=boardSize-1 && !matrix[i+1][j])
                         return true;
                 }
             }
         }
         return false;
     }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
     public void printBoard(){
-        for(int i=0;i<InfoHolder.BOARD_SIZE;i++){
-            for(int j=0;j<InfoHolder.BOARD_SIZE;j++){
+        for(int i=0;i<boardSize;i++){
+            for(int j=0;j<boardSize;j++){
                 if(matrix[i][j])
                     System.out.print(1);
                 else

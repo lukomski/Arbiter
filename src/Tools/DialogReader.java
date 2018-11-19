@@ -1,6 +1,5 @@
-package Model;
+package Tools;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
@@ -8,8 +7,8 @@ import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.util.Optional;
 
-public class CustomDialog {
-    public int initNumberDialog(String title, String headerText, int defaultValue, int min, int max){
+public class DialogReader {
+    public static int readNumberFromDialog(String title, String headerText, int defaultValue, int min, int max){
         TextInputDialog dialog = new TextInputDialog(String.valueOf(defaultValue));
         dialog.setTitle(title);
         dialog.setHeaderText(headerText);
@@ -23,11 +22,9 @@ public class CustomDialog {
 
         }
 
-
-
         return value;
     }
-    public File initDirectoryChooser(String title,Pane pane){
+    public static File readDirectoryFromDialog(String title, Pane pane){
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(title);
