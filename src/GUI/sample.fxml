@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<AnchorPane fx:id="mainPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.Controller">
    <children>
       <Label fx:id="player2Text" layoutX="26.0" layoutY="43.0" text="Player 2: -" />
       <Label fx:id="player1Text" layoutX="26.0" layoutY="14.0" text="Player 1: -" />
@@ -18,7 +18,7 @@
             <Canvas fx:id="canvas" height="372.0" width="467.0" />
             <Label fx:id="tournamentText" layoutX="169.0" layoutY="14.0" prefHeight="208.0" prefWidth="233.0" />
          </children></AnchorPane>
-      <Label fx:id="winnerText" layoutX="20.0" layoutY="460.0" />
+      <Label fx:id="winnerText" layoutX="20.0" layoutY="375.0" />
       <Button layoutX="8.0" layoutY="147.0" mnemonicParsing="false" onAction="#selectTournamentDirPressed" prefHeight="37.0" prefWidth="210.0" text="Select Tournament Directory" />
       <Button layoutX="17.0" layoutY="445.0" mnemonicParsing="false" onAction="#startTournamentPressed" prefHeight="37.0" prefWidth="197.0" text="Start Tournament" />
    </children>

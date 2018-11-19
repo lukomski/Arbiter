@@ -1,4 +1,4 @@
-package logic;
+package Model;
 
 import tools.InfoHolder;
 

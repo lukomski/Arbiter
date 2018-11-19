@@ -1,4 +1,4 @@
-package GUI;
+package Model;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
