@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -13,8 +14,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Arbiter");
-        primaryStage.setScene(new Scene(root, 700, 500));
+
+        String css = this.getClass().getResource("menu.css").toExternalForm();
+        Scene scene = new Scene(root, 700, 500);
+        scene.getStylesheets().add(css);
+
+        primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
 

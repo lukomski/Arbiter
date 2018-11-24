@@ -1,0 +1,12 @@
+.leftBar {
+    -fx-pref-height: 200px;
+    -fx-pref-width: 300px;
+    -fx-background-color: green;
+}
+
+#btnStartTournament {
+    pos: 50 50;
+}
+#btnSelectTournamentDir {
+    pos: 50 20;
+}

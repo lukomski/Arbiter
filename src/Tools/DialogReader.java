@@ -1,8 +1,12 @@
 package Tools;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.Optional;
@@ -24,13 +28,14 @@ public class DialogReader {
 
         return value;
     }
-    public static File readDirectoryFromDialog(String title, Pane pane){
-
+    public File readDirectoryFromDialog(String title, AnchorPane pane){
+        System.out.println("-$1");
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(title);
         directoryChooser.setInitialDirectory(new File("."));
+        System.out.println("#2" + pane);
         File selectedDirectory = directoryChooser.showDialog(pane.getScene().getWindow());
-
+        System.out.println("#3");
         if(selectedDirectory != null){
             return selectedDirectory;
         }
