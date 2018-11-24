@@ -38,6 +38,10 @@ public class Controller {
     private Label winnerText;
     @FXML
     private Label tournamentText;
+    @FXML
+    private Button btnChoiceDuel;
+    @FXML
+    private Button btnChoiceTournament;
 
     AnchorPane localPane;
     File player1directory;
@@ -46,7 +50,6 @@ public class Controller {
 
     Player winner;
     int boardSize = 5;
-    boolean isDuel = true;
 
     @FXML
     private DuelBarController duelBarController;
@@ -106,6 +109,8 @@ public class Controller {
                 duelAnchorPane.setVisible(false);
             tournamentAnchorPane.setVisible(true);
         }
+        btnChoiceDuel.getStyleClass().add("doubleShadowed");
+        btnChoiceTournament.getStyleClass().remove("doubleShadowed");
     }
 
     public void duelChoicePressed() throws IOException{
@@ -121,7 +126,8 @@ public class Controller {
                 tournamentAnchorPane.setVisible(false);
             duelAnchorPane.setVisible(true);
         }
-
+        btnChoiceTournament.getStyleClass().add("doubleShadowed");
+        btnChoiceDuel.getStyleClass().remove("doubleShadowed");
     }
     private String buildScoreTable(Map<String, Integer> map){
         StringBuilder score = new StringBuilder("Tournament score list\n\n");

@@ -28,14 +28,11 @@ public class DialogReader {
 
         return value;
     }
-    public File readDirectoryFromDialog(String title, AnchorPane pane){
-        System.out.println("-$1");
+    public static File readDirectoryFromDialog(String title, AnchorPane pane){
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(title);
         directoryChooser.setInitialDirectory(new File("."));
-        System.out.println("#2" + pane);
         File selectedDirectory = directoryChooser.showDialog(pane.getScene().getWindow());
-        System.out.println("#3");
         if(selectedDirectory != null){
             return selectedDirectory;
         }

@@ -1,6 +1,7 @@
 package GUI;
 
 
+import Controll.DuelBarController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,13 +16,12 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Arbiter");
 
-        String css = this.getClass().getResource("menu.css").toExternalForm();
+        String css = this.getClass().getResource("leftBar.css").toExternalForm();
         Scene scene = new Scene(root, 700, 500);
         scene.getStylesheets().add(css);
 
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
 

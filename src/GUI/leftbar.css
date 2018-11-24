@@ -1,12 +1,25 @@
-.leftBar {
-    -fx-pref-height: 200px;
-    -fx-pref-width: 300px;
-    -fx-background-color: green;
+.root {
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: rgb(123, 123, 100);
 }
-
-#btnStartTournament {
-    pos: 50 50;
+Button {
+    -fx-background-color: rgba(0, 0, 0, 0.05);
+    -fx-background-radius: 0;
 }
-#btnSelectTournamentDir {
-    pos: 50 20;
+Button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+.menuTypeGame {
+    -fx-background-color: #e6e6ff !important;
+    -fx-font-size: 15px;
+}
+ Button.menuTypeGame:hover{
+     -fx-background-color: rgba(0, 0, 0, 0.05);
+}
+.leftBar{
+    -fx-background-color: #e6e6ff;
+}
+.doubleShadowed {
+    -fx-background-color: rgba(0, 0, 0,0.1) !important;
 }

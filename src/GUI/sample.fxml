@@ -4,24 +4,29 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 
 <AnchorPane fx:id="mainPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.Controller">
    <children>
-      <Button fx:id="boardSizeButton" layoutX="14.0" layoutY="318.0" mnemonicParsing="false" onAction="#changeSizeButtonPressed" prefHeight="31.0" prefWidth="191.0" text="Change board size" />
-      <Label fx:id="sizeText" layoutX="20.0" layoutY="282.0" text="Board size: 5x5" />
-      <Button fx:id="b1" layoutX="16.0" layoutY="407.0" mnemonicParsing="false" onAction="#bntStartPressed" prefHeight="31.0" prefWidth="187.0" text="Start" />
-      <AnchorPane fx:id="boardPane" layoutX="236.0" layoutY="43.0" prefHeight="372.0" prefWidth="441.0">
+      <AnchorPane prefHeight="525.0" prefWidth="300.0" styleClass="leftBar">
          <children>
-            <Canvas fx:id="canvas" height="372.0" width="467.0" />
-            <Label fx:id="tournamentText" layoutX="169.0" layoutY="14.0" prefHeight="208.0" prefWidth="233.0" />
-         </children></AnchorPane>
-      <Label fx:id="winnerText" layoutX="20.0" layoutY="375.0" text="winner text" />
-      <HBox fx:id="choiceLine" alignment="BASELINE_LEFT" prefHeight="100.0" prefWidth="300.0">
-         <children>
-            <Button fx:id="btnChoiceDuel" onAction="#duelChoicePressed" styleClass="menuTypeGame" text="Duel" />
-            <Button fx:id="btnChoiceTournament" onAction="#tournamentChoicePressed" styleClass="menuTypeGame" text="Tournament" />
+            <Button fx:id="boardSizeButton" layoutX="13.0" layoutY="238.0" mnemonicParsing="false" onAction="#changeSizeButtonPressed" text="Change board size" />
+            <Label fx:id="sizeText" layoutX="11.0" layoutY="200" text="Board size: 5x5" />
+            <Button fx:id="b1" layoutX="130.0" layoutY="370.0" onAction="#bntStartPressed" text="Start" />
+
+            <Label fx:id="winnerText" layoutX="11.0" layoutY="302.0" text="winner text" />
+            <AnchorPane fx:id="choiceLine" prefHeight="50" prefWidth="300.0">
+               <children>
+                  <Button fx:id="btnChoiceDuel" layoutX="0" layoutY="0" onAction="#duelChoicePressed" prefHeight="50" prefWidth="150" styleClass="menuTypeGame" text="Duel" />
+                  <Button fx:id="btnChoiceTournament" layoutX="150" layoutY="0" onAction="#tournamentChoicePressed" prefHeight="50" prefWidth="150" styleClass="menuTypeGame" text="Tournament" />
+               </children>
+            </AnchorPane>
          </children>
-      </HBox>
+      </AnchorPane>
+       <AnchorPane fx:id="boardPane" layoutX="299.0" prefHeight="525.0" prefWidth="691.0">
+           <children>
+               <Canvas fx:id="canvas" height="372.0" layoutX="277.0" layoutY="96.0" width="414.0" />
+               <Label fx:id="tournamentText" layoutX="169.0" layoutY="14.0" prefHeight="208.0" prefWidth="233.0" />
+           </children>
+       </AnchorPane>
    </children>
 </AnchorPane>
