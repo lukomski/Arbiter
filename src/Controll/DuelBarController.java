@@ -17,47 +17,39 @@ public class DuelBarController {
     private Label labelPlayer1Dir;
     @FXML
     private Label labelPlayer2Dir;
+    @FXML
+    private AnchorPane duelAnchorPane;
 
-    private Controller paretController;
-    DuelBarController(Controller parentController){
-        this.parentController = parentController;
+    private File player1directory;
+    private File player2directory;
+
+    public void setVisible(boolean visible){
+        duelAnchorPane.setVisible(visible);
     }
 
-    File tournamentDirectory;
-    private java.io.File playerDir;
-
-    private Controller parentController;
-    public void setParentController(Controller parentController) {
-        this.parentController = parentController;
+    public boolean isVisible(){
+        return duelAnchorPane.isVisible();
     }
 
-    private final StringProperty value = new SimpleStringProperty();
-
-    public StringProperty valueProperty() {
-        return value;
+    public File getPlayer1directory(){
+        return player1directory;
     }
+
+    public File getPlayer2directory(){
+        return player2directory;
+    }
+
     @FXML
     private void btnChoosePlayer1DirPressed(){
         DialogReader dialogReader = new DialogReader();
-        File player1directory = dialogReader.readDirectoryFromDialog("Choose Player 1 directory",parentController.getMainPane());
-        this.parentController.setPlayer1directory(player1directory);
+        player1directory = dialogReader.readDirectoryFromDialog("Choose Player 1 directory",duelAnchorPane);
         labelPlayer1Dir.setText(player1directory.getName());
     }
+
     @FXML
     private void btnChoosePlayer2DirPressed(){
         DialogReader dialogReader = new DialogReader();
-        File player2directory = dialogReader.readDirectoryFromDialog("Choose Player 2 directory",parentController.getMainPane());
-        this.parentController.setPlayer2directory(player2directory);
+        player2directory = dialogReader.readDirectoryFromDialog("Choose Player 2 directory",duelAnchorPane);
         labelPlayer2Dir.setText(player2directory.getName());
-    }
-
-    public void selectPlayersButtonPressed(){
-        DialogReader dialogReader = new DialogReader();
-        File player1directory = dialogReader.readDirectoryFromDialog("Choose Player 1 directory",parentController.getMainPane());
-        this.parentController.setPlayer1directory(player1directory);
-        labelPlayer1Dir.setText(player1directory.getName());
-
-        File player2directory = dialogReader.readDirectoryFromDialog("Choose Player 2 directory",parentController.getMainPane());
-        this.parentController.setPlayer2directory(player2directory);
     }
 }

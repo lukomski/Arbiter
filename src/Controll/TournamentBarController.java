@@ -13,23 +13,25 @@ import java.io.File;
 import java.io.IOException;
 
 public class TournamentBarController {
-    private Controller paretController;
-
-    TournamentBarController(Controller parentController){
-        this.parentController = parentController;
-    }
+    @FXML
+    private AnchorPane tournamentAnchorPane;
 
     private File tournamentDirectory;
     private java.io.File playerDir;
 
-    private Controller parentController;
-    public void setParentController(Controller parentController) {
-        this.parentController = parentController;
+    public File getTournamentDirectory(){
+        return tournamentDirectory;
+    }
+    public void setVisible(boolean visible){
+        tournamentAnchorPane.setVisible(visible);
+    }
+    public boolean isVisible(){
+        return tournamentAnchorPane.isVisible();
     }
 
+    @FXML
     public void selectTournamentDirPressed(){
         DialogReader dr = new DialogReader();
-        tournamentDirectory = dr.readDirectoryFromDialog("Choose Tournament directory", parentController.getMainPane());
-        parentController.setTournamentDirectory(tournamentDirectory);
+        tournamentDirectory = dr.readDirectoryFromDialog("Choose Tournament directory", tournamentAnchorPane);
     }
 }

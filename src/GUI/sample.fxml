@@ -17,9 +17,11 @@
             <AnchorPane fx:id="choiceLine" prefHeight="50" prefWidth="300.0">
                <children>
                   <Button fx:id="btnChoiceDuel" layoutX="0" layoutY="0" onAction="#duelChoicePressed" prefHeight="50" prefWidth="150" styleClass="menuTypeGame" text="Duel" />
-                  <Button fx:id="btnChoiceTournament" layoutX="150" layoutY="0" onAction="#tournamentChoicePressed" prefHeight="50" prefWidth="150" styleClass="menuTypeGame" text="Tournament" />
+                  <Button fx:id="btnChoiceTournament" layoutX="150" layoutY="0" onAction="#tournamentChoicePressed" prefHeight="50" prefWidth="150" styleClass="menuTypeGame, doubleShadowed" text="Tournament" />
                </children>
             </AnchorPane>
+             <fx:include layoutY="50" fx:id="duelBar" source="duelMenu.fxml"/>
+             <fx:include layoutY="50" visible="false" fx:id="tournamentBar" source="tournamentMenu.fxml"/>
          </children>
       </AnchorPane>
        <AnchorPane fx:id="boardPane" layoutX="299.0" prefHeight="525.0" prefWidth="691.0">

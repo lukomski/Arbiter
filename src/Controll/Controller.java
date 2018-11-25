@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class Controller {
+    @FXML
+    private AnchorPane duelBar;
 
     @FXML
     public AnchorPane mainPane;
@@ -43,10 +45,6 @@ public class Controller {
     @FXML
     private Button btnChoiceTournament;
 
-    AnchorPane localPane;
-    File player1directory;
-    File player2directory;
-    File tournamentDirectory;
 
     Player winner;
     int boardSize = 5;
@@ -56,33 +54,21 @@ public class Controller {
     @FXML
     private TournamentBarController  tournamentBarController;
 
-    void setPlayer1directory(File file){
-        player1directory = file;
-    }
-    void setPlayer2directory(File file){
-        player2directory = file;
-    }
-    void setTournamentDirectory(File file){
-        tournamentDirectory = file;
-    }
-    AnchorPane getMainPane(){
-        return mainPane;
-    }
     public void changeSizeButtonPressed(){
         boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
         sizeText.setText("Board size: "+boardSize+"x"+boardSize);
     }
 
-
-
     public void bntStartPressed(ActionEvent event){
-        if (duelAnchorPane != null && duelAnchorPane.isVisible()) {
-            Duel duel = new Duel(player1directory, player2directory, boardSize);
+        if (duelBarController.isVisible()) {
+            System.out.println("player1:" + duelBarController.getPlayer1directory() + "player2:" + duelBarController.getPlayer2directory());
+            Duel duel = new Duel(duelBarController.getPlayer1directory(), duelBarController.getPlayer2directory(), boardSize);
             winner = duel.startDuel();
             winnerText.setText("Winner: " + winner.getNick());
         } else {
             ArrayList<File> list = new ArrayList<>();
 
+            File tournamentDirectory = tournamentBarController.getTournamentDirectory();
             for(int i = 0;i < tournamentDirectory.listFiles().length;i++){
                 list.add(tournamentDirectory.listFiles()[i]);
             }
@@ -96,39 +82,29 @@ public class Controller {
             tournamentText.setText(buildScoreTable(tournament.getScoreList()));
         }
     }
-    public void tournamentChoicePressed() throws IOException {
-        if(tournamentAnchorPane == null) {
-            tournamentBarController = new TournamentBarController(this);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../GUI/tournamentMenu.fxml"));
-            fxmlLoader.setController(tournamentBarController);
-            tournamentAnchorPane = fxmlLoader.load();
-            tournamentAnchorPane.setLayoutY(50);
-            mainPane.getChildren().add(tournamentAnchorPane);
-        }else{
-            if(duelAnchorPane != null)
-                duelAnchorPane.setVisible(false);
-            tournamentAnchorPane.setVisible(true);
-        }
-        btnChoiceDuel.getStyleClass().add("doubleShadowed");
-        btnChoiceTournament.getStyleClass().remove("doubleShadowed");
+    public void tournamentChoicePressed(){
+        System.out.println(btnChoiceDuel.getStyleClass());
+        System.out.println(btnChoiceTournament.getStyleClass());
+        duelBarController.setVisible(false);
+        tournamentBarController.setVisible(true);
+        /* button shadow */
+        btnChoiceDuel.getStyleClass().clear();
+        btnChoiceDuel.getStyleClass().addAll("button", "menuTypeGame", "doubleShadowed");
+        btnChoiceTournament.getStyleClass().clear();
+        btnChoiceTournament.getStyleClass().addAll("button", "menuTypeGame");
     }
 
-    public void duelChoicePressed() throws IOException{
-        if(duelAnchorPane == null) {
-            duelBarController = new DuelBarController(this);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../GUI/duelMenu.fxml"));
-            fxmlLoader.setController(duelBarController);
-            duelAnchorPane = fxmlLoader.load();
-            duelAnchorPane.setLayoutY(50);
-            mainPane.getChildren().add(duelAnchorPane);
-        } else {
-            if(tournamentAnchorPane != null)
-                tournamentAnchorPane.setVisible(false);
-            duelAnchorPane.setVisible(true);
-        }
-        btnChoiceTournament.getStyleClass().add("doubleShadowed");
-        btnChoiceDuel.getStyleClass().remove("doubleShadowed");
+    public void duelChoicePressed(){
+        tournamentBarController.setVisible(false);
+        duelBarController.setVisible(true);
+
+        /* button shadow */
+        btnChoiceTournament.getStyleClass().clear();
+        btnChoiceTournament.getStyleClass().addAll("button","menuTypeGame","doubleShadowed");
+        btnChoiceDuel.getStyleClass().clear();
+        btnChoiceDuel.getStyleClass().addAll("button", "menuTypeGame");
     }
+
     private String buildScoreTable(Map<String, Integer> map){
         StringBuilder score = new StringBuilder("Tournament score list\n\n");
         for (String currentKey : map.keySet()) {

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="duelAnchorPane" prefHeight="100" prefWidth="300" styleClass="leftBar" stylesheets="/GUI/choiceOfPlayerBar.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="Controll.DuelBarController" fx:id="duelAnchorPane" prefHeight="100" prefWidth="300" styleClass="leftBar" stylesheets="/GUI/choiceOfPlayerBar.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <VBox layoutX="10" layoutY="10">
       <children>
          <AnchorPane prefHeight="50.0">
