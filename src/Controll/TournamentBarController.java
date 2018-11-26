@@ -1,37 +1,28 @@
 package Controll;
 
 import Tools.DialogReader;
-import Tools.InfoReader;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TournamentBarController {
-    @FXML
-    private AnchorPane tournamentAnchorPane;
+public class TournamentBarController extends BarController {
 
     private File tournamentDirectory;
-    private java.io.File playerDir;
 
-    public File getTournamentDirectory(){
-        return tournamentDirectory;
-    }
-    public void setVisible(boolean visible){
-        tournamentAnchorPane.setVisible(visible);
-    }
-    public boolean isVisible(){
-        return tournamentAnchorPane.isVisible();
+    @Override
+    public List<File> getDirectories(){
+        List<File> directories = new ArrayList<>();
+        for(int i = 0;i < tournamentDirectory.listFiles().length;i++){
+            directories.add(tournamentDirectory.listFiles()[i]);
+        }
+        return directories;
     }
 
     @FXML
-    public void selectTournamentDirPressed(){
+    private void selectTournamentDirPressed(){
         DialogReader dr = new DialogReader();
-        tournamentDirectory = dr.readDirectoryFromDialog("Choose Tournament directory", tournamentAnchorPane);
+        tournamentDirectory = dr.readDirectoryFromDialog("Choose Tournament directory", rootAnchorPane);
     }
 }
