@@ -15,18 +15,33 @@ public class Tournament {
         scoreList = new HashMap<>();
     }
 
-    public void makeTournament(){
-        fillScoreList();
+    public List<Object> makeTournament(){
+        List<Object> error = fillScoreList();
 
         for(int i = 0; i < playersDirList.size();i++){
+            Player player1;
+            try {
+                player1 = new Player(playersDirList.get(i));
+                error.add(playersDirList.get(i));
+            } catch (Exception e){
+                continue;
+            }
             for(int j = i + 1;j < playersDirList.size();j++){
-                    Duel duel = new Duel(playersDirList.get(i),playersDirList.get(j), boardSize);
-                    Player winner = duel.startDuel();
+                Player player2;
+                try {
+                    player2 = new Player(playersDirList.get(j));
+                    error.add(playersDirList.get(j));
+                } catch (Exception e){
+                    continue;
+                }
+                Duel duel = new Duel(player1, player2, boardSize);
+                Player winner = duel.startDuel();
 
-                    scoreList.put(winner.getDirName(),scoreList.get(winner.getDirName())+1);
+                scoreList.put(winner.getDirName(),scoreList.get(winner.getDirName())+1);
             }
         }
         sortScoreList();
+        return error;
     }
 
     private void sortScoreList(){
@@ -39,10 +54,16 @@ public class Tournament {
         return scoreList;
     }
 
-    private void fillScoreList(){
+    private List<Object> fillScoreList(){
+        List<Object> error = new ArrayList<>();
         for(int i=0;i<playersDirList.size();i++){
-            scoreList.put(playersDirList.get(i).getName(),0);
+            try {
+                scoreList.put(playersDirList.get(i).getName(), 0);
+            } catch (Exception e){
+                error.add(playersDirList.get(i));
+            }
         }
+        return error;
     }
 
 }

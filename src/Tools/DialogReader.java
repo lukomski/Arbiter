@@ -13,20 +13,19 @@ import java.util.Optional;
 
 public class DialogReader {
     public static int readNumberFromDialog(String title, String headerText, int defaultValue, int min, int max){
-        TextInputDialog dialog = new TextInputDialog(String.valueOf(defaultValue));
-        dialog.setTitle(title);
-        dialog.setHeaderText(headerText);
-        dialog.setContentText("Choose a number between " + String.valueOf(min) + " and " + String.valueOf(max)+": ");
-        Optional<String> result = dialog.showAndWait();
-        int value = defaultValue;
-
         try {
-            value = Integer.parseInt(result.get());
-        }catch (NumberFormatException e){
+            TextInputDialog dialog = new TextInputDialog(String.valueOf(defaultValue));
+            dialog.setTitle(title);
+            dialog.setHeaderText(headerText);
+            dialog.setContentText("Choose a number between " + String.valueOf(min) + " and " + String.valueOf(max)+": ");
+            Optional<String> result = dialog.showAndWait();
 
+            int value = Integer.parseInt(result.get());
+            return value;
+        }catch (Exception e){
+            return -1;
         }
 
-        return value;
     }
     public static File readDirectoryFromDialog(String title, AnchorPane pane){
         DirectoryChooser directoryChooser = new DirectoryChooser();

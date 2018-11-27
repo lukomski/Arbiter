@@ -15,7 +15,7 @@ import Tools.LogWriter;
 import java.io.File;
 import java.util.*;
 
-public class Controller {
+public class MainController {
     @FXML
     private AnchorPane duelBar;
 
@@ -47,11 +47,13 @@ public class Controller {
     @FXML
     private TournamentBarController tournamentBarController;
 
-       public void changeSizeButtonPressed(){
-        boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
-        sizeText.setText("Board size: "+boardSize+"x"+boardSize);
-    }
-
+       public void changeSizeButtonPressed() {
+           int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
+           if (boardSize >= 3 && boardSize <= 50) {
+               this.boardSize = boardSize;
+               sizeText.setText("Board size: " + boardSize + " x " + boardSize);
+           }
+       }
     public void bntStartPressed(ActionEvent event){
         Tournament tournament;
         if (duelBarController.isVisible()) {

@@ -15,10 +15,10 @@ public class Duel {
     private LogWriter logWriter;
 
 
-    public Duel(File player1Dir, File player2Dir, int boardSize){
+    public Duel(Player player1, Player player2, int boardSize){
         board = new Board(boardSize);
-        player1 = new Player(player1Dir);
-        player2 = new Player(player2Dir);
+        this.player1 = player1;
+        this.player2 = player2;
         logWriter = new LogWriter("duelLog");
     }
 

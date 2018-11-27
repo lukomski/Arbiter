@@ -20,16 +20,24 @@ public class DuelBarController extends BarController {
 
     @FXML
     private void btnChoosePlayer1DirPressed(){
-        DialogReader dialogReader = new DialogReader();
-        player1directory = dialogReader.readDirectoryFromDialog("Choose Player 1 directory", rootAnchorPane);
-        labelPlayer1Dir.setText(player1directory.getName());
+        player1directory = getFile("Choose Player 1 directory");
+        if(player1directory != null) {
+            labelPlayer1Dir.setText(player1directory.getName());
+        }
     }
 
     @FXML
-    private void btnChoosePlayer2DirPressed(){
+    private void btnChoosePlayer2DirPressed() {
+        player2directory = getFile("Choose Player 2 directory");
+        if (player2directory != null) {
+            labelPlayer2Dir.setText(player2directory.getName());
+        }
+    }
+
+    private File getFile(String message){
         DialogReader dialogReader = new DialogReader();
-        player2directory = dialogReader.readDirectoryFromDialog("Choose Player 2 directory", rootAnchorPane);
-        labelPlayer2Dir.setText(player2directory.getName());
+        File file = dialogReader.readDirectoryFromDialog(message, rootAnchorPane);
+        return file;
     }
 
     @Override
