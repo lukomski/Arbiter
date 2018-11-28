@@ -13,7 +13,7 @@ public class Player {
     private PrintWriter output;
     private Process process;
 
-    public Player(File dir){
+    public Player(File dir)throws Exception{
         String info[] = InfoReader.read(dir); /* change name */
         nick = info[1];
         dirName = dir.getName();

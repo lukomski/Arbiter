@@ -62,9 +62,10 @@ public class MainController {
             tournament = new Tournament(tournamentBarController.getDirectories(), boardSize);
         }
         tournament.makeTournament();
+        tournamentText.setText(tournament.buildScoreTable());
+
         LogWriter log = new LogWriter("tournamentLog");
         log.writeTournamentList(tournament.getScoreList());
-        tournamentText.setText(buildScoreTable(tournament.getScoreList()));
     }
 
     public void tournamentChoicePressed(){
@@ -86,12 +87,6 @@ public class MainController {
         btnChoiceDuel.getStyleClass().removeAll("doubleShadowed");
     }
 
-    private String buildScoreTable(Map<String, Integer> map){
-        StringBuilder score = new StringBuilder("Tournament score list\n\n");
-        for (String currentKey : map.keySet()) {
-            score.append(currentKey + ": " + map.get(currentKey)+"\n");
-        }
-        return score.toString();
-    }
+
 
 }
