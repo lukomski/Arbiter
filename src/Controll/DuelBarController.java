@@ -2,6 +2,7 @@ package Controll;
 
 import Tools.DialogReader;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.io.File;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class DuelBarController extends BarController {
     @FXML
-    private Label labelPlayer1Dir;
+    private Button btnChoosePlayer1Dir;
     @FXML
-    private Label labelPlayer2Dir;
+    private Button btnChoosePlayer2Dir;
 
     private File player1directory;
     private File player2directory;
@@ -22,7 +23,7 @@ public class DuelBarController extends BarController {
     private void btnChoosePlayer1DirPressed(){
         player1directory = getFile("Choose Player 1 directory");
         if(player1directory != null) {
-            labelPlayer1Dir.setText(player1directory.getName());
+            btnChoosePlayer1Dir.setText(player1directory.getName());
         }
     }
 
@@ -30,7 +31,7 @@ public class DuelBarController extends BarController {
     private void btnChoosePlayer2DirPressed() {
         player2directory = getFile("Choose Player 2 directory");
         if (player2directory != null) {
-            labelPlayer2Dir.setText(player2directory.getName());
+            btnChoosePlayer2Dir.setText(player2directory.getName());
         }
     }
 
