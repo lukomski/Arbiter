@@ -1,5 +1,7 @@
 package Model;
 
+import GUI.BoardDraw;
+
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,13 +11,15 @@ public class Tournament {
     private List<File> playersDirList;
     private List<File> disqualifieds;
     private int boardSize;
+    private BoardDraw boardDraw;
 
 
-    public Tournament(List playersDirList, int boardSize){
+    public Tournament(List playersDirList, int boardSize, BoardDraw boardDraw){
         this.playersDirList = playersDirList;
         this.boardSize = boardSize;
         scoreList = new HashMap<>();
         disqualifieds = new ArrayList<>();
+        this.boardDraw = boardDraw;
     }
 
     public void makeTournament(){
@@ -48,7 +52,7 @@ public class Tournament {
                     scoreList.put(player1.getDirName(),scoreList.get(player1.getDirName())+1);
                     continue;
                 }
-                Duel duel = new Duel(player1, player2, boardSize);
+                Duel duel = new Duel(player1, player2, boardSize, boardDraw);
                 Player winner = duel.startDuel();
 
                 scoreList.put(winner.getDirName(),scoreList.get(winner.getDirName())+1);

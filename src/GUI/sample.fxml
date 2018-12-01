@@ -3,15 +3,17 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
+<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
    <children>
-      <AnchorPane prefHeight="525.0" prefWidth="300.0" styleClass="leftBar">
+      <AnchorPane prefHeight="700.0" prefWidth="300.0" styleClass="leftBar">
          <children>
             <Button fx:id="boardSizeButton" layoutX="13.0" layoutY="238.0" mnemonicParsing="false" onAction="#changeSizeButtonPressed" text="Change board size" />
             <Label fx:id="sizeText" layoutX="11.0" layoutY="200" text="Board size: 5x5" />
-            <Button fx:id="b1" layoutX="130.0" layoutY="370.0" onAction="#bntStartPressed" text="Start" />
+            <Button fx:id="b1" layoutX="92.0" layoutY="619.0" onAction="#bntStartPressed" text="Start" />
 
             <Label fx:id="winnerText" layoutX="11.0" layoutY="302.0" text="winner text" />
             <AnchorPane fx:id="choiceLine" prefHeight="50" prefWidth="300.0">
@@ -20,14 +22,21 @@
                   <Button fx:id="btnChoiceTournament" layoutX="150" layoutY="0" onAction="#tournamentChoicePressed" prefHeight="50" prefWidth="150" styleClass="menuTypeGame, doubleShadowed" text="Tournament" />
                </children>
             </AnchorPane>
-             <fx:include layoutY="50" fx:id="duelBar" source="duelMenu.fxml"/>
-             <fx:include layoutY="50" visible="false" fx:id="tournamentBar" source="tournamentMenu.fxml"/>
+             <fx:include fx:id="duelBar" layoutY="50" source="duelMenu.fxml" />
+             <fx:include fx:id="tournamentBar" layoutY="50" source="tournamentMenu.fxml" visible="false" />
+               <Label fx:id="tournamentText" layoutX="34.0" layoutY="323.0" prefHeight="208.0" prefWidth="233.0" />
+            <RadioButton fx:id="instantOption" layoutX="55.0" layoutY="580.0" mnemonicParsing="false" selected="true" text="Instant">
+               <toggleGroup>
+                  <ToggleGroup fx:id="showChoice" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="controlOption" layoutX="176.0" layoutY="580.0" mnemonicParsing="false" text="Control" toggleGroup="$showChoice" />
+            <Button fx:id="nextMoveButton" disable="true" layoutX="168.0" layoutY="619.0" mnemonicParsing="false" text="Next Move" />
          </children>
       </AnchorPane>
-       <AnchorPane fx:id="boardPane" layoutX="299.0" prefHeight="525.0" prefWidth="691.0">
+       <AnchorPane fx:id="boardPane" layoutX="300.0" prefHeight="700.0" prefWidth="700.0">
            <children>
-               <Canvas fx:id="canvas" height="372.0" layoutX="277.0" layoutY="96.0" width="414.0" />
-               <Label fx:id="tournamentText" layoutX="169.0" layoutY="14.0" prefHeight="208.0" prefWidth="233.0" />
+               <Canvas fx:id="canvas" height="700.0" width="700.0" />
            </children>
        </AnchorPane>
    </children>

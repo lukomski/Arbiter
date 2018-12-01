@@ -15,7 +15,7 @@ public class Main extends Application {
         primaryStage.setTitle("Arbiter");
 
         String css = this.getClass().getResource("leftBar.css").toExternalForm();
-        Scene scene = new Scene(root, 700, 500);
+        Scene scene = new Scene(root, 1000, 700);
         scene.getStylesheets().add(css);
 
         primaryStage.setScene(scene);

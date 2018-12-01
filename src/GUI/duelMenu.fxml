@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="rootAnchorPane" prefHeight="100" prefWidth="300" styleClass="leftBar" stylesheets="/GUI/leftBar.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.DuelBarController">
+<AnchorPane fx:id="rootAnchorPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100" prefWidth="300.0" styleClass="leftBar" stylesheets="/GUI/leftBar.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.DuelBarController">
    <VBox layoutX="10" layoutY="10" prefHeight="100.0" prefWidth="290.0">
       <children>
          <AnchorPane prefHeight="50.0" prefWidth="260.0">

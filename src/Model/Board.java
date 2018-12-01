@@ -1,10 +1,13 @@
 package Model;
 
+import GUI.BoardDraw;
+
 public class Board {
     private boolean [][]matrix;
     private int boardSize;
+    BoardDraw boardDraw;
 
-    public Board(int boardSize){
+    public Board(int boardSize, BoardDraw boardDraw){
         this.boardSize = boardSize;
         matrix = new boolean[boardSize][boardSize];
         for(int i = 0;i < boardSize;i++){
@@ -12,8 +15,9 @@ public class Board {
                 matrix[i][j] = false;
             }
         }
+        this.boardDraw = boardDraw;
     }
-    public void fillBoard(String coords){
+    public void fillBoard(String coords,int playerIndex){
         String cord[] = coords.split("_");
         String c1[] = cord[0].split("x");
         String c2[] = cord[1].split("x");
@@ -23,6 +27,8 @@ public class Board {
         int y2 = Integer.parseInt(c2[1]);
         matrix[x1][y1]=true;
         matrix[x2][y2]=true;
+
+        boardDraw.drawRect(x1,y1,x2,y2,playerIndex);
 
     }
     public boolean isMovePossible(){

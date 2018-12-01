@@ -1,7 +1,7 @@
 .root {
     -fx-font-size: 13px;
     -fx-font-family: "Segoe UI";
-    -fx-background-color: rgb(123, 123, 100);
+    -fx-background-color: rgb(222, 222, 222);
 }
 Button {
     -fx-background-color: rgba(0, 0, 0, 0.05);
