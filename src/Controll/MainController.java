@@ -54,20 +54,18 @@ public class MainController {
     @FXML
     private Button nextMoveButton;
 
-       public void changeSizeButtonPressed() {
-           int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
-           if (boardSize >= 3 && boardSize <= 50) {
-               this.boardSize = boardSize;
-               sizeText.setText("Board size: " + boardSize + " x " + boardSize);
-           }
+    public void changeSizeButtonPressed() {
+        int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
+        if (boardSize >= 3 && boardSize <= 50) {
+            this.boardSize = boardSize;
+            sizeText.setText("Board size: " + boardSize + " x " + boardSize);
+        }
 
-           boardDraw.setBoardSize(boardSize);
-           boardDraw.clearBoard();
-           boardDraw.drawLines();
+        boardDraw.setBoardSize(boardSize);
+        boardDraw.clearBoard();
+        boardDraw.drawLines();
+    }
 
-
-
-       }
     public void bntStartPressed(ActionEvent event){
 
         if(controlOption.isSelected())
@@ -87,29 +85,25 @@ public class MainController {
 
         LogWriter log = new LogWriter("tournamentLog");
         log.writeTournamentList(tournament.getScoreList());
+    }
 
-
-
+    private void switchBars(BarController fromBar, Button fromButton, BarController toBar, Button toButton){
+        fromBar.setVisible(false);
+        toBar.setVisible(true);
+        /* button shadow */
+        fromButton.getStyleClass().removeAll("doubleShadowed");
+        fromButton.getStyleClass().addAll("doubleShadowed");
+        toButton.getStyleClass().removeAll("doubleShadowed");
     }
 
     public void tournamentChoicePressed(){
-        duelBarController.setVisible(false);
-        tournamentBarController.setVisible(true);
-        /* button shadow */
-        btnChoiceDuel.getStyleClass().removeAll("doubleShadowed");
-        btnChoiceDuel.getStyleClass().addAll("doubleShadowed");
-        btnChoiceTournament.getStyleClass().removeAll("doubleShadowed");
+        switchBars(duelBarController, btnChoiceDuel, tournamentBarController, btnChoiceTournament);
     }
 
     public void duelChoicePressed(){
-        tournamentBarController.setVisible(false);
-        duelBarController.setVisible(true);
-
-        /* button shadow */
-        btnChoiceTournament.getStyleClass().removeAll("doubleShadowed");
-        btnChoiceTournament.getStyleClass().addAll("doubleShadowed");
-        btnChoiceDuel.getStyleClass().removeAll("doubleShadowed");
+        switchBars(tournamentBarController, btnChoiceTournament, duelBarController, btnChoiceDuel);
     }
+
     @FXML
     public void initialize(){
 
