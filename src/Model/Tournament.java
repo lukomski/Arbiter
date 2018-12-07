@@ -1,6 +1,6 @@
 package Model;
 
-import GUI.BoardDraw;
+import javafx.scene.canvas.Canvas;
 
 import java.io.File;
 import java.util.*;
@@ -11,15 +11,15 @@ public class Tournament {
     private List<File> playersDirList;
     private List<File> disqualifieds;
     private int boardSize;
-    private BoardDraw boardDraw;
+    private Canvas canvas;
 
 
-    public Tournament(List playersDirList, int boardSize, BoardDraw boardDraw){
+    public Tournament(List playersDirList, int boardSize, Canvas canvas){
         this.playersDirList = playersDirList;
         this.boardSize = boardSize;
+        this.canvas = canvas;
         scoreList = new HashMap<>();
         disqualifieds = new ArrayList<>();
-        this.boardDraw = boardDraw;
     }
 
     public void makeTournament(){
@@ -52,7 +52,7 @@ public class Tournament {
                     scoreList.put(player1.getDirName(),scoreList.get(player1.getDirName())+1);
                     continue;
                 }
-                Duel duel = new Duel(player1, player2, boardSize, boardDraw);
+                Duel duel = new Duel(player1, player2, boardSize, canvas);
                 Player winner = duel.startDuel();
 
                 scoreList.put(winner.getDirName(),scoreList.get(winner.getDirName())+1);

@@ -1,10 +1,8 @@
 package Model;
 
 
-import GUI.BoardDraw;
 import Tools.LogWriter;
-
-import java.io.File;
+import javafx.scene.canvas.Canvas;
 
 public class Duel {
 
@@ -16,8 +14,8 @@ public class Duel {
     private LogWriter logWriter;
 
 
-    public Duel(Player player1, Player player2, int boardSize, BoardDraw boardDraw){
-        board = new Board(boardSize,boardDraw);
+    public Duel(Player player1, Player player2, int boardSize, Canvas canvas){
+        board = new Board(boardSize,canvas);
         this.player1 = player1;
         this.player2 = player2;
         logWriter = new LogWriter("duelLog");
@@ -29,6 +27,7 @@ public class Duel {
         sendStartInfo();
         handleDuel();
         sendStopInfo();
+        board.draw();
 
         logWriter.writeWinner(winner.getNick());
         System.out.println("Winner: "+winner);
@@ -55,7 +54,7 @@ public class Duel {
         while(true){
             String move1 = player1.getMessage();
             logWriter.write(player1.getNick(),move1);
-            board.fillBoard(move1,0);
+            board.fillBoard(move1,1);
             if(!board.isMovePossible()){
                 winner = player1;
                 break;
@@ -63,7 +62,7 @@ public class Duel {
             player2.sendMessage(move1);
             String move2 = player2.getMessage();
             logWriter.write(player2.getNick(),move2);
-            board.fillBoard(move2,1);
+            board.fillBoard(move2,2);
             if(!board.isMovePossible()){
                 winner = player2;
                 break;

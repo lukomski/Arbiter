@@ -1,7 +1,5 @@
 package Controll;
 
-
-import GUI.BoardDraw;
 import Tools.DialogReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +38,6 @@ public class MainController {
 
     Player winner;
     int boardSize = 5;
-    private BoardDraw boardDraw;
 
     @FXML
     private DuelBarController duelBarController;
@@ -60,10 +57,6 @@ public class MainController {
             this.boardSize = boardSize;
             sizeText.setText("Board size: " + boardSize + " x " + boardSize);
         }
-
-        boardDraw.setBoardSize(boardSize);
-        boardDraw.clearBoard();
-        boardDraw.drawLines();
     }
 
     public void bntStartPressed(ActionEvent event){
@@ -71,14 +64,11 @@ public class MainController {
         if(controlOption.isSelected())
             nextMoveButton.setDisable(false);
 
-        boardDraw.clearBoard();
-        boardDraw.drawLines();
-
         Tournament tournament;
         if (duelBarController.isVisible()) {
-            tournament = new Tournament(duelBarController.getDirectories(), boardSize, boardDraw);
+            tournament = new Tournament(duelBarController.getDirectories(), boardSize, canvas);
         } else {
-            tournament = new Tournament(tournamentBarController.getDirectories(), boardSize, boardDraw);
+            tournament = new Tournament(tournamentBarController.getDirectories(), boardSize, canvas);
         }
         tournament.makeTournament();
         tournamentText.setText(tournament.buildScoreTable());
@@ -104,14 +94,6 @@ public class MainController {
         switchBars(tournamentBarController, btnChoiceTournament, duelBarController, btnChoiceDuel);
     }
 
-    @FXML
-    public void initialize(){
-
-        boardDraw = new BoardDraw(canvas, boardSize);
-        boardDraw.clearBoard();
-        boardDraw.drawLines();
-
-    }
 
 
 
