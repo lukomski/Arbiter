@@ -2,7 +2,6 @@ package Model;
 
 
 import Tools.LogWriter;
-import javafx.scene.canvas.Canvas;
 
 public class Duel {
 
@@ -14,8 +13,8 @@ public class Duel {
     private LogWriter logWriter;
 
 
-    public Duel(Player player1, Player player2, int boardSize, Canvas canvas){
-        board = new Board(boardSize,canvas);
+    public Duel(Player player1, Player player2, Board board){
+        this.board = board;
         this.player1 = player1;
         this.player2 = player2;
         logWriter = new LogWriter("duelLog");
@@ -36,10 +35,10 @@ public class Duel {
     }
 
     private void sendStartInfo(){
-        player1.sendMessage(board.getBoardSize()+"");
+        player1.sendMessage(board.getSize()+"");
         System.out.println(player1.getMessage());
 
-        player2.sendMessage(board.getBoardSize()+"");
+        player2.sendMessage(board.getSize()+"");
         System.out.println(player2.getMessage());
 
         player1.sendMessage("START");
@@ -49,7 +48,7 @@ public class Duel {
         player2.sendMessage("STOP");
     }
     private void handleDuel(){
-        logWriter.writeTitle(board.getBoardSize(),player1.getNick(),player2.getNick());
+        logWriter.writeTitle(board.getSize(),player1.getNick(),player2.getNick());
 
         while(true){
             String move1 = player1.getMessage();

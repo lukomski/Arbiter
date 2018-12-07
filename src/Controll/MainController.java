@@ -1,5 +1,6 @@
 package Controll;
 
+import Model.Board;
 import Tools.DialogReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,15 +20,11 @@ public class MainController {
     @FXML
     public AnchorPane mainPane;
     @FXML
-    private Button changeSizeButton;
+    private Button btnChangeBoardSize;
     @FXML
     private Label sizeText;
     @FXML
     private Canvas canvas;
-    @FXML
-    private AnchorPane boardPane;
-    @FXML
-    private Label winnerText;
     @FXML
     private Label tournamentText;
     @FXML
@@ -51,11 +48,22 @@ public class MainController {
     @FXML
     private Button nextMoveButton;
 
+    private Board board;
+
+    @FXML
+    public void initialize(){
+        board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
+        board.draw();
+    }
+
+
     public void changeSizeButtonPressed() {
         int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
         if (boardSize >= 3 && boardSize <= 50) {
             this.boardSize = boardSize;
-            sizeText.setText("Board size: " + boardSize + " x " + boardSize);
+            btnChangeBoardSize.setText("" + boardSize);
+            board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
+            board.draw();
         }
     }
 
@@ -66,9 +74,9 @@ public class MainController {
 
         Tournament tournament;
         if (duelBarController.isVisible()) {
-            tournament = new Tournament(duelBarController.getDirectories(), boardSize, canvas);
+            tournament = new Tournament(duelBarController.getDirectories(), board);
         } else {
-            tournament = new Tournament(tournamentBarController.getDirectories(), boardSize, canvas);
+            tournament = new Tournament(tournamentBarController.getDirectories(), board);
         }
         tournament.makeTournament();
         tournamentText.setText(tournament.buildScoreTable());

@@ -11,13 +11,13 @@ public class Tournament {
     private List<File> playersDirList;
     private List<File> disqualifieds;
     private int boardSize;
-    private Canvas canvas;
+    private Board board;
 
 
-    public Tournament(List playersDirList, int boardSize, Canvas canvas){
+    public Tournament(List playersDirList, Board board){
         this.playersDirList = playersDirList;
         this.boardSize = boardSize;
-        this.canvas = canvas;
+        this.board = board;
         scoreList = new HashMap<>();
         disqualifieds = new ArrayList<>();
     }
@@ -52,10 +52,11 @@ public class Tournament {
                     scoreList.put(player1.getDirName(),scoreList.get(player1.getDirName())+1);
                     continue;
                 }
-                Duel duel = new Duel(player1, player2, boardSize, canvas);
+                Duel duel = new Duel(player1, player2, board);
                 Player winner = duel.startDuel();
 
                 scoreList.put(winner.getDirName(),scoreList.get(winner.getDirName())+1);
+                board.clean();
             }
         }
         sortScoreList();

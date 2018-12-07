@@ -11,8 +11,8 @@
    <children>
       <AnchorPane prefHeight="700.0" prefWidth="300.0" styleClass="leftBar">
          <children>
-            <Button fx:id="boardSizeButton" layoutX="13.0" layoutY="238.0" mnemonicParsing="false" onAction="#changeSizeButtonPressed" text="Change board size" />
-            <Label fx:id="sizeText" layoutX="11.0" layoutY="200" text="Board size: 5x5" />
+            <Button fx:id="btnChangeBoardSize" layoutX="130.0" layoutY="196.0" mnemonicParsing="false" onAction="#changeSizeButtonPressed" prefHeight="25.0" prefWidth="74.0" text="5" />
+            <Label fx:id="sizeText" layoutX="11.0" layoutY="200" text="Board width/height:" />
             <Button fx:id="b1" layoutX="89.0" layoutY="350.0" onAction="#bntStartPressed" text="Start" />
             <AnchorPane fx:id="choiceLine" prefHeight="50" prefWidth="300.0">
                <children>
