@@ -2,10 +2,12 @@ package Controll;
 
 import Model.Board;
 import Tools.DialogReader;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
@@ -13,9 +15,13 @@ import Model.Tournament;
 import Model.Player;
 import Tools.LogWriter;
 
+import java.util.List;
+
 public class MainController {
     @FXML
     private AnchorPane duelBar;
+    @FXML
+    private CheckBox controlCheckBox;
 
     @FXML
     public AnchorPane mainPane;
@@ -33,22 +39,18 @@ public class MainController {
     private Button btnChoiceTournament;
 
 
-    Player winner;
-    int boardSize = 5;
-
     @FXML
     private DuelBarController duelBarController;
     @FXML
     private TournamentBarController tournamentBarController;
 
     @FXML
-    private RadioButton controlOption;
-    @FXML
-    private RadioButton instantOption;
-    @FXML
-    private Button nextMoveButton;
+    private Button btnNextMove;
 
     private Board board;
+    private Tournament tournament;
+    private int boardSize = 5;
+    private boolean isControlled = false;
 
     @FXML
     public void initialize(){
@@ -67,22 +69,23 @@ public class MainController {
         }
     }
 
-    public void bntStartPressed(ActionEvent event){
+    public void bntStartPressed(){
+        System.out.println(tournamentText);
+        tournamentText.setText("start pressed");
+        controlCheckBox.setDisable(true);
 
-        if(controlOption.isSelected())
-            nextMoveButton.setDisable(false);
-
-        Tournament tournament;
-        if (duelBarController.isVisible()) {
-            tournament = new Tournament(duelBarController.getDirectories(), board);
+        if(controlCheckBox.isSelected() && duelBar.isVisible()) {
+            btnNextMove.setDisable(false);
+            isControlled = true;
         } else {
-            tournament = new Tournament(tournamentBarController.getDirectories(), board);
+            btnNextMove.setDisable(true);
+            isControlled = false;
         }
-        tournament.makeTournament();
-        tournamentText.setText(tournament.buildScoreTable());
+        tournament = new Tournament(this);
+        tournament.start();
 
-        LogWriter log = new LogWriter("tournamentLog");
-        log.writeTournamentList(tournament.getScoreList());
+       // tournament.makeTournament();
+
     }
 
     private void switchBars(BarController fromBar, Button fromButton, BarController toBar, Button toButton){
@@ -96,12 +99,38 @@ public class MainController {
 
     public void tournamentChoicePressed(){
         switchBars(duelBarController, btnChoiceDuel, tournamentBarController, btnChoiceTournament);
+        controlCheckBox.setDisable(true);
     }
 
     public void duelChoicePressed(){
         switchBars(tournamentBarController, btnChoiceTournament, duelBarController, btnChoiceDuel);
+        controlCheckBox.setDisable(false);
     }
+    public void tournamentEnded(){
+        btnNextMove.setDisable(true);
+        controlCheckBox.setDisable(false);
+        System.out.println("Tournament has just ended");
+        Platform.runLater(() -> tournamentText.setText(tournament.buildScoreTable()));
 
+        // TODO check if Log is working conrrectly here
+        LogWriter log = new LogWriter("tournamentLog");
+        log.writeTournamentList(tournament.getScoreList());
+    }
+    @FXML
+    public void doNextMove(){
+        tournament.doNextMove();
+        System.out.println("MainController: received doNextMove");
+    }
+    public Board getBoard(){
+        return board;
+    }
+    public List getDirectories(){
+        BarController barController = duelBarController.isVisible()? duelBarController : tournamentBarController;
+        return barController.getDirectories();
+    }
+    public boolean isControlled(){
+        return isControlled;
+    }
 
 
 
