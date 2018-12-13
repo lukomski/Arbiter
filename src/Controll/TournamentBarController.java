@@ -25,7 +25,7 @@ public class TournamentBarController extends BarController {
     @FXML
     private void selectTournamentDirPressed(){
         DialogReader dr = new DialogReader();
-        tournamentDirectory = dr.readDirectoryFromDialog("Choose Tournament directory", rootAnchorPane);
+        tournamentDirectory = dr.readDirectoryFromDialog("Choose Arena directory", rootAnchorPane);
         if(tournamentDirectory != null){
             btnSelectTournamentDir.setText(tournamentDirectory.getName());
         }

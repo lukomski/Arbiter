@@ -12,6 +12,7 @@ public class Player {
     private BufferedReader input;
     private PrintWriter output;
     private Process process;
+    private int id;
 
     public Player(File dir)throws Exception{
         String info[] = InfoReader.read(dir); /* change name */
@@ -51,6 +52,12 @@ public class Player {
     }
     public String getDirName(){
         return  dirName;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
+    public int getId(){
+        return id;
     }
 
 }

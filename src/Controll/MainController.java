@@ -1,18 +1,15 @@
 package Controll;
 
+import Model.Arena;
 import Model.Board;
 import Tools.DialogReader;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
-import Model.Tournament;
-import Model.Player;
 import Tools.LogWriter;
 
 import java.util.List;
@@ -48,7 +45,7 @@ public class MainController {
     private Button btnNextMove;
 
     private Board board;
-    private Tournament tournament;
+    private Arena arena;
     private int boardSize = 5;
     private boolean isControlled = false;
 
@@ -81,10 +78,10 @@ public class MainController {
             btnNextMove.setDisable(true);
             isControlled = false;
         }
-        tournament = new Tournament(this);
-        tournament.start();
+        arena = new Arena(this);
+        arena.start();
 
-       // tournament.makeTournament();
+       // arena.makeTournament();
 
     }
 
@@ -108,17 +105,19 @@ public class MainController {
     }
     public void tournamentEnded(){
         btnNextMove.setDisable(true);
-        controlCheckBox.setDisable(false);
-        System.out.println("Tournament has just ended");
-        Platform.runLater(() -> tournamentText.setText(tournament.buildScoreTable()));
+        if(duelBar.isVisible()){
+            controlCheckBox.setDisable(false);
+        }
+        System.out.println("Arena has just ended");
+        Platform.runLater(() -> tournamentText.setText(arena.buildScoreTable()));
 
         // TODO check if Log is working conrrectly here
         LogWriter log = new LogWriter("tournamentLog");
-        log.writeTournamentList(tournament.getScoreList());
+        log.writeTournamentList(arena.getScoreList());
     }
     @FXML
     public void doNextMove(){
-        tournament.doNextMove();
+        arena.doNextMove();
         System.out.println("MainController: received doNextMove");
     }
     public Board getBoard(){

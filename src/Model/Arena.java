@@ -1,27 +1,24 @@
 package Model;
 
 import Controll.MainController;
-import javafx.scene.canvas.Canvas;
 
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Tournament extends Thread {
+public class Arena extends Thread {
     private HashMap<String,Integer> scoreList;
     private List<File> playersDirList;
     private List<File> disqualifieds;
     private List<Duel> duelQueue;
-    private int boardSize;
     private Board board;
     private MainController mainController;
     private Player winner;
     private Duel duel;
 
 
-    public Tournament(MainController mainController){
+    public Arena(MainController mainController){
         this.playersDirList = mainController.getDirectories();
-        this.boardSize = boardSize;
         this.board = mainController.getBoard();
         this.mainController = mainController;
         scoreList = new HashMap<>();
@@ -63,10 +60,10 @@ public class Tournament extends Thread {
                     scoreList.put(player1.getDirName(), scoreList.get(player1.getDirName()) + 1);
                     continue;
                 }
-                duelQueue.add(new Duel(player1, player2, board, this));
+                Player[] players = {player1,  player2};
+                duelQueue.add(new Duel(players, this));
             }
         }
-
     }
 
     public void makeDuel() {
@@ -86,9 +83,9 @@ public class Tournament extends Thread {
     }
     public String buildScoreTable(){
         HashMap<String, Integer> map = scoreList;
-        StringBuilder score = new StringBuilder("Tournament score list\n\n");
+        StringBuilder score = new StringBuilder("Scores:\n\n");
         for (String currentKey : map.keySet()) {
-            score.append(currentKey + ": " + map.get(currentKey)+"\n");
+            score.append(currentKey + " : " + map.get(currentKey)+"\n");
         }
         return score.toString();
     }
@@ -130,6 +127,10 @@ public class Tournament extends Thread {
         } else{
             makeDuel();
         }
+
+    }
+    public Board getBoard(){
+        return board;
     }
 
 }

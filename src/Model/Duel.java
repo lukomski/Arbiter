@@ -6,83 +6,55 @@ import Tools.LogWriter;
 public class Duel extends Thread{
 
     private Board board;
-    private Player player1;
-    private Player player2;
-
+    private Player[] players;
     private Player winner = null;
     private LogWriter logWriter;
-    private Tournament tournament;
-    private int prevPlayerId = 2;
+    private Arena arena;
+    private int currPlayerId = 0;
 
 
-    public Duel(Player player1, Player player2, Board board, Tournament tournament){
-        this.board = board;
-        this.player1 = player1;
-        this.player2 = player2;
-        this.tournament = tournament;
+    public Duel(Player[] players, Arena arena){
+        this.board = arena.getBoard();
+        this.players = players;
+        this.arena = arena;
         logWriter = new LogWriter("duelLog");
     }
 
     @Override
     public void run(){
-        startDuel();
-    }
-
-    private void startDuel(){
-        player1.initProcess();
-        player2.initProcess();
-        sendStartInfo();
-        logWriter.writeTitle(board.getSize(),player1.getNick(),player2.getNick());
+        for(Player player: players){
+            player.initProcess();
+            //send start info
+            player.sendMessage(board.getSize() + "");
+            System.out.println(player.getMessage());
+        }
+        players[0].sendMessage("START");
+        logWriter.writeTitle(board.getSize(),players[0].getNick(),players[1].getNick());
         doNextMove();
     }
 
-    private void sendStartInfo(){
-        player1.sendMessage(board.getSize()+"");
-        System.out.println(player1.getMessage());
-
-        player2.sendMessage(board.getSize()+"");
-        System.out.println(player2.getMessage());
-
-        player1.sendMessage("START");
+    private void closeGame(){
+        for(Player player: players){
+            player.sendMessage("STOP");
+        }
+        arena.duelEnded();
     }
-    private void sendStopInfo(){
-        player1.sendMessage("STOP");
-        player2.sendMessage("STOP");
+
+    public boolean doNextMove() {
+        String move = players[currPlayerId].getMessage();
+        logWriter.write(players[currPlayerId].getNick(), move);
+        board.fillBoard(move, currPlayerId + 1);
+        if (!board.isMovePossible()) {
+            winner = players[currPlayerId];
+            closeGame();
+            return false;
+        }
+        players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(move);
+        arena.moveEnded();
+        return true;
     }
 
     public Player getWinner(){
         return winner;
-    }
-    private void closeGame(){
-        sendStopInfo();
-        tournament.duelEnded();
-    }
-    public boolean doNextMove(){
-        if(prevPlayerId == 2) {
-            String move1 = player1.getMessage();
-            logWriter.write(player1.getNick(), move1);
-            board.fillBoard(move1, 1);
-            if (!board.isMovePossible()) {
-                winner = player1;
-                closeGame();
-                return false;
-            }
-            player2.sendMessage(move1);
-            prevPlayerId = 1;
-        }else {
-            String move2 = player2.getMessage();
-            logWriter.write(player2.getNick(), move2);
-            board.fillBoard(move2, 2);
-            if (!board.isMovePossible()) {
-                winner = player2;
-                closeGame();
-                return false;
-            }
-            player1.sendMessage(move2);
-            prevPlayerId = 2;
-        }
-        tournament.moveEnded();
-        return true;
-
     }
 }
