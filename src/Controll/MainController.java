@@ -80,9 +80,6 @@ public class MainController {
         }
         arena = new Arena(this);
         arena.start();
-
-       // arena.makeTournament();
-
     }
 
     private void switchBars(BarController fromBar, Button fromButton, BarController toBar, Button toButton){

@@ -1,6 +1,7 @@
 package Model;
 
 import Controll.MainController;
+import Tools.BasicInfo;
 
 import java.io.File;
 import java.util.*;
@@ -14,11 +15,13 @@ public class Arena extends Thread {
     private Board board;
     private MainController mainController;
     private Player winner;
+    private List<Player> players;
     private Duel duel;
 
 
     public Arena(MainController mainController){
         this.playersDirList = mainController.getDirectories();
+        this.players = new ArrayList<>();
         this.board = mainController.getBoard();
         this.mainController = mainController;
         scoreList = new HashMap<>();
@@ -27,40 +30,15 @@ public class Arena extends Thread {
     }
     @Override
     public void run(){
+        fillPlayerList();
+        fillScoreList();
         makeDuelqueue();
         makeDuel();
     }
     private void makeDuelqueue(){
-        List<Integer> idDisqualifieds = fillScoreList();
-
-        for(int i = 0; i < playersDirList.size();i++) {
-            if (idDisqualifieds.contains(i)) {
-                continue;
-            }
-            Player player1;
-            try {
-                player1 = new Player(playersDirList.get(i));
-
-            } catch (Exception e) {
-                disqualifieds.add(playersDirList.get(i));
-                System.out.println("pomijam gracza: " + playersDirList.get(i));
-                continue;
-            }
-            for (int j = i + 1; j < playersDirList.size(); j++) {
-                if (idDisqualifieds.contains(j)) {
-                    continue;
-                }
-                Player player2;
-                try {
-                    player2 = new Player(playersDirList.get(j));
-                } catch (Exception e) {
-                    disqualifieds.add(playersDirList.get(j));
-                    System.out.println("pomijam gracza: " + playersDirList.get(i));
-                    /* win by default */
-                    scoreList.put(player1.getDirName(), scoreList.get(player1.getDirName()) + 1);
-                    continue;
-                }
-                Player[] players = {player1,  player2};
+        for(Player firstPlayer: players) {
+            for (Player secondPlayer: players) {
+                Player[] players = {firstPlayer,  secondPlayer};
                 duelQueue.add(new Duel(players, this));
             }
         }
@@ -78,9 +56,7 @@ public class Arena extends Thread {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
-    public HashMap<String,Integer> getScoreList(){
-        return scoreList;
-    }
+
     public String buildScoreTable(){
         HashMap<String, Integer> map = scoreList;
         StringBuilder score = new StringBuilder("Scores:\n\n");
@@ -90,18 +66,22 @@ public class Arena extends Thread {
         return score.toString();
     }
 
-    private List<Integer> fillScoreList(){
-        disqualifieds = new ArrayList<>();
-        List<Integer> idDisqualifieds = new ArrayList<>();
-        for(int i=0;i<playersDirList.size();i++){
+    private void fillPlayerList(){
+
+        for(File directory: playersDirList){
             try {
-                scoreList.put(playersDirList.get(i).getName(), 0);
+                BasicInfo basicInfo = new BasicInfo(directory);
+                Player player = new Player(basicInfo);
+                players.add(player);
             } catch (Exception e){
-                disqualifieds.add(playersDirList.get(i));
-                idDisqualifieds.add(i);
+                // make log
             }
         }
-        return idDisqualifieds;
+    }
+    private void fillScoreList(){
+        for(Player player: players){
+            scoreList.put(player.getNick(), 0);
+        }
     }
     public void doNextMove(){
         duel.doNextMove();
@@ -115,7 +95,7 @@ public class Arena extends Thread {
     }
     public void duelEnded(){
         winner = duel.getWinner();
-        scoreList.put(winner.getDirName(), scoreList.get(winner.getDirName()) + 1);
+        scoreList.put(winner.getNick(), scoreList.get(winner.getNick()) + 1);
         board.draw();
         board.clean();
         if(duelQueue.size() == 0) {
@@ -131,6 +111,9 @@ public class Arena extends Thread {
     }
     public Board getBoard(){
         return board;
+    }
+    public HashMap<String,Integer> getScoreList(){
+        return scoreList;
     }
 
 }

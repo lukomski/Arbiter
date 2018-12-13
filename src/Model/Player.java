@@ -1,12 +1,11 @@
 package Model;
 
-import Tools.InfoReader;
+import Tools.BasicInfo;
 
 import java.io.*;
 
 public class Player {
-    private String nick;
-    private String dirName;
+    private BasicInfo basicInfo;
 
     private ProcessBuilder processBuilder;
     private BufferedReader input;
@@ -14,14 +13,12 @@ public class Player {
     private Process process;
     private int id;
 
-    public Player(File dir)throws Exception{
-        String info[] = InfoReader.read(dir); /* change name */
-        nick = info[1];
-        dirName = dir.getName();
+    public Player(BasicInfo basicInfo)throws Exception{
+        this.basicInfo = basicInfo;
 
         processBuilder = new ProcessBuilder();
-        processBuilder.command( info[0].split(" ")  );
-        processBuilder.directory(dir);
+        processBuilder.command(basicInfo.getCommand().split(" ")  );
+        processBuilder.directory(basicInfo.getDirectory());
     }
 
     public void initProcess(){
@@ -48,10 +45,10 @@ public class Player {
         return inn;
     }
     public String getNick(){
-        return nick;
+        return basicInfo.getNick();
     }
     public String getDirName(){
-        return  dirName;
+        return  basicInfo.getDirectory().toString();
     }
     public void setId(int id){
         this.id = id;
