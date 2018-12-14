@@ -73,12 +73,18 @@ public class MainController {
             double x = event.getX(), y = event.getY();
             board.setStartPoint(x,y);
         });
+        canvas.setOnMouseMoved(event -> {
+            double x = event.getX(), y = event.getY();
+            System.out.println(board.hoverRect(x,y));
+        });
+        canvas.setOnMouseExited(event -> board.clean());
+
     }
     public void acceptButtonPressed(){
         setButtonsDisable(false);
-        canvas.setOnMouseClicked(event -> {
-
-        });
+        canvas.setOnMouseClicked(event -> { });
+        canvas.setOnMouseMoved(event -> { });
+        canvas.setOnMouseExited(event -> { });
     }
     public void clearButtonPressed(){
         board.clearFromPoints();

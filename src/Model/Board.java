@@ -46,6 +46,25 @@ public class Board {
         draw();
         return true;
     }
+    public boolean hoverRect(double x, double y){
+        double rectSize = graphicsContext.getCanvas().getWidth()/size;
+        int posX = (int)Math.floor(x/rectSize);
+        int posY=(int)Math.floor(y/rectSize);
+
+        if(matrix[posX][posY]==4)
+            return false;
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                if(matrix[i][j] == 4)
+                    matrix[i][j] = 0;
+            }
+        }
+        if(matrix[posX][posY]!=3)
+            matrix[posX][posY] = 4;
+        draw();
+        return true;
+
+    }
     public void fillBoard(String coords,int playerIndex){
         String cord[] = coords.split("_");
         String c1[] = cord[0].split("x");
@@ -92,11 +111,14 @@ public class Board {
                     color = Color.GREEN;
                 } else if(matrix[x][y] == 3) {
                     color = Color.YELLOW;
+                } else if( matrix[x][y]==4){
+                    color = Color.DARKGREY;
                 }
                 graphicsContext.setFill(color);
                 double posX = x * (frame + rectWidth) + frame;
                 double posY = y * (frame + rectWidth) + frame;
                 graphicsContext.fillRect(posX, posY, rectWidth, rectWidth);
+
             }
         }
     }
