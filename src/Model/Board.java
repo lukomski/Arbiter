@@ -24,7 +24,7 @@ public class Board {
 
     }
     public void setRandomStartPoints(){
-        clearFromPoints();
+        softClean();
         boolean isNewPoint;
         for(int i=0;i<Math.round(size*size*0.1);i++){
             do {
@@ -65,7 +65,7 @@ public class Board {
         return true;
 
     }
-    public void fillBoard(String coords,int playerIndex){
+    public void fillBoard(String coords,int playerIndex) throws ArrayIndexOutOfBoundsException, NullPointerException{
         String cord[] = coords.split("_");
         String c1[] = cord[0].split("x");
         String c2[] = cord[1].split("x");
@@ -75,20 +75,19 @@ public class Board {
         int y2 = Integer.parseInt(c2[1]);
         matrix[x1][y1]=playerIndex;
         matrix[x2][y2]=playerIndex;
-
     }
 
     public boolean isMovePossible(){
-        for(int i = 0; i< size; i++){
-            for(int j = 0; j< size; j++){
-                if(matrix[i][j] == 0){
-                    if(j!=0 && matrix[i][j-1] == 0)
+        for(int x = 0; x< size; x++){
+            for(int y = 0; y< size; y++){
+                if(matrix[x][y] == 0){
+                    if(y!=0 && matrix[x][y-1] == 0)
                         return true;
-                    if(j!= size -1 && matrix[i][j+1] == 0)
+                    if(y!= size -1 && matrix[x][y+1] == 0)
                         return true;
-                    if(i!=0 && matrix[i-1][j] == 0)
+                    if(x!=0 && matrix[x-1][y] == 0)
                         return true;
-                    if(i!= size -1 && matrix[i+1][j] == 0)
+                    if(x!= size -1 && matrix[x+1][y] == 0)
                         return true;
                 }
             }
@@ -126,7 +125,7 @@ public class Board {
     public int getSize() {
         return size;
     }
-    public void clean(){
+    public void softClean(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
                 if(matrix[x][y]!=3)
@@ -135,7 +134,7 @@ public class Board {
         }
         draw();
     }
-    public void clearFromPoints(){
+    public void hardClean(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
                     matrix[x][y] = 0;

@@ -44,7 +44,9 @@ public class Arena extends Thread {
 
                 Player secondPlayer = players.get(i);
                 Player[] players = {firstPlayer,  secondPlayer};
-                duelQueue.add(new Duel(players, this));
+                Duel duel = new Duel(players, this);
+                duel.setDaemon(true);
+                duelQueue.add(duel);
 
             }
 
@@ -111,7 +113,7 @@ public class Arena extends Thread {
         winner = duel.getWinner();
         scoreList.put(winner.getNick(), scoreList.get(winner.getNick()) + 1);
         board.draw();
-       // board.clean();
+       // board.softClean();
 
         if(duelQueue.size() == 0) {
 

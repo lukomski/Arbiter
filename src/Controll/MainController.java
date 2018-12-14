@@ -64,39 +64,38 @@ public class MainController {
     public void initialize(){
         board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
         board.draw();
-
-    }
-    public void fillBoardButtonPressed(){
-        setButtonsDisable(true);
-
         canvas.setOnMouseClicked(event -> {
             double x = event.getX(), y = event.getY();
             board.setStartPoint(x,y);
         });
         canvas.setOnMouseMoved(event -> {
             double x = event.getX(), y = event.getY();
-            System.out.println(board.hoverRect(x,y));
+       //     System.out.println(board.hoverRect(x,y));
         });
-        canvas.setOnMouseExited(event -> board.clean());
+        //canvas.setOnMouseExited(event -> board.softClean());
 
     }
-    public void acceptButtonPressed(){
+
+   /* public void acceptButtonPressed(){
         setButtonsDisable(false);
         canvas.setOnMouseClicked(event -> { });
         canvas.setOnMouseMoved(event -> { });
         canvas.setOnMouseExited(event -> { });
-    }
+    }*/
     public void clearButtonPressed(){
-        board.clearFromPoints();
+        board.hardClean();
     }
     public void randomButtonPressed(){
         board.setRandomStartPoints();
-        acceptButtonPressed();
+    //    acceptButtonPressed();
     }
 
     public void changeSizeButtonPressed() {
-        int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
-        if (boardSize >= 3 && boardSize <= 50) {
+        int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", Integer.parseInt(btnChangeBoardSize.getText()), 3, 49);
+        if (boardSize >= 3 && boardSize <= 49) {
+            if(boardSize % 2 == 0){
+                boardSize--;
+            }
             this.boardSize = boardSize;
             btnChangeBoardSize.setText("" + boardSize);
             board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
@@ -105,8 +104,8 @@ public class MainController {
     }
 
     public void bntStartPressed(){
-        System.out.println(tournamentText);
-        board.clean();
+       // System.out.println(tournamentText);
+        board.softClean();
         tournamentText.setText("start pressed");
         controlCheckBox.setDisable(true);
 
@@ -118,6 +117,7 @@ public class MainController {
             isControlled = false;
         }
         arena = new Arena(this);
+        arena.setDaemon(true);
         arena.start();
     }
 
@@ -167,7 +167,7 @@ public class MainController {
         return isControlled;
     }
 
-    private void setButtonsDisable(boolean disable){
+   /* private void setButtonsDisable(boolean disable){
         startButton.setDisable(disable);
         btnChangeBoardSize.setDisable(disable);
         fillBoardButton.setDisable(disable);
@@ -175,7 +175,7 @@ public class MainController {
         acceptButton.setDisable(!disable);
         randomButton.setDisable(!disable);
 
-    }
+    }*/
 
 
 
