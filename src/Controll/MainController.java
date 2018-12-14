@@ -44,6 +44,17 @@ public class MainController {
     @FXML
     private Button btnNextMove;
 
+    @FXML
+    private Button acceptButton;
+    @FXML
+    private Button clearButton;
+    @FXML
+    private Button fillBoardButton;
+    @FXML
+    private Button startButton;
+    @FXML
+    private Button randomButton;
+
     private Board board;
     private Arena arena;
     private int boardSize = 5;
@@ -53,8 +64,29 @@ public class MainController {
     public void initialize(){
         board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
         board.draw();
-    }
 
+    }
+    public void fillBoardButtonPressed(){
+        setButtonsDisable(true);
+
+        canvas.setOnMouseClicked(event -> {
+            double x = event.getX(), y = event.getY();
+            board.setStartPoint(x,y);
+        });
+    }
+    public void acceptButtonPressed(){
+        setButtonsDisable(false);
+        canvas.setOnMouseClicked(event -> {
+
+        });
+    }
+    public void clearButtonPressed(){
+        board.clearFromPoints();
+    }
+    public void randomButtonPressed(){
+        board.setRandomStartPoints();
+        acceptButtonPressed();
+    }
 
     public void changeSizeButtonPressed() {
         int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
@@ -68,6 +100,7 @@ public class MainController {
 
     public void bntStartPressed(){
         System.out.println(tournamentText);
+        board.clean();
         tournamentText.setText("start pressed");
         controlCheckBox.setDisable(true);
 
@@ -126,6 +159,16 @@ public class MainController {
     }
     public boolean isControlled(){
         return isControlled;
+    }
+
+    private void setButtonsDisable(boolean disable){
+        startButton.setDisable(disable);
+        btnChangeBoardSize.setDisable(disable);
+        fillBoardButton.setDisable(disable);
+        clearButton.setDisable(!disable);
+        acceptButton.setDisable(!disable);
+        randomButton.setDisable(!disable);
+
     }
 
 

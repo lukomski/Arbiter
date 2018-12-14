@@ -9,8 +9,10 @@ public class Board {
     private int [][]matrix;
     private int size;
     private GraphicsContext graphicsContext;
+    private String filledStartPoints;
 
     public Board(int size, Canvas canvas){
+        filledStartPoints="";
         this.size = size;
         graphicsContext = canvas.getGraphicsContext2D();
         matrix = new int[size][size];
@@ -19,6 +21,30 @@ public class Board {
                 matrix[i][j] = 0;
             }
         }
+
+    }
+    public void setRandomStartPoints(){
+        clearFromPoints();
+        boolean isNewPoint;
+        for(int i=0;i<Math.round(size*size*0.1);i++){
+            do {
+                isNewPoint = setStartPoint(Math.random() * graphicsContext.getCanvas().getWidth(),
+                        Math.random() * graphicsContext.getCanvas().getWidth());
+            }while(!isNewPoint);
+        }
+    }
+    public boolean setStartPoint(double x, double y) {
+        double rectSize = graphicsContext.getCanvas().getWidth()/size;
+        int posX = (int)Math.floor(x/rectSize);
+        int posY=(int)Math.floor(y/rectSize);
+        if(matrix[posX][posY] == 3)
+            return false;
+        matrix[posX][posY] = 3;
+
+        filledStartPoints+="_"+posX+"x"+posY;
+
+        draw();
+        return true;
     }
     public void fillBoard(String coords,int playerIndex){
         String cord[] = coords.split("_");
@@ -64,6 +90,8 @@ public class Board {
                     color = Color.BLUE;
                 } else if (matrix[x][y] == 2) {
                     color = Color.GREEN;
+                } else if(matrix[x][y] == 3) {
+                    color = Color.YELLOW;
                 }
                 graphicsContext.setFill(color);
                 double posX = x * (frame + rectWidth) + frame;
@@ -79,9 +107,24 @@ public class Board {
     public void clean(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
-                matrix[x][y] = 0;
+                if(matrix[x][y]!=3)
+                    matrix[x][y] = 0;
             }
         }
+        draw();
+    }
+    public void clearFromPoints(){
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                    matrix[x][y] = 0;
+            }
+        }
+        filledStartPoints = "";
+        draw();
+    }
+
+    public String getFilledStartPoints() {
+        return filledStartPoints;
     }
 
     public void printBoard(){
@@ -93,4 +136,6 @@ public class Board {
 
         }
     }
+
+
 }

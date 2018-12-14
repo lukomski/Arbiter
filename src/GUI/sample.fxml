@@ -6,13 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
+<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
    <children>
       <AnchorPane prefHeight="700.0" prefWidth="300.0" styleClass="leftBar">
          <children>
             <Button fx:id="btnChangeBoardSize" layoutX="130.0" layoutY="196.0" mnemonicParsing="false" onAction="#changeSizeButtonPressed" prefHeight="25.0" prefWidth="74.0" text="5" />
             <Label fx:id="sizeText" layoutX="11.0" layoutY="200" text="Board width/height:" />
-            <Button layoutX="58.0" layoutY="317.0" onAction="#bntStartPressed" prefHeight="40.0" prefWidth="184.0" text="Start" />
+            <Button fx:id="startButton" layoutX="59.0" layoutY="422.0" onAction="#bntStartPressed" prefHeight="40.0" prefWidth="184.0" text="Start" />
             <AnchorPane fx:id="choiceLine" prefHeight="50" prefWidth="300.0">
                <children>
                   <Button fx:id="btnChoiceDuel" layoutX="0" layoutY="0" onAction="#duelChoicePressed" prefHeight="50" prefWidth="150" styleClass="menuTypeGame" text="Duel" />
@@ -21,9 +21,13 @@
             </AnchorPane>
              <fx:include fx:id="duelBar" layoutY="50" source="duelMenu.fxml" />
              <fx:include fx:id="tournamentBar" layoutY="50" source="tournamentMenu.fxml" visible="false" />
-             <Label fx:id="tournamentText" layoutX="34.0" layoutY="403.0" prefHeight="260.0" prefWidth="233.0" />
-            <Button fx:id="btnNextMove" disable="true" layoutX="151.0" layoutY="260.0" mnemonicParsing="false" onAction="#doNextMove" text="Next Move" />
-            <CheckBox fx:id="controlCheckBox" layoutX="34.0" layoutY="264.0" mnemonicParsing="false" text="Control" />
+             <Label fx:id="tournamentText" layoutX="27.0" layoutY="481.0" prefHeight="212.0" prefWidth="233.0" />
+            <Button fx:id="btnNextMove" disable="true" layoutX="150.0" layoutY="380.0" mnemonicParsing="false" onAction="#doNextMove" text="Next Move" />
+            <CheckBox fx:id="controlCheckBox" layoutX="38.0" layoutY="385.0" mnemonicParsing="false" text="Control" />
+            <Button fx:id="fillBoardButton" layoutX="13.0" layoutY="284.0" mnemonicParsing="false" onAction="#fillBoardButtonPressed" prefHeight="50.0" prefWidth="82.0" text="Fill Board" />
+            <Button fx:id="acceptButton" disable="true" layoutX="208.0" layoutY="268.0" mnemonicParsing="false" onAction="#acceptButtonPressed" text="Accept" />
+            <Button fx:id="clearButton" disable="true" layoutX="208.0" layoutY="309.0" mnemonicParsing="false" onAction="#clearButtonPressed" prefHeight="31.0" prefWidth="56.0" text="Clear" />
+            <Button fx:id="randomButton" disable="true" layoutX="111.0" layoutY="294.0" mnemonicParsing="false" onAction="#randomButtonPressed" prefHeight="31.0" prefWidth="74.0" text="Random" />
          </children>
       </AnchorPane>
        <AnchorPane fx:id="boardPane" layoutX="300.0" prefHeight="700.0" prefWidth="700.0">
