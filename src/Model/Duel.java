@@ -13,6 +13,8 @@ public class Duel extends Thread{
     private Arena arena;
     private int currPlayerId = 0;
     private String answer;
+    // FLAGS
+    boolean exit = false;
 
 
     public Duel(Player[] players, Arena arena){
@@ -35,6 +37,14 @@ public class Duel extends Thread{
         players[0].sendMessage("START");
         logWriter.writeTitle(board.getSize(),players[0].getNick(),players[1].getNick());
         doNextMove();
+        while(!exit) {
+            try {
+                sleep(2000);
+            } catch (Exception e) {
+
+            }
+        }
+        System.out.println("Duel: END");
     }
     private boolean gettingAnswer(Player player){
         int shifts = 10;
@@ -88,5 +98,8 @@ public class Duel extends Thread{
 
     public Player getWinner(){
         return winner;
+    }
+    public void setExit(boolean exit){
+        this.exit = exit;
     }
 }

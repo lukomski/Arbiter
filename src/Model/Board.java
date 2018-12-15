@@ -96,9 +96,9 @@ public class Board {
     }
 
     public void draw(){
+        System.out.println("Board: draw");
         double frame = 5;
         double rectWidth = ( graphicsContext.getCanvas().getWidth() - frame * (size + 1) ) / size;
-        System.out.println("lineWidth:" + rectWidth);
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0,0,graphicsContext.getCanvas().getWidth(), graphicsContext.getCanvas().getHeight());
         for(int x = 0; x < size; x++){

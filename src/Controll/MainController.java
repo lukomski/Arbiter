@@ -144,12 +144,12 @@ public class MainController {
         if(duelBar.isVisible()){
             controlCheckBox.setDisable(false);
         }
-        System.out.println("Arena has just ended");
         Platform.runLater(() -> tournamentText.setText(arena.buildScoreTable()));
 
         // TODO check if Log is working conrrectly here
         LogWriter log = new LogWriter("tournamentLog");
         log.writeTournamentList(arena.getScoreList());
+        arena.setExit(true);
     }
     @FXML
     public void doNextMove(){
