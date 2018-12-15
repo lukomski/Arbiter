@@ -18,9 +18,6 @@ public class Arena extends Thread {
     private List<Player> players;
     private Duel duel;
 
-    // flags
-    private boolean exit = false;
-
 
     public Arena(MainController mainController){
         this.playersDirList = mainController.getDirectories();
@@ -35,34 +32,16 @@ public class Arena extends Thread {
     public void run(){
         fillPlayerList();
         fillScoreList();
-        makeDuelQueue();
+        makeDuelqueue();
         makeDuel();
-        while (!exit) {
-            try {
-                Thread.sleep(2000);
-            } catch (Exception e) {
-            }
-        }
-        System.out.println("Arena: END");
     }
-    private void makeDuelQueue(){
-        int playerIndex = 0;
+    private void makeDuelqueue(){
         for(Player firstPlayer: players) {
-
-            playerIndex++;
-            for(int i=playerIndex;i<players.size();i++){
-
-                Player secondPlayer = players.get(i);
+            for (Player secondPlayer: players) {
                 Player[] players = {firstPlayer,  secondPlayer};
-                Duel duel = new Duel(players, this);
-                duel.setDaemon(true);
-                duelQueue.add(duel);
-
+                duelQueue.add(new Duel(players, this));
             }
-
         }
-
-
     }
 
     public void makeDuel() {
@@ -90,12 +69,10 @@ public class Arena extends Thread {
     private void fillPlayerList(){
 
         for(File directory: playersDirList){
-
             try {
                 BasicInfo basicInfo = new BasicInfo(directory);
                 Player player = new Player(basicInfo);
                 players.add(player);
-
             } catch (Exception e){
                 // make log
             }
@@ -104,7 +81,6 @@ public class Arena extends Thread {
     private void fillScoreList(){
         for(Player player: players){
             scoreList.put(player.getNick(), 0);
-
         }
     }
     public void doNextMove(){
@@ -117,14 +93,11 @@ public class Arena extends Thread {
             board.draw();
         }
     }
-
     public void duelEnded(){
         winner = duel.getWinner();
         scoreList.put(winner.getNick(), scoreList.get(winner.getNick()) + 1);
         board.draw();
-        duel.setExit(true);
-       // board.softClean();
-
+        board.clean();
         if(duelQueue.size() == 0) {
 
             sortScoreList();
@@ -141,9 +114,6 @@ public class Arena extends Thread {
     }
     public HashMap<String,Integer> getScoreList(){
         return scoreList;
-    }
-    public void setExit(boolean exit){
-        this.exit = exit;
     }
 
 }

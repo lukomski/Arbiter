@@ -12,7 +12,6 @@ public class Player {
     private PrintWriter output;
     private Process process;
     private int id;
-    private String answer;
 
     public Player(BasicInfo basicInfo)throws Exception{
         this.basicInfo = basicInfo;
@@ -36,23 +35,15 @@ public class Player {
         output.println( line );
     }
 
-    public String getAnswer(){
-        return answer;
-    }
-    public boolean isAnswer(){
+    public String getMessage(){
+        String inn="error";
         try {
-            answer = input.readLine();
+             inn = input.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(answer == null){
-            return false;
-        } else {
-            return true;
-        }
+        return inn;
     }
-
-
     public String getNick(){
         return basicInfo.getNick();
     }

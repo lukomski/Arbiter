@@ -44,17 +44,6 @@ public class MainController {
     @FXML
     private Button btnNextMove;
 
-    @FXML
-    private Button acceptButton;
-    @FXML
-    private Button clearButton;
-    @FXML
-    private Button fillBoardButton;
-    @FXML
-    private Button startButton;
-    @FXML
-    private Button randomButton;
-
     private Board board;
     private Arena arena;
     private int boardSize = 5;
@@ -64,38 +53,12 @@ public class MainController {
     public void initialize(){
         board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
         board.draw();
-        canvas.setOnMouseClicked(event -> {
-            double x = event.getX(), y = event.getY();
-            board.setStartPoint(x,y);
-        });
-        canvas.setOnMouseMoved(event -> {
-            double x = event.getX(), y = event.getY();
-       //     System.out.println(board.hoverRect(x,y));
-        });
-        //canvas.setOnMouseExited(event -> board.softClean());
-
     }
 
-   /* public void acceptButtonPressed(){
-        setButtonsDisable(false);
-        canvas.setOnMouseClicked(event -> { });
-        canvas.setOnMouseMoved(event -> { });
-        canvas.setOnMouseExited(event -> { });
-    }*/
-    public void clearButtonPressed(){
-        board.hardClean();
-    }
-    public void randomButtonPressed(){
-        board.setRandomStartPoints();
-    //    acceptButtonPressed();
-    }
 
     public void changeSizeButtonPressed() {
-        int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", Integer.parseInt(btnChangeBoardSize.getText()), 3, 49);
-        if (boardSize >= 3 && boardSize <= 49) {
-            if(boardSize % 2 == 0){
-                boardSize--;
-            }
+        int boardSize = DialogReader.readNumberFromDialog("Board size", "Set board size", 5, 3, 50);
+        if (boardSize >= 3 && boardSize <= 50) {
             this.boardSize = boardSize;
             btnChangeBoardSize.setText("" + boardSize);
             board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
@@ -104,8 +67,7 @@ public class MainController {
     }
 
     public void bntStartPressed(){
-       // System.out.println(tournamentText);
-        board.softClean();
+        System.out.println(tournamentText);
         tournamentText.setText("start pressed");
         controlCheckBox.setDisable(true);
 
@@ -117,7 +79,6 @@ public class MainController {
             isControlled = false;
         }
         arena = new Arena(this);
-        arena.setDaemon(true);
         arena.start();
     }
 
@@ -144,12 +105,12 @@ public class MainController {
         if(duelBar.isVisible()){
             controlCheckBox.setDisable(false);
         }
+        System.out.println("Arena has just ended");
         Platform.runLater(() -> tournamentText.setText(arena.buildScoreTable()));
 
         // TODO check if Log is working conrrectly here
         LogWriter log = new LogWriter("tournamentLog");
         log.writeTournamentList(arena.getScoreList());
-        arena.setExit(true);
     }
     @FXML
     public void doNextMove(){
@@ -166,16 +127,6 @@ public class MainController {
     public boolean isControlled(){
         return isControlled;
     }
-
-   /* private void setButtonsDisable(boolean disable){
-        startButton.setDisable(disable);
-        btnChangeBoardSize.setDisable(disable);
-        fillBoardButton.setDisable(disable);
-        clearButton.setDisable(!disable);
-        acceptButton.setDisable(!disable);
-        randomButton.setDisable(!disable);
-
-    }*/
 
 
 

@@ -4,7 +4,6 @@ package Model;
 import Tools.LogWriter;
 
 public class Duel extends Thread{
-    private int miliseconds4Answere = 5000;
 
     private Board board;
     private Player[] players;
@@ -12,9 +11,6 @@ public class Duel extends Thread{
     private LogWriter logWriter;
     private Arena arena;
     private int currPlayerId = 0;
-    private String answer;
-    // FLAGS
-    boolean exit = false;
 
 
     public Duel(Player[] players, Arena arena){
@@ -29,41 +25,12 @@ public class Duel extends Thread{
         for(Player player: players){
             player.initProcess();
             //send start info
-            player.sendMessage(board.getSize() + board.getFilledStartPoints());
-            if(!gettingAnswer(player)){
-                System.out.println("brak odpowiedzi");
-            }
+            player.sendMessage(board.getSize() + "");
+            System.out.println(player.getMessage());
         }
         players[0].sendMessage("START");
         logWriter.writeTitle(board.getSize(),players[0].getNick(),players[1].getNick());
         doNextMove();
-        while(!exit) {
-            try {
-                sleep(2000);
-            } catch (Exception e) {
-
-            }
-        }
-        System.out.println("Duel: END");
-    }
-    private boolean gettingAnswer(Player player){
-        int shifts = 10;
-        int timeShift = miliseconds4Answere/shifts;
-        int shiftCounter = 0;
-        while(!player.isAnswer()){
-            shiftCounter++;
-            if(shiftCounter++ == shifts){
-                return false;
-            }
-
-            try {
-                Thread.sleep(timeShift);
-            } catch(Exception e){
-                return false;
-            }
-        }
-        answer = player.getAnswer();
-        return true;
     }
 
     private void closeGame(){
@@ -74,32 +41,20 @@ public class Duel extends Thread{
     }
 
     public boolean doNextMove() {
+        String move = players[currPlayerId].getMessage();
+        logWriter.write(players[currPlayerId].getNick(), move);
+        board.fillBoard(move, currPlayerId + 1);
         if (!board.isMovePossible()) {
-            winner = players[(currPlayerId + 1) % 2];
+            winner = players[currPlayerId];
             closeGame();
             return false;
         }
-
-        if(!gettingAnswer(players[currPlayerId]));
-       // String move = players[currPlayerId].getAnswer();
-        logWriter.write(players[currPlayerId].getNick(), answer);
-        try {
-            board.fillBoard(answer, currPlayerId + 1);
-            players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(answer);
-            arena.moveEnded();
-            return true;
-        } catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Nieprawisłowy komunikat od programu: " + answer);
-        } catch (NullPointerException e){
-            System.out.println("Puste dane");
-        }
-        return false;
+        players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(move);
+        arena.moveEnded();
+        return true;
     }
 
     public Player getWinner(){
         return winner;
-    }
-    public void setExit(boolean exit){
-        this.exit = exit;
     }
 }
