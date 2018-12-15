@@ -37,7 +37,7 @@ public class MainController {
 
 
     @FXML
-    private DuelBarController duelBarController;
+    public DuelBarController duelBarController;
     @FXML
     private TournamentBarController tournamentBarController;
 
@@ -105,11 +105,16 @@ public class MainController {
     }
 
     public void bntStartPressed(){
+        if(startButton.getText() == "Stop"){
+            arena.setForceStop(true);
+            return;
+        }
         setDisableLeftBar(true);
 
         System.out.println(tournamentText);
         board.clean();
         tournamentText.setText("Progressing");
+        startButton.setText("Stop");
         controlCheckBox.setDisable(true);
 
         if(controlCheckBox.isSelected() && duelBar.isVisible()) {
@@ -143,6 +148,7 @@ public class MainController {
     }
     public void forceEnd(String msg){
         setDisableLeftBar(false);
+        Platform.runLater(() -> startButton.setText("Start"));
 
         btnNextMove.setDisable(true);
         if(duelBar.isVisible()){
@@ -161,6 +167,7 @@ public class MainController {
     }
     public void tournamentEnded(){
         setDisableLeftBar(false);
+        Platform.runLater(() -> startButton.setText("Start"));
 
         btnNextMove.setDisable(true);
         if(duelBar.isVisible()){

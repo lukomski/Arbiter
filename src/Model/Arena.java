@@ -19,6 +19,7 @@ public class Arena extends Thread {
     private List<Player> players;
     private Duel duel;
     private LogWriter logWriter;
+    private boolean forceStop = false;
 
 
     public Arena(MainController mainController){
@@ -99,10 +100,21 @@ public class Arena extends Thread {
 
         }
     }
+    public void setForceStop(boolean forceStop){
+        this.forceStop = forceStop;
+        if(mainController.duelBarController.isVisible()){
+            mainController.forceEnd("Terminated");
+            return;
+        }
+    }
     public void doNextMove(){
         duel.doNextMove();
     }
     public void moveEnded(){
+        if(forceStop){
+            mainController.forceEnd("Terminated");
+            return;
+        }
         if(!mainController.isControlled()) {
             duel.doNextMove();
         } else {
