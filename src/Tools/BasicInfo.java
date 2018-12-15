@@ -16,6 +16,7 @@ public class BasicInfo {
 
         command = bufferedReader.readLine();
         nick = bufferedReader.readLine();
+
     }
     public String getCommand(){
         return command;

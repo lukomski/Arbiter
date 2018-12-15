@@ -133,7 +133,6 @@ public class Board {
                     matrix[x][y] = 0;
             }
         }
-        draw();
     }
     public void clearFromPoints(){
         for (int x = 0; x < size; x++){

@@ -48,7 +48,7 @@ public class Player {
         return basicInfo.getNick();
     }
     public String getDirName(){
-        return  basicInfo.getDirectory().toString();
+        return  basicInfo.getDirectory().getName();
     }
     public void setId(int id){
         this.id = id;

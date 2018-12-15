@@ -2,6 +2,7 @@ package Model;
 
 import Controll.MainController;
 import Tools.BasicInfo;
+import Tools.LogWriter;
 
 import java.io.File;
 import java.util.*;
@@ -17,6 +18,7 @@ public class Arena extends Thread {
     private Player winner;
     private List<Player> players;
     private Duel duel;
+    private LogWriter logWriter;
 
 
     public Arena(MainController mainController){
@@ -27,6 +29,8 @@ public class Arena extends Thread {
         scoreList = new HashMap<>();
         disqualifieds = new ArrayList<>();
         duelQueue = new LinkedList<>();
+        logWriter = new LogWriter("tournamentDuelResults");
+        logWriter.writeTournamentDuelResultTitle();
     }
     @Override
     public void run(){
@@ -57,7 +61,7 @@ public class Arena extends Thread {
 
         duel = duelQueue.get(0);
         duelQueue.remove(0);
-
+        board.clean();
         duel.start();
     }
 
@@ -111,7 +115,8 @@ public class Arena extends Thread {
         winner = duel.getWinner();
         scoreList.put(winner.getNick(), scoreList.get(winner.getNick()) + 1);
         board.draw();
-       // board.clean();
+
+       logWriter.writeDuelResult(duel.getPlayer1Name(),duel.getPlayer2Name(),winner.getNick(),duel.getWinReason());
 
         if(duelQueue.size() == 0) {
 
