@@ -36,17 +36,28 @@ public class Arena extends Thread {
         makeDuel();
     }
     private void makeDuelqueue(){
+        int playerIndex = 0;
         for(Player firstPlayer: players) {
-            for (Player secondPlayer: players) {
+
+            playerIndex++;
+            for(int i=playerIndex;i<players.size();i++){
+
+                Player secondPlayer = players.get(i);
                 Player[] players = {firstPlayer,  secondPlayer};
                 duelQueue.add(new Duel(players, this));
+
             }
+
         }
+
+
     }
 
     public void makeDuel() {
+
         duel = duelQueue.get(0);
         duelQueue.remove(0);
+
         duel.start();
     }
 
@@ -69,10 +80,12 @@ public class Arena extends Thread {
     private void fillPlayerList(){
 
         for(File directory: playersDirList){
+
             try {
                 BasicInfo basicInfo = new BasicInfo(directory);
                 Player player = new Player(basicInfo);
                 players.add(player);
+
             } catch (Exception e){
                 // make log
             }
@@ -81,6 +94,7 @@ public class Arena extends Thread {
     private void fillScoreList(){
         for(Player player: players){
             scoreList.put(player.getNick(), 0);
+
         }
     }
     public void doNextMove(){
@@ -97,7 +111,8 @@ public class Arena extends Thread {
         winner = duel.getWinner();
         scoreList.put(winner.getNick(), scoreList.get(winner.getNick()) + 1);
         board.draw();
-        board.clean();
+       // board.clean();
+
         if(duelQueue.size() == 0) {
 
             sortScoreList();

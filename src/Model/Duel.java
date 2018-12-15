@@ -25,7 +25,7 @@ public class Duel extends Thread{
         for(Player player: players){
             player.initProcess();
             //send start info
-            player.sendMessage(board.getSize() + "");
+            player.sendMessage(board.getSize() + board.getFilledStartPoints());
             System.out.println(player.getMessage());
         }
         players[0].sendMessage("START");

@@ -2,9 +2,11 @@ package GUI;
 
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,6 +19,7 @@ public class Main extends Application {
         String css = this.getClass().getResource("leftBar.css").toExternalForm();
         Scene scene = new Scene(root, 1000, 700);
         scene.getStylesheets().add(css);
+
 
         primaryStage.setScene(scene);
         primaryStage.show();
