@@ -41,6 +41,13 @@ public class DuelBarController extends BarController {
         return file;
     }
 
+
+    @Override
+    public void setDisableAll(boolean disable) {
+        btnChoosePlayer1Dir.setDisable(disable);
+        btnChoosePlayer2Dir.setDisable(disable);
+    }
+
     @Override
     public List<File> getDirectories(){
         List<File> directories = new ArrayList<>();

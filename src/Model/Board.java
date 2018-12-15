@@ -126,6 +126,7 @@ public class Board {
     public int getSize() {
         return size;
     }
+
     public void clean(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
@@ -134,6 +135,7 @@ public class Board {
             }
         }
     }
+
     public void clearFromPoints(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
@@ -154,7 +156,6 @@ public class Board {
                System.out.print(matrix[i][j]);
             }
             System.out.println("");
-
         }
     }
 

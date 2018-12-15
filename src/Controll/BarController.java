@@ -17,6 +17,7 @@ public abstract class BarController {
     public void setVisible(boolean visible){
         rootAnchorPane.setVisible(visible);
     }
+    public abstract void setDisableAll(boolean disable);
 
     abstract List<File> getDirectories();
 }

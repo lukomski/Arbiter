@@ -14,21 +14,25 @@ public class TournamentBarController extends BarController {
     private File tournamentDirectory;
 
     @Override
-    public List<File> getDirectories(){
+    public List<File> getDirectories() {
         List<File> directories = new ArrayList<>();
-        for(int i = 0;i < tournamentDirectory.listFiles().length;i++){
+        for (int i = 0; i < tournamentDirectory.listFiles().length; i++) {
             directories.add(tournamentDirectory.listFiles()[i]);
         }
         return directories;
     }
 
     @FXML
-    private void selectTournamentDirPressed(){
+    private void selectTournamentDirPressed() {
         DialogReader dr = new DialogReader();
         tournamentDirectory = dr.readDirectoryFromDialog("Choose Arena directory", rootAnchorPane);
-        if(tournamentDirectory != null){
+        if (tournamentDirectory != null) {
             btnSelectTournamentDir.setText(tournamentDirectory.getName());
         }
+    }
 
+    @Override
+    public void setDisableAll(boolean disable){
+        btnSelectTournamentDir.setDisable(disable);
     }
 }

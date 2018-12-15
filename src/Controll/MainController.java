@@ -105,9 +105,11 @@ public class MainController {
     }
 
     public void bntStartPressed(){
+        setDisableLeftBar(true);
+
         System.out.println(tournamentText);
         board.clean();
-        tournamentText.setText("start pressed");
+        tournamentText.setText("Progressing");
         controlCheckBox.setDisable(true);
 
         if(controlCheckBox.isSelected() && duelBar.isVisible()) {
@@ -139,7 +141,27 @@ public class MainController {
         switchBars(tournamentBarController, btnChoiceTournament, duelBarController, btnChoiceDuel);
         controlCheckBox.setDisable(false);
     }
+    public void forceEnd(String msg){
+        setDisableLeftBar(false);
+
+        btnNextMove.setDisable(true);
+        if(duelBar.isVisible()){
+            controlCheckBox.setDisable(false);
+        }
+        Platform.runLater(() -> tournamentText.setText(msg));
+    }
+
+    private void setDisableLeftBar(boolean disable){
+        duelBarController.setDisableAll(disable);
+        tournamentBarController.setDisableAll(disable);
+        btnChoiceDuel.setDisable(disable);
+        btnChoiceTournament.setDisable(disable);
+        btnChangeBoardSize.setDisable(disable);
+        fillBoardButton.setDisable(disable);
+    }
     public void tournamentEnded(){
+        setDisableLeftBar(false);
+
         btnNextMove.setDisable(true);
         if(duelBar.isVisible()){
             controlCheckBox.setDisable(false);
@@ -174,9 +196,5 @@ public class MainController {
         clearButton.setDisable(!disable);
         acceptButton.setDisable(!disable);
         randomButton.setDisable(!disable);
-
     }
-
-
-
 }

@@ -42,27 +42,25 @@ public class Arena extends Thread {
     private void makeDuelqueue(){
         int playerIndex = 0;
         for(Player firstPlayer: players) {
-
-            playerIndex++;
-            for(int i=playerIndex;i<players.size();i++){
+            for(int i=++playerIndex;i<players.size();i++){
 
                 Player secondPlayer = players.get(i);
                 Player[] players = {firstPlayer,  secondPlayer};
                 duelQueue.add(new Duel(players, this));
-
             }
-
         }
-
-
     }
 
     public void makeDuel() {
-
-        duel = duelQueue.get(0);
-        duelQueue.remove(0);
-        board.clean();
-        duel.start();
+        if(duelQueue.size() == 0){
+            mainController.forceEnd("No duels to play");
+            logWriter.writeMessage("Warning: No duels to play");
+        } else {
+            duel = duelQueue.get(0);
+            duelQueue.remove(0);
+            board.clean();
+            duel.start();
+        }
     }
 
     private void sortScoreList(){
@@ -91,7 +89,7 @@ public class Arena extends Thread {
                 players.add(player);
 
             } catch (Exception e){
-                // make log
+                logWriter.writeMessage("Warning: Unable to read basic info about program from directory " + directory + " - omitted");
             }
         }
     }

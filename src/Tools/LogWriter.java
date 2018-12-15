@@ -48,4 +48,8 @@ public class LogWriter {
             printWriter.flush();
         }
     }
+    public void writeMessage(String msg){
+        printWriter.println(msg);
+        printWriter.flush();
+    }
 }
