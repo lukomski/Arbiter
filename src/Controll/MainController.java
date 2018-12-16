@@ -6,9 +6,7 @@ import Tools.DialogReader;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import Tools.LogWriter;
@@ -30,7 +28,7 @@ public class MainController {
     @FXML
     private Canvas canvas;
     @FXML
-    private Label tournamentText;
+    private TextArea tournamentText;
     @FXML
     private Button btnChoiceDuel;
     @FXML
@@ -70,6 +68,8 @@ public class MainController {
     public void initialize(){
         board = new Board(Integer.parseInt(btnChangeBoardSize.getText()), canvas);
         board.draw();
+        tournamentText.setEditable(false);
+
 
     }
     public void fillBoardButtonPressed(){

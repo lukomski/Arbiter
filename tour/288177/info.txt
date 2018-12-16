@@ -1,2 +1,3 @@
+Pasha
+Jaroslaw Paszkakowski
 java -jar Jarek.jar parametr1
-jarek jarek

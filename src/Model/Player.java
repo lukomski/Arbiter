@@ -63,6 +63,9 @@ public class Player {
     public String getDirName(){
         return  basicInfo.getDirectory().getName();
     }
+    public String getFullName(){
+        return basicInfo.getFullName();
+    }
     public void setId(int id){
         this.id = id;
     }

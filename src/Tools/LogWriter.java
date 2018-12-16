@@ -40,11 +40,13 @@ public class LogWriter {
         printWriter.println("Winner: "+name);
         printWriter.flush();
     }
-    public void writeTournamentList(Map<String,Integer> map) {
+    public void writeTournamentList(Map<String,ScoreResult> map) {
 
         printWriter.println("Tournament:");
+        printWriter.println("Name : Wins : Loses : Disqualifications");
         for (String currentKey : map.keySet()) {
-            printWriter.println(currentKey + ": " + map.get(currentKey));
+            printWriter.println(currentKey + " : " + map.get(currentKey).getWins()+
+                    " : "+map.get(currentKey).getLoses()+" : "+map.get(currentKey).getDisqualifications());
             printWriter.flush();
         }
     }

@@ -72,7 +72,7 @@ public class Duel extends Thread{
             closeGame();
             return false;
         }
-        logWriter.writeDuelMove(players[currPlayerId].getNick(), move);
+        logWriter.writeDuelMove(players[currPlayerId].getFullName(), move);
         try {
             board.fillBoard(move, currPlayerId + 1);
         } catch (Exception e) {
@@ -128,10 +128,22 @@ public class Duel extends Thread{
     public String getPlayer1Name(){
         return players[0].getNick();
     }
+    public String getPlayer1FullName(){
+        return players[0].getFullName();
+    }
+    public String getPlayer2FullName(){
+        return players[1].getFullName();
+    }
     public String getPlayer2Name(){
         return players[1].getNick();
     }
     public String getWinReason(){
         return winReason;
+    }
+    public Player getPlayer1(){
+        return players[0];
+    }
+    public Player getPlayer2(){
+        return players[1];
     }
 }

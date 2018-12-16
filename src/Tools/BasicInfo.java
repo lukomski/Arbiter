@@ -5,6 +5,7 @@ import java.io.*;
 public class BasicInfo {
     private String command;
     private String nick;
+    private String name;
     private File directory;
 
     public BasicInfo(File dir) throws Exception {
@@ -14,12 +15,15 @@ public class BasicInfo {
         FileReader fr =  new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fr);
 
-        command = bufferedReader.readLine();
+
         nick = bufferedReader.readLine();
+        name = bufferedReader.readLine();
+        command = bufferedReader.readLine();
 
     }
     public BasicInfo(){
-        nick = "User";
+        nick = "Useros";
+        name = "User Userowski";
         directory = new File("");
         command = "";
     }
@@ -32,6 +36,10 @@ public class BasicInfo {
     public File getDirectory(){
         return directory;
     }
-
-
+    public String getName() {
+        return name;
+    }
+    public String getFullName(){
+        return directory.getName() + "- "+name+" '"+nick+"'";
+    }
 }

@@ -1,0 +1,3 @@
+Siny
+Adam Kowalski
+java -jar testArbiter.jar

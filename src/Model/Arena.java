@@ -3,13 +3,14 @@ package Model;
 import Controll.MainController;
 import Tools.BasicInfo;
 import Tools.LogWriter;
+import Tools.ScoreResult;
 
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Arena extends Thread {
-    private HashMap<String,Integer> scoreList;
+    private HashMap<String, ScoreResult> scoreList;
     private List<File> playersDirList;
     private List<File> disqualifieds;
     private List<Duel> duelQueue;
@@ -76,10 +77,11 @@ public class Arena extends Thread {
 
 
     public String buildScoreTable(){
-        HashMap<String, Integer> map = scoreList;
-        StringBuilder score = new StringBuilder("Scores:\n\n");
+        HashMap<String, ScoreResult> map = scoreList;
+        StringBuilder score = new StringBuilder("Scores:\n\nName : Wins : Loses : Disqualifications\n\n");
         for (String currentKey : map.keySet()) {
-            score.append(currentKey + " : " + map.get(currentKey)+"\n");
+            score.append(currentKey + " : " + map.get(currentKey).getWins()+
+                    " : "+map.get(currentKey).getLoses()+" : "+map.get(currentKey).getDisqualifications()+ "\n");
         }
         return score.toString();
     }
@@ -109,7 +111,7 @@ public class Arena extends Thread {
     }
     private void fillScoreList(){
         for(Player player: players){
-            scoreList.put(player.getNick(), 0);
+            scoreList.put(player.getFullName(), new ScoreResult());
 
         }
     }
@@ -136,10 +138,20 @@ public class Arena extends Thread {
     }
     public void duelEnded(){
         winner = duel.getWinner();
-        scoreList.put(winner.getNick(), scoreList.get(winner.getNick()) + 1);
+       /* scoreList.put(winner.getFullName(),*/ scoreList.get(winner.getFullName()).addWin();
+       if(winner.equals(duel.getPlayer1())){
+           scoreList.get(duel.getPlayer2().getFullName()).addLoss();
+           if(duel.getWinReason()!="NORMAL WIN")
+               scoreList.get(duel.getPlayer2().getFullName()).addDisqualification();
+       }else{
+           scoreList.get(duel.getPlayer1().getFullName()).addLoss();
+           if(duel.getWinReason()!="NORMAL WIN")
+               scoreList.get(duel.getPlayer1().getFullName()).addDisqualification();
+       }
+
         board.draw();
 
-       logWriter.writeDuelResult(duel.getPlayer1Name(),duel.getPlayer2Name(),winner.getNick(),duel.getWinReason());
+       logWriter.writeDuelResult(duel.getPlayer1FullName(),duel.getPlayer2FullName(),winner.getNick(),duel.getWinReason());
 
         if(duelQueue.size() == 0) {
 
@@ -155,7 +167,7 @@ public class Arena extends Thread {
     public Board getBoard(){
         return board;
     }
-    public HashMap<String,Integer> getScoreList(){
+    public HashMap<String,ScoreResult> getScoreList(){
         return scoreList;
     }
 
