@@ -2,6 +2,7 @@ package GUI;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,10 @@ public class Main extends Application {
         Scene scene = new Scene(root, 1000, 700);
         scene.getStylesheets().add(css);
 
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         primaryStage.setScene(scene);
         primaryStage.show();

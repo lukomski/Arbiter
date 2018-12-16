@@ -12,6 +12,7 @@ public class Player {
     private PrintWriter output;
     private Process process;
     private int id;
+    private boolean humanPlayer=false;
 
     public Player(BasicInfo basicInfo)throws Exception{
         this.basicInfo = basicInfo;
@@ -20,29 +21,41 @@ public class Player {
         processBuilder.command(basicInfo.getCommand().split(" ")  );
         processBuilder.directory(basicInfo.getDirectory());
     }
+    public Player(BasicInfo basicInfo, boolean humanPlayer){
+        this.basicInfo = basicInfo;
+        this.humanPlayer = humanPlayer;
+    }
 
     public void initProcess(){
-        try {
-            process = processBuilder.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!humanPlayer) {
+            try {
+                process = processBuilder.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            output = new PrintWriter(process.getOutputStream(), true);
         }
-        input = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-        output = new PrintWriter( process.getOutputStream() , true );
     }
 
     public void sendMessage(String line){
-        output.println( line );
+        if(!humanPlayer){
+            output.println( line );
+        }
+
     }
 
     public String getMessage(){
-        String inn="error";
-        try {
-             inn = input.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(!humanPlayer) {
+            String inn = "error";
+            try {
+                inn = input.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return inn;
         }
-        return inn;
+        return "";
     }
     public String getNick(){
         return basicInfo.getNick();
@@ -57,4 +70,7 @@ public class Player {
         return id;
     }
 
+    public boolean isHumanPlayer() {
+        return humanPlayer;
+    }
 }

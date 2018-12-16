@@ -19,10 +19,12 @@ public class Arena extends Thread {
     private List<Player> players;
     private Duel duel;
     private LogWriter logWriter;
+    private LogWriter errorLogWriter;
     private boolean forceStop = false;
+    private boolean humanPlayer;
 
 
-    public Arena(MainController mainController){
+    public Arena(MainController mainController, boolean humanPlayer){
         this.playersDirList = mainController.getDirectories();
         this.players = new ArrayList<>();
         this.board = mainController.getBoard();
@@ -32,6 +34,8 @@ public class Arena extends Thread {
         duelQueue = new LinkedList<>();
         logWriter = new LogWriter("tournamentDuelResults");
         logWriter.writeTournamentDuelResultTitle();
+       errorLogWriter = new LogWriter("errors");
+        this.humanPlayer = humanPlayer;
     }
     @Override
     public void run(){
@@ -55,7 +59,7 @@ public class Arena extends Thread {
     public void makeDuel() {
         if(duelQueue.size() == 0){
             mainController.forceEnd("No duels to play");
-            logWriter.writeMessage("Warning: No duels to play");
+            errorLogWriter.writeMessage("Warning: No duels to play");
         } else {
             duel = duelQueue.get(0);
             duelQueue.remove(0);
@@ -81,17 +85,26 @@ public class Arena extends Thread {
     }
 
     private void fillPlayerList(){
+        int k=0;
 
         for(File directory: playersDirList){
 
             try {
-                BasicInfo basicInfo = new BasicInfo(directory);
-                Player player = new Player(basicInfo);
+                Player player;
+                if(humanPlayer && k==1){
+                    BasicInfo basicInfo = new BasicInfo();
+                    player = new Player(basicInfo,humanPlayer);
+                    humanPlayer=false;
+                }else {
+                    BasicInfo basicInfo = new BasicInfo(directory);
+                    player = new Player(basicInfo);
+                }
                 players.add(player);
 
             } catch (Exception e){
-                logWriter.writeMessage("Warning: Unable to read basic info about program from directory " + directory + " - omitted");
+                errorLogWriter.writeMessage("Warning: Unable to read basic info about program from directory " + directory + " - omitted");
             }
+            k++;
         }
     }
     private void fillScoreList(){
@@ -107,8 +120,8 @@ public class Arena extends Thread {
             return;
         }
     }
-    public void doNextMove(){
-        duel.doNextMove();
+    public void doNextMove(String humanMove){
+        duel.doNextMove(humanMove);
     }
     public void moveEnded(){
         if(forceStop){
@@ -116,7 +129,7 @@ public class Arena extends Thread {
             return;
         }
         if(!mainController.isControlled()) {
-            duel.doNextMove();
+            duel.doNextMove("");
         } else {
             board.draw();
         }

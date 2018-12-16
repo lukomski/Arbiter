@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import Tools.LogWriter;
 
@@ -54,11 +55,16 @@ public class MainController {
     private Button startButton;
     @FXML
     private Button randomButton;
+    @FXML
+    private CheckBox programUserCheckBox;
 
     private Board board;
     private Arena arena;
     private int boardSize = 5;
     private boolean isControlled = false;
+    private String humanMove="";
+    private boolean humanTurn=false;
+    private int humanRectAngle=1;
 
     @FXML
     public void initialize(){
@@ -75,16 +81,18 @@ public class MainController {
         });
         canvas.setOnMouseMoved(event -> {
             double x = event.getX(), y = event.getY();
-            System.out.println(board.hoverRect(x,y));
+            System.out.println(board.hoverRect(x,y,-1,false));
         });
-        canvas.setOnMouseExited(event -> board.clean());
+        canvas.setOnMouseExited(event -> {
+            board.clean();
+            board.draw();
+
+        });
 
     }
     public void acceptButtonPressed(){
         setButtonsDisable(false);
-        canvas.setOnMouseClicked(event -> { });
-        canvas.setOnMouseMoved(event -> { });
-        canvas.setOnMouseExited(event -> { });
+        disableUserInput();
     }
     public void clearButtonPressed(){
         board.clearFromPoints();
@@ -92,6 +100,11 @@ public class MainController {
     public void randomButtonPressed(){
         board.setRandomStartPoints();
         acceptButtonPressed();
+    }
+    public void programUserCheckBox(){
+        controlCheckBox.setSelected(programUserCheckBox.isSelected());
+        controlCheckBox.setDisable(programUserCheckBox.isSelected());
+        duelBarController.setDisablePlayer2Dir(programUserCheckBox.isSelected());
     }
 
     public void changeSizeButtonPressed() {
@@ -116,6 +129,7 @@ public class MainController {
         tournamentText.setText("Progressing");
         startButton.setText("Stop");
         controlCheckBox.setDisable(true);
+        programUserCheckBox.setDisable(true);
 
         if(controlCheckBox.isSelected() && duelBar.isVisible()) {
             btnNextMove.setDisable(false);
@@ -124,8 +138,62 @@ public class MainController {
             btnNextMove.setDisable(true);
             isControlled = false;
         }
-        arena = new Arena(this);
+        if(programUserCheckBox.isSelected()) {
+            btnNextMove.setDisable(true);
+            humanTurn = true;
+
+            canvas.setOnMouseMoved(event -> {
+                if (humanTurn) {
+                    double xx = event.getX(), yy = event.getY();
+                    board.hoverRect(xx, yy, humanRectAngle, false);
+                }
+            });
+            canvas.setOnMouseExited(event -> {
+                if (humanTurn)
+                    board.cleanHover();
+
+            });
+        }
+        canvas.setOnMouseClicked(event -> {
+
+            if(event.getButton().equals(MouseButton.SECONDARY ) && humanTurn){
+                humanRectAngle=(humanRectAngle+1)%2;
+
+                board.hoverRect(event.getX(),event.getY(),humanRectAngle,true);
+                board.draw();
+
+            }else if(event.getButton().equals(MouseButton.PRIMARY)){
+                handleUserInput(event.getX(),event.getY());
+            }
+
+        });
+        arena = new Arena(this,programUserCheckBox.isSelected());
         arena.start();
+    }
+    public void handleUserInput(double posX, double posY){
+        if(humanTurn){
+            int x = board.countPosition(posX), y = board.countPosition(posY);
+            humanMove=x+"x"+y+"_"+(x+humanRectAngle)+"x"+(y+((humanRectAngle+1)%2));
+
+
+            if(board.isCoordsCorrect(x,y,(x+humanRectAngle),(y+((humanRectAngle+1)%2)))){
+                btnNextMove.setDisable(false);
+                doNextMove();
+            }
+
+
+
+        }
+        else{
+
+            board.cleanHover();
+            doNextMove();
+        }
+    }
+    public void disableUserInput(){
+        canvas.setOnMouseClicked(e->{ });
+        canvas.setOnMouseExited(e->{ });
+        canvas.setOnMouseMoved(e->{ });
     }
 
     private void switchBars(BarController fromBar, Button fromButton, BarController toBar, Button toButton){
@@ -140,19 +208,25 @@ public class MainController {
     public void tournamentChoicePressed(){
         switchBars(duelBarController, btnChoiceDuel, tournamentBarController, btnChoiceTournament);
         controlCheckBox.setDisable(true);
+        programUserCheckBox.setSelected(false);
+        programUserCheckBox.setDisable(true);
     }
 
     public void duelChoicePressed(){
         switchBars(tournamentBarController, btnChoiceTournament, duelBarController, btnChoiceDuel);
         controlCheckBox.setDisable(false);
+        programUserCheckBox.setDisable(false);
     }
     public void forceEnd(String msg){
+        disableUserInput();
         setDisableLeftBar(false);
         Platform.runLater(() -> startButton.setText("Start"));
 
         btnNextMove.setDisable(true);
         if(duelBar.isVisible()){
-            controlCheckBox.setDisable(false);
+            if(!programUserCheckBox.isSelected())
+                controlCheckBox.setDisable(false);
+            programUserCheckBox.setDisable(false);
         }
         Platform.runLater(() -> tournamentText.setText(msg));
     }
@@ -164,15 +238,24 @@ public class MainController {
         btnChoiceTournament.setDisable(disable);
         btnChangeBoardSize.setDisable(disable);
         fillBoardButton.setDisable(disable);
+
+        if(programUserCheckBox.isSelected()){
+            duelBarController.setDisablePlayer2Dir(true);
+            controlCheckBox.setDisable(true);
+        }
     }
     public void tournamentEnded(){
+        disableUserInput();
         setDisableLeftBar(false);
         Platform.runLater(() -> startButton.setText("Start"));
 
         btnNextMove.setDisable(true);
         if(duelBar.isVisible()){
-            controlCheckBox.setDisable(false);
+            if(!programUserCheckBox.isSelected())
+                controlCheckBox.setDisable(false);
+            programUserCheckBox.setDisable(false);
         }
+
         System.out.println("Arena has just ended");
         Platform.runLater(() -> tournamentText.setText(arena.buildScoreTable()));
 
@@ -182,7 +265,18 @@ public class MainController {
     }
     @FXML
     public void doNextMove(){
-        arena.doNextMove();
+
+        arena.doNextMove(humanMove);
+
+        if(programUserCheckBox.isSelected()) {
+            humanTurn = !humanTurn;
+            if(humanTurn){
+                btnNextMove.setDisable(true);
+            }
+        }
+
+
+
         System.out.println("MainController: received doNextMove");
     }
     public Board getBoard(){
@@ -203,5 +297,6 @@ public class MainController {
         clearButton.setDisable(!disable);
         acceptButton.setDisable(!disable);
         randomButton.setDisable(!disable);
+
     }
 }

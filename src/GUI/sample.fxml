@@ -28,6 +28,7 @@
             <Button fx:id="acceptButton" disable="true" layoutX="208.0" layoutY="268.0" mnemonicParsing="false" onAction="#acceptButtonPressed" text="Accept" />
             <Button fx:id="clearButton" disable="true" layoutX="208.0" layoutY="309.0" mnemonicParsing="false" onAction="#clearButtonPressed" prefHeight="31.0" prefWidth="56.0" text="Clear" />
             <Button fx:id="randomButton" disable="true" layoutX="111.0" layoutY="294.0" mnemonicParsing="false" onAction="#randomButtonPressed" prefHeight="31.0" prefWidth="74.0" text="Random" />
+            <CheckBox fx:id="programUserCheckBox" layoutX="13.0" layoutY="164.0" mnemonicParsing="false" onAction="#programUserCheckBox" text="Program vs User" />
          </children>
       </AnchorPane>
        <AnchorPane fx:id="boardPane" layoutX="300.0" prefHeight="700.0" prefWidth="700.0">

@@ -46,21 +46,24 @@ public class Board {
         draw();
         return true;
     }
-    public boolean hoverRect(double x, double y){
+    public boolean hoverRect(double x, double y, int angle, boolean rightMouseClick){
         double rectSize = graphicsContext.getCanvas().getWidth()/size;
         int posX = (int)Math.floor(x/rectSize);
         int posY=(int)Math.floor(y/rectSize);
 
-        if(matrix[posX][posY]==4)
+        if(matrix[posX][posY]==4 && !rightMouseClick)
             return false;
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
-                if(matrix[i][j] == 4)
+                if(matrix[i][j] == 4 || matrix[i][j] == 5 )
                     matrix[i][j] = 0;
             }
         }
-        if(matrix[posX][posY]!=3)
+        if(matrix[posX][posY]==0)
             matrix[posX][posY] = 4;
+        if(angle!=-1 && matrix[posX+angle][posY+((angle+1)%2)]==0){
+            matrix[posX+angle][posY+((angle+1)%2)]=5;
+        }
         draw();
         return true;
 
@@ -76,6 +79,10 @@ public class Board {
         matrix[x1][y1]=playerIndex;
         matrix[x2][y2]=playerIndex;
 
+    }
+    public boolean isCoordsCorrect(int x1, int y1, int x2, int y2){
+        return (matrix[x1][y1]==0 || matrix[x1][y1]==4 || matrix[x1][y1]==5) &&
+                (matrix[x2][y2]==0 || matrix[x2][y2]==4 || matrix[x2][y2]==5);
     }
 
     public boolean isMovePossible(){
@@ -113,6 +120,8 @@ public class Board {
                     color = Color.YELLOW;
                 } else if( matrix[x][y]==4){
                     color = Color.DARKGREY;
+                }else if( matrix[x][y]==5){
+                    color = Color.DARKGREY;
                 }
                 graphicsContext.setFill(color);
                 double posX = x * (frame + rectWidth) + frame;
@@ -135,6 +144,15 @@ public class Board {
             }
         }
     }
+    public void cleanHover(){
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                if(matrix[x][y]==4 || matrix[x][y]==5)
+                    matrix[x][y] = 0;
+            }
+        }
+        draw();
+    }
 
     public void clearFromPoints(){
         for (int x = 0; x < size; x++){
@@ -149,6 +167,13 @@ public class Board {
     public String getFilledStartPoints() {
         return filledStartPoints;
     }
+    public int countPosition(double x){
+        double rectSize = graphicsContext.getCanvas().getWidth()/size;
+        int position = (int)Math.floor(x/rectSize);
+        return position;
+    }
+
+
 
     public void printBoard(){
         for(int i = 0; i< size; i++){

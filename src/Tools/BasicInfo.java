@@ -18,6 +18,11 @@ public class BasicInfo {
         nick = bufferedReader.readLine();
 
     }
+    public BasicInfo(){
+        nick = "User";
+        directory = new File("");
+        command = "";
+    }
     public String getCommand(){
         return command;
     }

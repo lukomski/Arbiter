@@ -30,14 +30,13 @@ public class Duel extends Thread{
             player.initProcess();
             //send start info
             player.sendMessage(board.getSize() + board.getFilledStartPoints());
-            String tt=null;
-          if((tt =gettingAnswer(player))==null){
-              winner=players[(player.getId()+1)%2];
-              isCloseGame = true;
+
+          if(!player.isHumanPlayer()) {
+              if (gettingAnswer(player) == null) {
+                  winner = players[(player.getId() + 1) % 2];
+                  isCloseGame = true;
+              }
           }
-            System.out.println(tt);
-
-
 
         }
         if(isCloseGame)
@@ -49,7 +48,7 @@ public class Duel extends Thread{
 
         players[0].sendMessage("START");
         logWriter.writeDuelTitle(board.getSize(),board.getFilledStartPoints(),players[0].getNick(),players[1].getNick());
-        doNextMove();
+        doNextMove("");
     }
 
     private void closeGame(){
@@ -59,10 +58,13 @@ public class Duel extends Thread{
         arena.duelEnded();
     }
 
-    public boolean doNextMove() {
-
-
-        String move = gettingAnswer(players[currPlayerId]);
+    public boolean doNextMove(String humanMove) {
+        String move;
+        if(players[currPlayerId].isHumanPlayer()){
+            move = humanMove;
+        }else {
+            move = gettingAnswer(players[currPlayerId]);
+        }
 
         if(move==null){
             winner=players[(currPlayerId+1)%2];
