@@ -65,7 +65,7 @@ public class Board {
         }
 
         // choose direction
-        Direction direction;
+
         double width = graphicsContext.getCanvas().getWidth() - frame;
         double fieldWidth = width / size;
         int matrixX = (int)Math.floor( (x - (frame / 2) ) / fieldWidth);
@@ -80,7 +80,8 @@ public class Board {
         double posXInField = (x - (frame / 2)) - matrixX * fieldWidth;
         double posYInField = (y - (frame / 2)) - matrixY * fieldWidth;
         System.out.println("podInField" + posXInField + " " + posYInField);
-        /* north or west*/
+
+        Direction direction;
         if(posYInField >= posXInField){
             if(posYInField >= (fieldWidth - posXInField)){
                 direction = Direction.south;
@@ -88,7 +89,6 @@ public class Board {
                 direction = Direction.west;
             }
         }
-        /* east or south */
         else {
             if(posYInField >= (fieldWidth - posXInField)){
                 direction = Direction.east;
@@ -98,41 +98,31 @@ public class Board {
 
         }
         System.out.println("direction:" + direction);
+        int mX = matrixX;
+        int mY = matrixY;
         switch (direction){
             case north:
             {
-                int mY = (matrixY + size - 1) % size;
-                if(isFieldFree(matrix[matrixX][matrixY]) && isFieldFree(matrix[matrixX][mY])){
-                    matrix[matrixX][matrixY] = 4;
-                    matrix[matrixX][mY] = 5;
-                }
+                mY = (matrixY + size - 1) % size;
                 break;
             }
             case east:
             {
-                int mX = (matrixX + 1) % size;
-                if(isFieldFree(matrix[matrixX][matrixY]) && isFieldFree(matrix[mX][matrixY])) {
-                    matrix[matrixX][matrixY] = 4;
-                    matrix[mX][matrixY] = 5;
-                    break;
-                }
+                mX = (matrixX + 1) % size;
+                break;
             }
             case south:{
-                int mY = (matrixY + 1) % size;
-                if(isFieldFree(matrix[matrixX][matrixY]) && isFieldFree(matrix[matrixX][mY])){
-                    matrix[matrixX][matrixY] = 4;
-                    matrix[matrixX][mY] = 5;
-                    break;
-                }
+                mY = (matrixY + 1) % size;
+                break;
             }
             case west:{
-                int mX = (matrixX + size - 1) % size;
-                if(isFieldFree(matrix[matrixX][matrixY]) && isFieldFree(matrix[mX][matrixY])){
-                    matrix[matrixX][matrixY] = 4;
-                    matrix[mX][matrixY] = 5;
-                    break;
-                }
+                mX = (matrixX + size - 1) % size;
+                break;
             }
+        }
+        if(isFieldFree(matrix[matrixX][matrixY]) && isFieldFree(matrix[mX][mY])){
+            matrix[matrixX][matrixY] = 4;
+            matrix[mX][mY] = 5;
         }
         draw();
         return true;
@@ -161,14 +151,14 @@ public class Board {
     public boolean isMovePossible(){
         for(int i = 0; i< size; i++){
             for(int j = 0; j< size; j++){
-                if(matrix[i][j] == 0){
-                    if(j!=0 && matrix[i][j-1] == 0)
+                if(isFieldFree(matrix[i][j])){
+                    if(isFieldFree(matrix[i][(j + size - 1) % size]))
                         return true;
-                    if(j!= size -1 && matrix[i][j+1] == 0)
+                    if(isFieldFree(matrix[i][(j + 1) % size]))
                         return true;
-                    if(i!=0 && matrix[i-1][j] == 0)
+                    if(isFieldFree(matrix[(i + size - 1) % size][j]))
                         return true;
-                    if(i!= size -1 && matrix[i+1][j] == 0)
+                    if(isFieldFree(matrix[(i + 1) % size][j]))
                         return true;
                 }
             }
