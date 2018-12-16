@@ -73,7 +73,14 @@ public class Duel extends Thread{
             return false;
         }
         logWriter.writeDuelMove(players[currPlayerId].getNick(), move);
-        board.fillBoard(move, currPlayerId + 1);
+        try {
+            board.fillBoard(move, currPlayerId + 1);
+        } catch (Exception e) {
+            winner=players[(currPlayerId+1)%2];
+            winReason="WRONG MESSAGE";
+            closeGame();
+            return false;
+        }
         if (!board.isMovePossible()) {
             winner = players[currPlayerId];
             winReason="NORMAL WIN";

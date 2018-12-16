@@ -68,7 +68,7 @@ public class Board {
         return true;
 
     }
-    public void fillBoard(String coords,int playerIndex){
+    public void fillBoard(String coords,int playerIndex) throws Exception{
         String cord[] = coords.split("_");
         String c1[] = cord[0].split("x");
         String c2[] = cord[1].split("x");
@@ -76,12 +76,19 @@ public class Board {
         int y1 = Integer.parseInt(c1[1]);
         int x2 = Integer.parseInt(c2[0]);
         int y2 = Integer.parseInt(c2[1]);
+        if(!isCoordsCorrect(x1,y1,x2,y2))
+            throw new Exception();
         matrix[x1][y1]=playerIndex;
         matrix[x2][y2]=playerIndex;
 
+
     }
     public boolean isCoordsCorrect(int x1, int y1, int x2, int y2){
-        return (matrix[x1][y1]==0 || matrix[x1][y1]==4 || matrix[x1][y1]==5) &&
+
+        boolean correctness = false;
+        if(((x1+1==x2 || x1-1==x2) && y1 == y2) || (x1==x2 && (y1+1==y2 || y1-1==y2)))
+            correctness = true;
+        return correctness && (matrix[x1][y1]==0 || matrix[x1][y1]==4 || matrix[x1][y1]==5) &&
                 (matrix[x2][y2]==0 || matrix[x2][y2]==4 || matrix[x2][y2]==5);
     }
 
