@@ -138,21 +138,25 @@ public class Arena extends Thread {
     }
     public void duelEnded(){
         winner = duel.getWinner();
-       /* scoreList.put(winner.getFullName(),*/ scoreList.get(winner.getFullName()).addWin();
-       if(winner.equals(duel.getPlayer1())){
-           scoreList.get(duel.getPlayer2().getFullName()).addLoss();
-           if(duel.getWinReason()!="NORMAL WIN")
-               scoreList.get(duel.getPlayer2().getFullName()).addDisqualification();
-       }else{
-           scoreList.get(duel.getPlayer1().getFullName()).addLoss();
-           if(duel.getWinReason()!="NORMAL WIN")
-               scoreList.get(duel.getPlayer1().getFullName()).addDisqualification();
-       }
+        if(winner!=null) {
+            scoreList.get(winner.getFullName()).addWin();
+            if (winner.equals(duel.getPlayer1())) {
+                scoreList.get(duel.getPlayer2().getFullName()).addLoss();
+                if (duel.getWinReason() != "NORMAL WIN")
+                    scoreList.get(duel.getPlayer2().getFullName()).addDisqualification();
+            } else {
+                scoreList.get(duel.getPlayer1().getFullName()).addLoss();
+                if (duel.getWinReason() != "NORMAL WIN")
+                    scoreList.get(duel.getPlayer1().getFullName()).addDisqualification();
+            }
 
-        board.draw();
+            board.draw();
 
-       logWriter.writeDuelResult(duel.getPlayer1FullName(),duel.getPlayer2FullName(),winner.getNick(),duel.getWinReason());
+            logWriter.writeDuelResult(duel.getPlayer1FullName(), duel.getPlayer2FullName(), winner.getNick(), duel.getWinReason());
+        }else{
+            errorLogWriter.writeMessage("Error: Wrong program launch instuctions in "+duel.getErrorPlayer().getDirectory());
 
+        }
         if(duelQueue.size() == 0) {
 
             sortScoreList();

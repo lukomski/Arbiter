@@ -3,6 +3,8 @@ package Model;
 
 import Tools.LogWriter;
 
+import java.io.IOException;
+
 public class Duel extends Thread{
 
     private Board board;
@@ -13,6 +15,7 @@ public class Duel extends Thread{
     private int currPlayerId = 0;
     private String winReason="NOT RESPOND";
     private boolean isCloseGame = false;
+    private Player errorPlayer;
 
 
     public Duel(Player[] players, Arena arena){
@@ -27,7 +30,13 @@ public class Duel extends Thread{
     public void run(){
 
         for(Player player: players){
-            player.initProcess();
+            try {
+                player.initProcess();
+            } catch (IOException e) {
+                errorPlayer=player;
+                arena.duelEnded();
+                return;
+            }
             //send start info
             player.sendMessage(board.getSize() + board.getFilledStartPoints());
 
@@ -145,5 +154,8 @@ public class Duel extends Thread{
     }
     public Player getPlayer2(){
         return players[1];
+    }
+    public Player getErrorPlayer(){
+        return errorPlayer;
     }
 }

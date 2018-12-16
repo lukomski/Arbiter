@@ -24,7 +24,7 @@ public class BasicInfo {
     public BasicInfo(){
         nick = "Useros";
         name = "User Userowski";
-        directory = new File("");
+        directory = new File("User");
         command = "";
     }
     public String getCommand(){

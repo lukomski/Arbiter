@@ -26,13 +26,11 @@ public class Player {
         this.humanPlayer = humanPlayer;
     }
 
-    public void initProcess(){
+    public void initProcess() throws  IOException{
         if(!humanPlayer) {
-            try {
-                process = processBuilder.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            process = processBuilder.start();
+
             input = new BufferedReader(new InputStreamReader(process.getInputStream()));
             output = new PrintWriter(process.getOutputStream(), true);
         }
@@ -71,6 +69,9 @@ public class Player {
     }
     public int getId(){
         return id;
+    }
+    public String getDirectory(){
+        return basicInfo.getDirectory().toString();
     }
 
     public boolean isHumanPlayer() {
