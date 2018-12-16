@@ -122,9 +122,11 @@ public class Arena extends Thread {
             return;
         }
     }
+
     public void doNextMove(String humanMove){
         duel.doNextMove(humanMove);
     }
+
     public void moveEnded(){
         if(forceStop){
             mainController.forceEnd("Terminated");

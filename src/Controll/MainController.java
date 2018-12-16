@@ -81,7 +81,8 @@ public class MainController {
         });
         canvas.setOnMouseMoved(event -> {
             double x = event.getX(), y = event.getY();
-            System.out.println(board.hoverRect(x,y,-1,false));
+            boolean hoverRec = board.hoverRect(x,y,-1,false);
+            System.out.println(hoverRec);
         });
         canvas.setOnMouseExited(event -> {
             board.clean();
@@ -174,22 +175,18 @@ public class MainController {
         if(humanTurn){
             int x = board.countPosition(posX), y = board.countPosition(posY);
             humanMove=x+"x"+y+"_"+(x+humanRectAngle)+"x"+(y+((humanRectAngle+1)%2));
-
-
             if(board.isCoordsCorrect(x,y,(x+humanRectAngle),(y+((humanRectAngle+1)%2)))){
                 btnNextMove.setDisable(false);
                 doNextMove();
             }
-
-
-
         }
-        else{
-
+        // do nonhuman move immediately
+        if(!humanTurn){
             board.cleanHover();
             doNextMove();
         }
     }
+
     public void disableUserInput(){
         canvas.setOnMouseClicked(e->{ });
         canvas.setOnMouseExited(e->{ });
@@ -274,8 +271,6 @@ public class MainController {
                 btnNextMove.setDisable(true);
             }
         }
-
-
 
         System.out.println("MainController: received doNextMove");
     }
