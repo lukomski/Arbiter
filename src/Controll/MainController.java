@@ -174,8 +174,9 @@ public class MainController {
     public void handleUserInput(double posX, double posY){
         if(humanTurn){
             int x = board.countPosition(posX), y = board.countPosition(posY);
-            humanMove=x+"x"+y+"_"+(x+humanRectAngle)+"x"+(y+((humanRectAngle+1)%2));
-            if(board.isCoordsCorrect(x,y,(x+humanRectAngle),(y+((humanRectAngle+1)%2)))){
+            humanMove = board.getHovers();
+            System.out.println("humanMove: " + humanMove);
+            if(humanMove != null ){
                 btnNextMove.setDisable(false);
                 doNextMove();
             }
