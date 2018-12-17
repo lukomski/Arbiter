@@ -164,11 +164,16 @@ public class Board {
 
 
     }
+
     public boolean isCoordsCorrect(int x1, int y1, int x2, int y2){
 
-        return isFieldFree(matrix[x1][y1]) && isFieldFree(matrix[x2][y2]);
+        boolean correctness = false;
+        if(((x1+1==x2 || x1-1==x2) && y1 == y2) || (x1==x2 && (y1+1==y2 || y1-1==y2)) ||
+                ((Math.abs(x1-x2)==size-1) && y1==y2) || ((Math.abs(y1-y2)==size-1) && x1==x2))
+            correctness = true;
+        return correctness && (matrix[x1][y1]==0 || matrix[x1][y1]==4 || matrix[x1][y1]==5) &&
+                (matrix[x2][y2]==0 || matrix[x2][y2]==4 || matrix[x2][y2]==5);
     }
-
     public boolean isMovePossible(){
         for(int i = 0; i< size; i++){
             for(int j = 0; j< size; j++){

@@ -126,6 +126,7 @@ public class Duel extends Thread{
                 break;
             }
         }
+
         return message;
 
 
