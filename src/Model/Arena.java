@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class Arena extends Thread {
     private HashMap<String, ScoreResult> scoreList;
-    private List<File> playersDirList;
+    private List<File> directories;
     private List<File> disqualifieds;
-    private List<Duel> duelQueue;
+    private List<Duel> duels;
     private Board board;
     private MainController mainController;
     private Player winner;
@@ -21,52 +21,60 @@ public class Arena extends Thread {
     private Duel duel;
     private LogWriter logWriter;
     private LogWriter errorLogWriter;
-    private boolean forceStop = false;
     private boolean humanPlayer;
+    private File directory;
 
 
-    public Arena(MainController mainController, boolean humanPlayer){
-        this.playersDirList = mainController.getDirectories();
-        this.players = new ArrayList<>();
-        this.board = mainController.getBoard();
+    public Arena(MainController mainController){
         this.mainController = mainController;
+        this.board = mainController.getBoard();
+        /* dirs */
+        directories = new ArrayList<>();
+        this.directory = mainController.getDirectory();
+        loadDirectories();
+
+
+        this.players = new ArrayList<>();
         scoreList = new HashMap<>();
         disqualifieds = new ArrayList<>();
-        duelQueue = new LinkedList<>();
+        duels = new ArrayList<>();
+
+
         logWriter = new LogWriter("tournamentDuelResults");
         logWriter.writeTournamentDuelResultTitle();
        errorLogWriter = new LogWriter("errors");
-        this.humanPlayer = humanPlayer;
     }
     @Override
     public void run(){
         fillPlayerList();
+        System.out.println("Arena: Players read");
         fillScoreList();
-        makeDuelqueue();
-        makeDuel();
+        System.out.println("Arena:: score list filled");
+        makeDuelList();
+        System.out.println("Arena: duel list made");
+        for(int i = 0; i < duels.size(); i++){
+            makeDuel(i);
+        }
+        mainController.arenaEnded();
+        System.out.println("Arena: EXIT");
     }
-    private void makeDuelqueue(){
+    private void makeDuelList(){
         int playerIndex = 0;
         for(Player firstPlayer: players) {
             for(int i=++playerIndex;i<players.size();i++){
 
                 Player secondPlayer = players.get(i);
                 Player[] players = {firstPlayer,  secondPlayer};
-                duelQueue.add(new Duel(players, this));
+                duels.add(new Duel(players, this));
             }
         }
     }
 
-    public void makeDuel() {
-        if(duelQueue.size() == 0){
-            mainController.forceEnd("No duels to play");
-            errorLogWriter.writeMessage("Warning: No duels to play");
-        } else {
-            duel = duelQueue.get(0);
-            duelQueue.remove(0);
-            board.clean();
-            duel.start();
-        }
+    public void makeDuel(int i) {
+        duel = duels.get(i);
+        board.clean();
+        duel.run();
+        board.draw();
     }
 
     private void sortScoreList(){
@@ -89,7 +97,7 @@ public class Arena extends Thread {
     private void fillPlayerList(){
         int k=0;
 
-        for(File directory: playersDirList){
+        for(File directory: directories){
 
             try {
                 Player player;
@@ -115,29 +123,10 @@ public class Arena extends Thread {
 
         }
     }
-    public void setForceStop(boolean forceStop){
-        this.forceStop = forceStop;
-        if(mainController.duelBarController.isVisible()){
-            mainController.forceEnd("Terminated");
-            return;
-        }
-    }
 
-    public void doNextMove(String humanMove){
-        duel.doNextMove(humanMove);
-    }
 
-    public void moveEnded(){
-        if(forceStop){
-            mainController.forceEnd("Terminated");
-            return;
-        }
-        if(!mainController.isControlled()) {
-            duel.doNextMove("");
-        } else {
-            board.draw();
-        }
-    }
+
+
     public void duelEnded(){
         winner = duel.getWinner();
         if(winner!=null) {
@@ -159,15 +148,6 @@ public class Arena extends Thread {
             errorLogWriter.writeMessage("Error: Wrong program launch instuctions in "+duel.getErrorPlayer().getDirectory());
 
         }
-        if(duelQueue.size() == 0) {
-
-            sortScoreList();
-            //TODO make log auto win
-            //logWriter.writeWinner(winner.getNick());
-            mainController.tournamentEnded();
-        } else{
-            makeDuel();
-        }
 
     }
     public Board getBoard(){
@@ -175,6 +155,11 @@ public class Arena extends Thread {
     }
     public HashMap<String,ScoreResult> getScoreList(){
         return scoreList;
+    }
+    public void loadDirectories() {
+        for (int i = 0; i < directory.listFiles().length; i++) {
+            directories.add(directory.listFiles()[i]);
+        }
     }
 
 }

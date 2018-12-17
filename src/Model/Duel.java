@@ -5,7 +5,7 @@ import Tools.LogWriter;
 
 import java.io.IOException;
 
-public class Duel extends Thread{
+public class Duel{
 
     private Board board;
     private Player[] players;
@@ -26,7 +26,6 @@ public class Duel extends Thread{
         logWriter = new LogWriter(players[0].getDirName()+"vs"+players[1].getDirName());
     }
 
-    @Override
     public void run(){
 
         for(Player player: players){
@@ -54,10 +53,9 @@ public class Duel extends Thread{
             return;
         }
 
-
         players[0].sendMessage("START");
         logWriter.writeDuelTitle(board.getSize(),board.getFilledStartPoints(),players[0].getNick(),players[1].getNick());
-        doNextMove("");
+        while(doNextMove(""));
     }
 
     private void closeGame(){
@@ -68,12 +66,8 @@ public class Duel extends Thread{
     }
 
     public boolean doNextMove(String humanMove) {
-        String move;
-        if(players[currPlayerId].isHumanPlayer()){
-            move = humanMove;
-        }else {
-            move = gettingAnswer(players[currPlayerId]);
-        }
+        String move = gettingAnswer(players[currPlayerId]);
+
 
         if(move==null){
             winner=players[(currPlayerId+1)%2];
@@ -81,6 +75,7 @@ public class Duel extends Thread{
             closeGame();
             return false;
         }
+
         logWriter.writeDuelMove(players[currPlayerId].getFullName(), move);
         try {
             board.fillBoard(move, currPlayerId + 1);
@@ -98,9 +93,9 @@ public class Duel extends Thread{
             return false;
         }
         players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(move);
-        arena.moveEnded();
         return true;
     }
+
     private String gettingAnswer(Player player){
         int shifts = 10;
         int timeShift = 500/shifts;
