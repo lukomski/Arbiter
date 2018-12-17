@@ -81,7 +81,7 @@ public class MainController {
         });
         canvas.setOnMouseMoved(event -> {
             double x = event.getX(), y = event.getY();
-            boolean hoverRec = board.hoverRect(x,y,-1,false);
+            boolean hoverRec = board.hoverSquare(x,y);
             System.out.println(hoverRec);
         });
         canvas.setOnMouseExited(event -> {
@@ -180,9 +180,9 @@ public class MainController {
                 btnNextMove.setDisable(false);
                 doNextMove();
             }
-        }
+        }else{
         // do nonhuman move immediately
-        if(!humanTurn){
+       // if(!humanTurn){
             board.cleanHover();
             doNextMove();
         }

@@ -52,6 +52,27 @@ public class Board {
         draw();
         return true;
     }
+    public boolean hoverSquare(double x, double y){
+        double rectSize = graphicsContext.getCanvas().getWidth()/size;
+        int posX = (int)Math.floor(x/rectSize);
+        int posY=(int)Math.floor(y/rectSize);
+
+        if(matrix[posX][posY]==4)
+            return false;
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                if(matrix[i][j] == 4 || matrix[i][j] == 5 )
+                    matrix[i][j] = 0;
+            }
+        }
+        if(matrix[posX][posY]==0){
+            matrix[posX][posY] = 4;
+
+        }
+        draw();
+        return true;
+
+    }
     private boolean isFieldFree(int field){
         return field == 0 || field == 4 || field == 5;
     }
