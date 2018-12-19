@@ -4,6 +4,7 @@ package Model;
 import Tools.LogWriter;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 public class Duel{
 
@@ -97,29 +98,14 @@ public class Duel{
     }
 
     private String gettingAnswer(Player player){
-        int shifts = 10;
-        int timeShift = 500/shifts;
-        int shiftCounter = 0;
-        boolean answer = false;
-        String message=null;
-        while(!answer){
+        String message = null;
+        try {
+            message = player.getMessage();
+        } catch (TimeoutException e){
+            System.out.println("Duel: timeout Exception");
+            message = null;
+        } catch (Exception e){
 
-            if((message = player.getMessage())!=null){
-                answer=true;
-
-                break;
-            }
-
-
-
-            if(shiftCounter++ == shifts){
-                break;
-            }
-            try {
-                Thread.sleep(timeShift);
-            } catch(Exception e){
-                break;
-            }
         }
         return message;
 

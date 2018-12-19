@@ -17,6 +17,8 @@ import java.util.List;
 
 public class MainController {
     @FXML
+    private ScrollPane duelsScrollPane;
+    @FXML
     private Slider sizeSlider;
     @FXML
     private AnchorPane duelBar;
@@ -75,7 +77,7 @@ public class MainController {
 
     @FXML
     public void initialize(){
-
+        startButton.setDisable(true);
     }
 
     @FXML
@@ -84,21 +86,29 @@ public class MainController {
         directory = dr.readDirectoryFromDialog("Choose Arena directory", mainPane);
         if (directory != null) {
             directoryButton.setText(directory.getName());
+            startButton.setDisable(false);
         }
     }
 
     public void bntStartPressed(){
-        size = (int) sizeSlider.getValue();
-        board = new Board(size, canvas);
-        board.draw();
+        if(startButton.getText() == "Stop"){
+            arena.interrupt();
 
-        System.out.println(tournamentText);
-        tournamentText.setText("Progressing");
-        Arena arena = new Arena(this);
-        arena.start();
+        } else {
+            startButton.setText("Stop");
+            size = (int) sizeSlider.getValue();
+            board = new Board(size, canvas);
+            board.draw();
+
+            System.out.println(tournamentText);
+            tournamentText.setText("Progressing");
+            arena = new Arena(this);
+            arena.start();
+        }
     }
     public void arenaEnded(){
-        tournamentText.setText("DONE");
+        Platform.runLater(() -> startButton.setText("Start"));
+        Platform.runLater(() -> tournamentText.setText("DONE"));
     }
 
     public File getDirectory() {

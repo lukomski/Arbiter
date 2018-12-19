@@ -46,17 +46,21 @@ public class Arena extends Thread {
     }
     @Override
     public void run(){
-        fillPlayerList();
-        System.out.println("Arena: Players read");
-        fillScoreList();
-        System.out.println("Arena:: score list filled");
-        makeDuelList();
-        System.out.println("Arena: duel list made");
-        for(int i = 0; i < duels.size(); i++){
-            makeDuel(i);
+        try {
+            fillPlayerList();
+            System.out.println("Arena: Players read");
+            fillScoreList();
+            System.out.println("Arena:: score list filled");
+            makeDuelList();
+            System.out.println("Arena: duel list made");
+            for (int i = 0; i < duels.size() && !Thread.currentThread().isInterrupted(); i++) {
+                makeDuel(i);
+            }
+            mainController.arenaEnded();
+            System.out.println("Arena: EXIT");
+        } catch(Exception e){
+            System.out.println("Arena: FORCE EXIT");
         }
-        mainController.arenaEnded();
-        System.out.println("Arena: EXIT");
     }
     private void makeDuelList(){
         int playerIndex = 0;

@@ -3,6 +3,7 @@ package Model;
 import Tools.BasicInfo;
 
 import java.io.*;
+import java.util.concurrent.TimeoutException;
 
 public class Player {
     private BasicInfo basicInfo;
@@ -43,17 +44,20 @@ public class Player {
 
     }
 
-    public String getMessage(){
-        if(!humanPlayer) {
-            String inn = "error";
-            try {
-                inn = input.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return inn;
+    public String getMessage() throws IOException, TimeoutException, InterruptedException {
+        int waitLimit = 500;
+
+        int wait = 0;
+        while (!input.ready() && wait < waitLimit) {
+            int millis = 100;
+            Thread.sleep(millis);
+            wait += millis;
         }
-        return "";
+        if (wait >= waitLimit) {
+            throw new TimeoutException();
+        }
+        String inn = input.readLine();
+        return inn;
     }
     public String getNick(){
         return basicInfo.getNick();
