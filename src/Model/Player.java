@@ -21,6 +21,7 @@ public class Player {
         processBuilder = new ProcessBuilder();
         processBuilder.command(basicInfo.getCommand().split(" ")  );
         processBuilder.directory(basicInfo.getDirectory());
+
     }
     public Player(BasicInfo basicInfo, boolean humanPlayer){
         this.basicInfo = basicInfo;
@@ -85,5 +86,8 @@ public class Player {
 
     public boolean isHumanPlayer() {
         return humanPlayer;
+    }
+    public void destroy(){
+        process.destroy();
     }
 }

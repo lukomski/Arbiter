@@ -62,6 +62,7 @@ public class Duel{
     private void closeGame(){
         for(Player player: players){
             player.sendMessage("STOP");
+            player.destroy();
         }
         arena.duelEnded();
     }
