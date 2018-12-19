@@ -186,6 +186,24 @@ public class Board {
         }
         return false;
     }
+    //funkcja do testowania gry bez przechodzenia na druga strone planszy
+    public boolean isMovePossible1(){
+        for(int i = 0; i< size; i++){
+            for(int j = 0; j< size; j++){
+                if(matrix[i][j] == 0){
+                    if(j!=0 && matrix[i][j-1] == 0)
+                        return true;
+                    if(j!= size -1 && matrix[i][j+1] == 0)
+                        return true;
+                    if(i!=0 && matrix[i-1][j] == 0)
+                        return true;
+                    if(i!= size -1 && matrix[i+1][j] == 0)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public void draw(){
         frame = 5;

@@ -67,8 +67,8 @@ public class Duel{
     }
 
     public boolean doNextMove(String humanMove) {
-        String move = gettingAnswer(players[currPlayerId]);
 
+        String move = gettingAnswer(players[currPlayerId]);
 
         if(move==null){
             winner=players[(currPlayerId+1)%2];

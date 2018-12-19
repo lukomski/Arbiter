@@ -7,10 +7,11 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
+<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
    <children>
       <AnchorPane prefHeight="700.0" prefWidth="300.0" styleClass="leftBar">
          <children>
@@ -44,11 +45,14 @@
       </AnchorPane>
        <AnchorPane fx:id="boardPane" layoutX="300.0" prefHeight="700.0" prefWidth="700.0">
            <children>
-            <TabPane layoutX="-1.0" prefHeight="691.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="-1.0" prefHeight="700.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Scores">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="678.0" prefWidth="700.0">
+                           <children>
+                              <TableView fx:id="scoreTable" prefHeight="662.0" prefWidth="700.0" />
+                           </children></AnchorPane>
                   </content>
                 </Tab>
                 <Tab text="Duel">

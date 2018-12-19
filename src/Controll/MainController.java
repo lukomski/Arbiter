@@ -3,10 +3,14 @@ package Controll;
 import Model.Arena;
 import Model.Board;
 import Tools.DialogReader;
+import Tools.ScoreResult;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import Tools.LogWriter;
@@ -63,6 +67,8 @@ public class MainController {
     private CheckBox programUserCheckBox;
     @FXML
     private Button directoryButton;
+    @FXML
+    private TableView scoreTable;
 
 
     private Arena arena;
@@ -78,6 +84,9 @@ public class MainController {
     @FXML
     public void initialize(){
         startButton.setDisable(true);
+        initScoreTable();
+
+
     }
 
     @FXML
@@ -117,6 +126,42 @@ public class MainController {
 
     public Board getBoard() {
         return board;
+    }
+    public void clearScoreTable(){
+        scoreTable.getItems().clear();
+    }
+    public void addItemToScoreTable(ScoreResult scoreResult){
+        scoreTable.getItems().add(scoreResult);
+    }
+    public void initScoreTable(){
+        TableColumn idCol = new TableColumn("ID");
+        idCol.setMinWidth(85);
+        idCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, ScoreResult>("id"));
+
+        TableColumn nameCol = new TableColumn("Name");
+        nameCol.setMinWidth(183);
+        nameCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, ScoreResult>("name"));
+
+        TableColumn nickCol = new TableColumn("Nick");
+        nickCol.setMinWidth(140);
+        nickCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, ScoreResult>("nick"));
+
+        TableColumn winsCol = new TableColumn("Wins");
+        winsCol.setMinWidth(30);
+        winsCol.setPrefWidth(35);
+        winsCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, Integer>("wins"));
+
+        TableColumn losesCol = new TableColumn("Loses");
+        losesCol.setMinWidth(30);
+        losesCol.setPrefWidth(35);
+        losesCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, Integer>("loses"));
+
+        TableColumn disqualificationsCol = new TableColumn("Disqualifications");
+        disqualificationsCol.setMinWidth(100);
+        disqualificationsCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, Integer>("disqualifications"));
+
+        scoreTable.getColumns().addAll(idCol,nameCol,nickCol, winsCol, losesCol,disqualificationsCol);
+        scoreTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
 }

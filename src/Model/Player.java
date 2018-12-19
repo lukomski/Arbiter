@@ -48,9 +48,11 @@ public class Player {
         int waitLimit = 500;
 
         int wait = 0;
+
         while (!input.ready() && wait < waitLimit) {
-            int millis = 100;
+            int millis = 1;
             Thread.sleep(millis);
+
             wait += millis;
         }
         if (wait >= waitLimit) {
@@ -76,6 +78,9 @@ public class Player {
     }
     public String getDirectory(){
         return basicInfo.getDirectory().toString();
+    }
+    public String getName(){
+        return basicInfo.getName();
     }
 
     public boolean isHumanPlayer() {

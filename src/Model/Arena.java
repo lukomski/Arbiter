@@ -58,9 +58,14 @@ public class Arena extends Thread {
             }
             mainController.arenaEnded();
             System.out.println("Arena: EXIT");
+            fillScoreTable();
         } catch(Exception e){
             System.out.println("Arena: FORCE EXIT");
         }
+
+
+
+
     }
     private void makeDuelList(){
         int playerIndex = 0;
@@ -79,6 +84,12 @@ public class Arena extends Thread {
         board.clean();
         duel.run();
         board.draw();
+    }
+    public void fillScoreTable(){
+        mainController.clearScoreTable();
+        for (String currentKey : scoreList.keySet()) {
+            mainController.addItemToScoreTable(scoreList.get(currentKey));
+        }
     }
 
     private void sortScoreList(){
@@ -123,7 +134,7 @@ public class Arena extends Thread {
     }
     private void fillScoreList(){
         for(Player player: players){
-            scoreList.put(player.getFullName(), new ScoreResult());
+            scoreList.put(player.getFullName(), new ScoreResult(player.getDirName(),player.getName(),player.getNick()));
 
         }
     }
