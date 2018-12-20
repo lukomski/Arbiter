@@ -157,6 +157,7 @@ public class Arena extends Thread {
             }
 
             board.draw();
+            mainController.addItemToDuelList(duel);
 
             logWriter.writeDuelResult(duel.getPlayer1FullName(), duel.getPlayer2FullName(), winner.getNick(), duel.getWinReason());
         }else{

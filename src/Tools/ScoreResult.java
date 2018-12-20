@@ -83,5 +83,6 @@ public class ScoreResult implements Comparable<ScoreResult>{
     public void setId(String id) {
         this.id.set(id);
     }
+
 }
 

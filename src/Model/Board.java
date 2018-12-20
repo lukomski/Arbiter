@@ -169,7 +169,7 @@ public class Board {
         return isFieldFree(matrix[x1][y1]) && isFieldFree(matrix[x2][y2]);
     }
 
-    public boolean isMovePossible(){
+    public boolean isMovePossible1(){
         for(int i = 0; i< size; i++){
             for(int j = 0; j< size; j++){
                 if(isFieldFree(matrix[i][j])){
@@ -187,7 +187,7 @@ public class Board {
         return false;
     }
     //funkcja do testowania gry bez przechodzenia na druga strone planszy
-    public boolean isMovePossible1(){
+    public boolean isMovePossible(){
         for(int i = 0; i< size; i++){
             for(int j = 0; j< size; j++){
                 if(matrix[i][j] == 0){

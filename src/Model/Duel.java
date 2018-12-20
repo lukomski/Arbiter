@@ -113,6 +113,14 @@ public class Duel{
 
     }
 
+    @Override
+    public String toString() {
+        return players[0].getNick()+" vs "+players[1].getNick()+" Winner: "+winner.getNick()+"\n"+winReason;
+    }
+    public boolean isNormalWin(){
+        return winReason=="NORMAL WIN";
+    }
+
     public Player getWinner(){
         return winner;
     }
