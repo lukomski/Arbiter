@@ -4,6 +4,7 @@ import Model.Arena;
 import Model.Board;
 import Model.Duel;
 import Tools.DialogReader;
+import Tools.Guide;
 import Tools.ScoreResult;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -18,6 +19,8 @@ import javafx.scene.effect.Blend;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -29,6 +32,9 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.List;
 
@@ -84,8 +90,10 @@ public class MainController {
     private TableView scoreTable;
     @FXML
     private ListView duelList;
+    @FXML
+    private TabPane mainTabPane;
 
-
+    private Guide guide = null;
     private Arena arena;
     private int boardSize = 5;
     private boolean isControlled = false;
@@ -162,11 +170,26 @@ public class MainController {
 
             @Override
             public void handle(MouseEvent click) {
-
                 if (click.getClickCount() == 2) {
+
                     System.out.println(duelList.getSelectionModel()
                             .getSelectedItem());
-                    //TUTAJ CO MA ROBIC JAK SIE KLIKNIE W DUEL W LISCIE
+                    Duel duel = (Duel) duelList.getSelectionModel().getSelectedItem();
+                    List<String> moves = duel.loadLogFile();
+                    mainTabPane.getSelectionModel().select(mainTabPane.getTabs().get(1));
+                    board.clean();
+                    board.draw();
+                    Guide guide = new Guide(board, moves);
+                    
+                    mainPane.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent event) {
+                            if(event.getCode() == KeyCode.N) {
+                                guide.nextMove();
+                            }
+                        }
+                    });
+
                 }
             }
         });

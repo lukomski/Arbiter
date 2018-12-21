@@ -162,8 +162,8 @@ public class Board {
         matrix[x1][y1]=playerIndex;
         matrix[x2][y2]=playerIndex;
 
-
     }
+
     public boolean isCoordsCorrect(int x1, int y1, int x2, int y2){
 
         return isFieldFree(matrix[x1][y1]) && isFieldFree(matrix[x2][y2]);
@@ -266,7 +266,15 @@ public class Board {
     }
 
     public String getFilledStartPoints() {
-        return filledStartPoints;
+        String s = new String();
+        for(int x = 0; x < size; x++){
+            for(int y = 0; y < size; y++){
+                if(matrix[x][y] != 0){
+                    s +=" " + x + "x" + y;
+                }
+            }
+        }
+        return s;
     }
     public int countPosition(double x){
         double rectSize = graphicsContext.getCanvas().getWidth()/size;
@@ -295,6 +303,9 @@ public class Board {
         } else {
             return field4X + "x" + field4Y + "_" + field5X + "x" + field5Y;
         }
+    }
+    public boolean isFree(int[][] move){
+        return matrix[move[0][0]][move[0][1]] == 0 && matrix[move[1][0]][move[1][1]] == 0;
     }
 
 

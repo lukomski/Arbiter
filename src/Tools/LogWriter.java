@@ -1,8 +1,8 @@
 package Tools;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class LogWriter {
@@ -53,5 +53,34 @@ public class LogWriter {
     public void writeMessage(String msg){
         printWriter.println(msg);
         printWriter.flush();
+    }
+    public List<String> loadMoves() throws IOException
+
+    {
+        List<String> moves = new ArrayList<>();
+        FileReader fileReader = new FileReader(file);
+        while(fileReader.ready()){
+
+        }
+        return moves;
+    }
+    public List<String> loadLogFile() throws IOException{
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        List<String> moves = new ArrayList<>();
+        while(bufferedReader.ready()){
+            String line = bufferedReader.readLine();
+            if(line.length() >= 1 && line.charAt(0) == '$') {
+                String[] parts = line.split(":");
+                moves.add(parts[1]);
+            } else {
+                System.out.println("LogWriter: Ignore: ");
+            }
+        }
+        return moves;
+    }
+
+    public PrintWriter getPrintWriter() {
+        return printWriter;
     }
 }

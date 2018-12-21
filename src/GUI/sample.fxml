@@ -46,7 +46,7 @@
       </AnchorPane>
        <AnchorPane fx:id="boardPane" layoutX="300.0" prefHeight="700.0" prefWidth="700.0">
            <children>
-            <TabPane layoutX="-1.0" prefHeight="700.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="mainTabPane" layoutX="-1.0" prefHeight="700.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Scores">
                   <content>

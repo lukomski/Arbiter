@@ -39,10 +39,7 @@ public class Player {
     }
 
     public void sendMessage(String line){
-        if(!humanPlayer){
-            output.println( line );
-        }
-
+        output.println( line );
     }
 
     public String getMessage() throws IOException, TimeoutException, InterruptedException {
@@ -61,6 +58,29 @@ public class Player {
         }
         String inn = input.readLine();
         return inn;
+        //return inn;
+    }
+    public int[] strMes2intMesField(String s){
+        String[] splitted = s.split("x");
+        int[] v = new int[2];
+        v[0] = Integer.parseInt(splitted[0]);
+        v[1] = Integer.parseInt(splitted[1]);
+        return v;
+    }
+    public static int[][] decrypteMove(String message) throws NullPointerException, IndexOutOfBoundsException{
+        System.out.println(message);
+        int[][] move = new int[2][2];
+        String cord[] = message.split("_");
+        String firstFiel[] = cord[0].split("x");
+        String secondField[] = cord[1].split("x");
+        move[0][0] = Integer.parseInt(firstFiel[0]);
+        move[0][1] = Integer.parseInt(firstFiel[1]);
+        move[1][0] = Integer.parseInt(secondField[0]);
+        move[1][1] = Integer.parseInt(secondField[1]);
+        return move;
+    }
+    public static String int2strMove(int[][] move){
+        return move[0][0] + "x" + move[0][1] + "_" + move[1][0] + "x" + move[1][1];
     }
     public String getNick(){
         return basicInfo.getNick();
