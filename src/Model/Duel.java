@@ -53,7 +53,7 @@ public class Duel{
         // send start message to first player
         players[0].sendMessage("Start");
         currPlayerId = 0;
-        logWriter.writeDuelTitle(board.getSize(), board.getFilledStartPoints(), players[0].getNick(), players[1].getNick());
+        logWriter.writeDuelTitle(board.getSize(),"TODO start points", players[0].getNick(), players[1].getNick());
         while(!exit){
             doNextMove() ;
         }

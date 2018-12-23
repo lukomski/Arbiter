@@ -24,7 +24,7 @@
             <Label layoutX="14.0" layoutY="59.0" text="Directory" />
             <CheckBox fx:id="randCheckBox" layoutX="14.0" layoutY="135.0" mnemonicParsing="false" onAction="#randCheckBoxClicked" selected="true" text="rand size of board" />
             <Slider fx:id="sizeSlider" layoutX="84.0" layoutY="179.0" majorTickUnit="7.0" max="51.0" min="13.0" minorTickCount="2" prefHeight="38.0" prefWidth="171.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-            <TabPane fx:id="leftTabPane" layoutX="9.0" layoutY="350.0" prefHeight="341.0" prefWidth="283.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="leftTabPane" layoutX="-1.0" layoutY="350.0" prefHeight="351.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab fx:id="progressTab" text="Progress">
                   <content>
@@ -43,7 +43,7 @@
                      <content>
                         <ScrollPane fx:id="duelsScrollPane" prefHeight="289.0" prefWidth="266.0">
                            <content>
-                              <ListView fx:id="duelList" prefHeight="302.0" prefWidth="283.0" />
+                              <ListView fx:id="duelList" prefHeight="309.0" prefWidth="297.0" />
                            </content></ScrollPane>
                      </content>
                 </Tab>

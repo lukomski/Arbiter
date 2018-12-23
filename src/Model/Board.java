@@ -8,31 +8,29 @@ import javafx.scene.paint.Color;
 
 public class Board {
     private enum FieldStatus{free, firstPlayer, secondPlayer, blocked}
-    private int [][]matrix;
+    private FieldStatus[][] matrix;
     private int size;
     private GraphicsContext graphicsContext;
     private String filledStartPoints;
 
     private double frame;
     private double rectWidth;
-    private enum Direction{
-        north, east, south, west;
-    }
+
 
     public Board(int size, Canvas canvas){
         filledStartPoints="";
         this.size = size;
         graphicsContext = canvas.getGraphicsContext2D();
-        matrix = new int[size][size];
+        matrix = new FieldStatus[size][size];
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                matrix[i][j] = 0;
+                matrix[i][j] = FieldStatus.free;
             }
         }
 
     }
     public void setRandomStartPoints(){
-        clearFromPoints();
+        clean();
         boolean isNewPoint;
         for(int i=0;i<Math.round(size*size*0.1);i++){
             do {
@@ -45,23 +43,34 @@ public class Board {
         double rectSize = graphicsContext.getCanvas().getWidth()/size;
         int posX = (int)Math.floor(x/rectSize);
         int posY=(int)Math.floor(y/rectSize);
-        if(matrix[posX][posY] == 3)
+        if(matrix[posX][posY] == FieldStatus.blocked)
             return false;
-        matrix[posX][posY] = 3;
+        matrix[posX][posY] = FieldStatus.blocked;
 
         filledStartPoints+="_"+posX+"x"+posY;
 
-        draw();
         return true;
     }
-    private boolean isFieldFree(int field){
-        return field == 0 || field == 4 || field == 5;
+    private boolean isFieldFree(FieldStatus field){
+        return field == FieldStatus.free;
+    }
+    public FieldStatus int2FieldStatus(int x){
+        if(x == 0){
+            return FieldStatus.free;
+        } else if(x == 1){
+            return FieldStatus.firstPlayer;
+        } else if(x == 2){
+            return FieldStatus.secondPlayer;
+        } else {
+            return FieldStatus.blocked;
+        }
     }
     public void fillBoard(Position[] coords, int playerIndex) throws Exception{
+
         if(!isCoordsCorrect(coords))
             throw new Exception();
-        matrix[coords[0].getX()][coords[0].getY()]=playerIndex;
-        matrix[coords[1].getX()][coords[1].getY()]=playerIndex;
+        matrix[coords[0].getX()][coords[0].getY()] = int2FieldStatus(playerIndex);
+        matrix[coords[1].getX()][coords[1].getY()] = int2FieldStatus(playerIndex);
     }
 
     public boolean isCoordsCorrect(Position[] positions){
@@ -94,14 +103,14 @@ public class Board {
     public boolean isMovePossible(){
         for(int i = 0; i< size; i++){
             for(int j = 0; j< size; j++){
-                if(matrix[i][j] == 0){
-                    if(j!=0 && matrix[i][j-1] == 0)
+                if(matrix[i][j] == FieldStatus.free){
+                    if(j!=0 && matrix[i][j-1] == FieldStatus.free)
                         return true;
-                    if(j!= size -1 && matrix[i][j+1] == 0)
+                    if(j!= size -1 && matrix[i][j+1] == FieldStatus.free)
                         return true;
-                    if(i!=0 && matrix[i-1][j] == 0)
+                    if(i!=0 && matrix[i-1][j] == FieldStatus.free)
                         return true;
-                    if(i!= size -1 && matrix[i+1][j] == 0)
+                    if(i!= size -1 && matrix[i+1][j] == FieldStatus.free)
                         return true;
                 }
             }
@@ -117,22 +126,18 @@ public class Board {
         for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
                 Color color = Color.GREY;
-                if (matrix[x][y] == 1) {
+                if (matrix[x][y] == FieldStatus.firstPlayer) {
                     color = Color.BLUE;
-                } else if (matrix[x][y] == 2) {
+                } else if (matrix[x][y] == FieldStatus.secondPlayer) {
                     color = Color.GREEN;
-                } else if(matrix[x][y] == 3) {
+                } else if(matrix[x][y] == FieldStatus.blocked) {
                     color = Color.YELLOW;
-                } else if( matrix[x][y]==4){
-                    color = Color.DARKGREY;
-                }else if( matrix[x][y]==5){
-                    color = Color.DARKGREY;
                 }
+
                 graphicsContext.setFill(color);
                 double posX = x * (frame + rectWidth) + frame;
                 double posY = y * (frame + rectWidth) + frame;
                 graphicsContext.fillRect(posX, posY, rectWidth, rectWidth);
-
             }
         }
     }
@@ -144,79 +149,8 @@ public class Board {
     public void clean(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
-                if(matrix[x][y]!=3)
-                    matrix[x][y] = 0;
+                    matrix[x][y] = FieldStatus.free;
             }
         }
     }
-    public void cleanHover(){
-        for (int x = 0; x < size; x++){
-            for (int y = 0; y < size; y++){
-                if(matrix[x][y]==4 || matrix[x][y]==5)
-                    matrix[x][y] = 0;
-            }
-        }
-        draw();
-    }
-
-    public void clearFromPoints(){
-        for (int x = 0; x < size; x++){
-            for (int y = 0; y < size; y++){
-                    matrix[x][y] = 0;
-            }
-        }
-        filledStartPoints = "";
-        draw();
-    }
-
-    public String getFilledStartPoints() {
-        String s = new String();
-        for(int x = 0; x < size; x++){
-            for(int y = 0; y < size; y++){
-                if(matrix[x][y] != 0){
-                    s +=" " + x + "x" + y;
-                }
-            }
-        }
-        return s;
-    }
-    public int countPosition(double x){
-        double rectSize = graphicsContext.getCanvas().getWidth()/size;
-        int position = (int)Math.floor(x/rectSize);
-        return position;
-    }
-    public String getHovers(){
-        int field4X = -1;
-        int field4Y = -1;
-        int field5X = -1;
-        int field5Y = -1;
-        for(int x = 0; x < size; x++){
-            for(int y = 0; y < size; y++){
-                if(matrix[x][y] == 4){
-                    field4X = x;
-                    field4Y = y;
-                }
-                if(matrix[x][y] == 5){
-                    field5X = x;
-                    field5Y = y;
-                }
-            }
-        }
-        if(field4X == -1 || field5X == -1){
-            return null;
-        } else {
-            return field4X + "x" + field4Y + "_" + field5X + "x" + field5Y;
-        }
-    }
-
-    public void printBoard(){
-        for(int i = 0; i< size; i++){
-            for(int j = 0; j< size; j++){
-               System.out.print(matrix[i][j]);
-            }
-            System.out.println("");
-        }
-    }
-
-
 }
