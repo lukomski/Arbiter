@@ -1,6 +1,7 @@
 package Model;
 
 
+import Tools.Position;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -149,24 +150,20 @@ public class Board {
         return true;
 
     }
-    public void fillBoard(String coords,int playerIndex) throws Exception{
-        String cord[] = coords.split("_");
-        String c1[] = cord[0].split("x");
-        String c2[] = cord[1].split("x");
-        int x1 = Integer.parseInt(c1[0]);
-        int y1 = Integer.parseInt(c1[1]);
-        int x2 = Integer.parseInt(c2[0]);
-        int y2 = Integer.parseInt(c2[1]);
-        if(!isCoordsCorrect(x1,y1,x2,y2))
+    public void fillBoard(Position[] coords, int playerIndex) throws Exception{
+        if(!isCoordsCorrect(coords))
             throw new Exception();
-        matrix[x1][y1]=playerIndex;
-        matrix[x2][y2]=playerIndex;
-
+        matrix[coords[0].getX()][coords[0].getY()]=playerIndex;
+        matrix[coords[1].getX()][coords[1].getY()]=playerIndex;
     }
 
-    public boolean isCoordsCorrect(int x1, int y1, int x2, int y2){
-
-        return isFieldFree(matrix[x1][y1]) && isFieldFree(matrix[x2][y2]);
+    public boolean isCoordsCorrect(Position[] positions){
+        for(Position position: positions){
+            if(!isFieldFree(matrix[position.getX()][position.getY()])){
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isMovePossible1(){

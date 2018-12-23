@@ -40,7 +40,7 @@ public class Guide{
         }
         String move = Player.int2strMove(moves.get(iterator++));
         try {
-            board.fillBoard(move, currentPlayerId + 1);
+            board.fillBoard(Position.stringPairToPairPosition(move), currentPlayerId + 1);
         } catch (Exception e) {
             e.printStackTrace();
         }

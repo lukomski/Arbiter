@@ -2,6 +2,8 @@ package Model;
 
 
 import Tools.LogWriter;
+import Tools.Position;
+import javafx.geometry.Pos;
 
 import java.io.IOException;
 import java.util.List;
@@ -80,7 +82,7 @@ public class Duel{
     public boolean doNextMove() {
 
         String message = getMessage(players[currPlayerId]);
-        int[][] fields = getFields(message);
+        Position[] fields = getFields(message);
 
         if(fields == null){
             winner=players[(currPlayerId+1)%2];
@@ -90,8 +92,8 @@ public class Duel{
             return false;
         }
 
-        logWriter.writeMessage("$" + currPlayerId + ":" + Player.int2strMove(fields));
-        if(!board.isFree(fields)){
+        logWriter.writeMessage("$" + currPlayerId + ":" + Position.pairToString(fields));
+        if(!board.isCoordsCorrect(fields)){
             logWriter.writeMessage("field is not free");
             System.out.println("Duel: field is not free");
             winner = players[(currPlayerId+1)%2];
@@ -101,7 +103,7 @@ public class Duel{
             return false;
         }
         try {
-            board.fillBoard(Player.int2strMove(fields), currPlayerId + 1);
+            board.fillBoard(fields, currPlayerId + 1);
         } catch (Exception e) {
             System.out.println("Duel: field out of bouds or not free");
             winner=players[(currPlayerId+1)%2];
@@ -118,7 +120,8 @@ public class Duel{
             exit = true;
             return false;
         }
-        players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(Player.int2strMove(fields));
+        System.out.println("Duel: Sending = " + Position.pairToString(fields));
+        players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(Position.pairToString(fields));
         return true;
     }
 
@@ -134,10 +137,10 @@ public class Duel{
         return message;
     }
 
-    private int[][] getFields(String message){
-        int fields[][] = null;
+    private Position[] getFields(String message){
+        Position[] fields = null;
         try {
-            fields = Player.decrypteMove(message);
+            fields = Position.stringPairToPairPosition(message);
         } catch(NullPointerException | IndexOutOfBoundsException e){
             System.out.println("msg: " + message);
             System.out.println("Duel: Wrong message format Exception");
