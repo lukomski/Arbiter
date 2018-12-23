@@ -64,6 +64,8 @@ public class MainController {
     private ListView duelList;
     @FXML
     private TabPane mainTabPane;
+    @FXML
+    private CheckBox randCheckBox;
 
     private Guide guide = null;
     private Arena arena;
@@ -89,15 +91,20 @@ public class MainController {
             startButton.setDisable(false);
         }
     }
+    private void setDisableLeftBarItems(boolean disable){
+        directoryButton.setDisable(disable);
+        sizeSlider.setDisable(disable);
+        randCheckBox.setDisable(disable);
+    }
 
     public void bntStartPressed(){
         if(startButton.getText() == "Stop"){
             arena.interrupt();
             startButton.setText("Start");
-            directoryButton.setDisable(false);
+            setDisableLeftBarItems(false);
 
         } else {
-            directoryButton.setDisable(true);
+            setDisableLeftBarItems(true);
             startButton.setText("Stop");
             size = (int) sizeSlider.getValue();
             board = new Board(size, canvas);
@@ -111,7 +118,7 @@ public class MainController {
     public void arenaEnded(){
         Platform.runLater(() -> startButton.setText("Start"));
         leftTabPane.getSelectionModel().select(leftTabPane.getTabs().get(1));
-        directoryButton.setDisable(false);
+        setDisableLeftBarItems(false);
     }
 
     public File getDirectory() {
@@ -149,7 +156,7 @@ public class MainController {
                 Guide guide = new Guide(board, moves);
 
                 mainPane.getScene().setOnKeyReleased(event -> {
-                    if(event.getCode() == KeyCode.N) {
+                    if(event.getCode() == KeyCode.N || event.getCode() == KeyCode.RIGHT) {
                         guide.nextMove();
                     }
                 });
@@ -233,6 +240,14 @@ public class MainController {
             }
             flowPane.getChildren().add(new Text("    "+duel.getWinReason()));
             return flowPane;
+        }
+    }
+    @FXML
+    private void randCheckBoxClicked(){
+        if(randCheckBox.isSelected()){
+            sizeSlider.setDisable(true);
+        } else {
+            sizeSlider.setDisable(false);
         }
     }
     public ProgressIndicator getArenaProgressIndicator() {
