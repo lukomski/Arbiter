@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Guide{
     private Board board;
-    private List<int[][]> moves;
+    private List<Position[]> moves;
     private int iterator = 0;
     private int currentPlayerId = 0;
     // flags
@@ -24,7 +24,7 @@ public class Guide{
         for (int i = 0; i < mod.size(); i++) {
             try {
                 String s = mod.get(i);
-                int[][] v = Player.decrypteMove(s);
+                Position[] v = Position.stringPairToPairPosition(s);
                 moves.add(v);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -38,9 +38,8 @@ public class Guide{
             exit = true;
             return;
         }
-        String move = Player.int2strMove(moves.get(iterator++));
         try {
-            board.fillBoard(Position.stringPairToPairPosition(move), currentPlayerId + 1);
+            board.fillBoard(moves.get(iterator++), currentPlayerId + 1);
         } catch (Exception e) {
             e.printStackTrace();
         }

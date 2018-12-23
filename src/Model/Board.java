@@ -301,11 +301,6 @@ public class Board {
             return field4X + "x" + field4Y + "_" + field5X + "x" + field5Y;
         }
     }
-    public boolean isFree(int[][] move){
-        return matrix[move[0][0]][move[0][1]] == 0 && matrix[move[1][0]][move[1][1]] == 0;
-    }
-
-
 
     public void printBoard(){
         for(int i = 0; i< size; i++){
