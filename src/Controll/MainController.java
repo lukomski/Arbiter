@@ -78,6 +78,7 @@ public class MainController {
     @FXML
     public void initialize(){
         startButton.setDisable(true);
+        sizeSlider.setDisable(true);
         initScoreTable();
         initDuelList();
     }
@@ -223,22 +224,23 @@ public class MainController {
 
                 }
             }
-        public FlowPane createText(Duel duel){
+        public FlowPane createText(Duel duel) {
+            String greenStyle = "-fx-fill: green;-fx-font-weight: bold;";
+            String orangeStyle = "-fx-fill: #ff6600;-fx-font-weight: bold;";
+            Text firstPlayer = new Text(duel.getPlayer1().getNick());
+            Text secondPlayer = new Text(duel.getPlayer2().getNick());
             FlowPane flowPane = new FlowPane();
-            if(duel.getWinner().equals(duel.getPlayer1())){
-                Text text = new Text(duel.getPlayer1().getNick());
-                text.setStyle("-fx-fill: green;-fx-font-weight: bold;");
-                flowPane.getChildren().add(text);
-                flowPane.getChildren().add(new Text(" vs "+duel.getPlayer2().getNick()));
+            if (duel.getWinner().equals(duel.getPlayer1())) {
+                firstPlayer.setStyle(greenStyle);
+                secondPlayer.setStyle(orangeStyle);
+            } else {
+                secondPlayer.setStyle(greenStyle);
+                firstPlayer.setStyle(orangeStyle);
             }
-            else{
-                flowPane.getChildren().add(new Text(duel.getPlayer1().getNick()+" vs "));
-                Text text = new Text(duel.getPlayer2().getNick());
-                text.setStyle("-fx-fill: green;-fx-font-weight: bold;");
-                flowPane.getChildren().add(text);
-
-            }
-            flowPane.getChildren().add(new Text("    "+duel.getWinReason()));
+            flowPane.getChildren().add(firstPlayer);
+            flowPane.getChildren().add(new Text(" vs "));
+            flowPane.getChildren().add(secondPlayer);
+            flowPane.getChildren().add(new Text("    " + duel.getWinReason()));
             return flowPane;
         }
     }

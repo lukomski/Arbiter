@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Board {
+    private enum FieldStatus{free, firstPlayer, secondPlayer, blocked}
     private int [][]matrix;
     private int size;
     private GraphicsContext graphicsContext;
@@ -53,102 +54,8 @@ public class Board {
         draw();
         return true;
     }
-    public boolean hoverSquare(double x, double y){
-        double rectSize = graphicsContext.getCanvas().getWidth()/size;
-        int posX = (int)Math.floor(x/rectSize);
-        int posY=(int)Math.floor(y/rectSize);
-
-        if(matrix[posX][posY]==4)
-            return false;
-        for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++){
-                if(matrix[i][j] == 4 || matrix[i][j] == 5 )
-                    matrix[i][j] = 0;
-            }
-        }
-        if(matrix[posX][posY]==0){
-            matrix[posX][posY] = 4;
-
-        }
-        draw();
-        return true;
-
-    }
     private boolean isFieldFree(int field){
         return field == 0 || field == 4 || field == 5;
-    }
-    public boolean hoverRect(double x, double y, int angle, boolean rightMouseClick){
-        // clean hover
-        for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++){
-                if(matrix[i][j] == 4 || matrix[i][j] == 5 )
-                    matrix[i][j] = 0;
-            }
-        }
-
-        // choose direction
-
-        double width = graphicsContext.getCanvas().getWidth() - frame;
-        double fieldWidth = width / size;
-        int matrixX = (int)Math.floor( (x - (frame / 2) ) / fieldWidth);
-        int matrixY = (int)Math.floor( (y - (frame / 2) ) / fieldWidth);
-        // choosing start points
-        if(angle == -1){
-            matrix[matrixX][matrixY] = 4;
-            draw();
-            return true;
-        }
-
-        double posXInField = (x - (frame / 2)) - matrixX * fieldWidth;
-        double posYInField = (y - (frame / 2)) - matrixY * fieldWidth;
-        System.out.println("podInField" + posXInField + " " + posYInField);
-
-        Direction direction;
-        if(posYInField >= posXInField){
-            if(posYInField >= (fieldWidth - posXInField)){
-                direction = Direction.south;
-            } else {
-                direction = Direction.west;
-            }
-        }
-        else {
-            if(posYInField >= (fieldWidth - posXInField)){
-                direction = Direction.east;
-            } else {
-                direction = Direction.north;
-            }
-
-        }
-        System.out.println("direction:" + direction);
-        int mX = matrixX;
-        int mY = matrixY;
-        switch (direction){
-            case north:
-            {
-                mY = (matrixY + size - 1) % size;
-                break;
-            }
-            case east:
-            {
-                mX = (matrixX + 1) % size;
-                break;
-            }
-            case south:{
-                mY = (matrixY + 1) % size;
-                break;
-            }
-            case west:{
-                mX = (matrixX + size - 1) % size;
-                break;
-            }
-        }
-        if(isFieldFree(matrix[matrixX][matrixY]) && isFieldFree(matrix[mX][mY])){
-            matrix[matrixX][matrixY] = 4;
-            matrix[mX][mY] = 5;
-        }
-        draw();
-        return true;
-
     }
     public void fillBoard(Position[] coords, int playerIndex) throws Exception{
         if(!isCoordsCorrect(coords))
