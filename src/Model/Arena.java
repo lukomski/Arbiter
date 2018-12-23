@@ -4,6 +4,8 @@ import Controll.MainController;
 import Tools.BasicInfo;
 import Tools.LogWriter;
 import Tools.ScoreResult;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 
 import java.io.File;
 import java.util.*;
@@ -23,11 +25,13 @@ public class Arena extends Thread {
     private LogWriter errorLogWriter;
     private boolean humanPlayer;
     private File directory;
+    private ProgressIndicator progressIndicator;
 
 
     public Arena(MainController mainController){
         this.mainController = mainController;
         this.board = mainController.getBoard();
+        this.progressIndicator = mainController.getArenaProgressIndicator();
         /* dirs */
         directories = new ArrayList<>();
         this.directory = mainController.getDirectory();
@@ -55,7 +59,9 @@ public class Arena extends Thread {
             System.out.println("Arena: duel list made");
             for (int i = 0; i < duels.size() && !Thread.currentThread().isInterrupted(); i++) {
                 makeDuel(i);
+                progressIndicator.setProgress((double)i/duels.size());
             }
+            progressIndicator.setProgress(1.0);
             mainController.arenaEnded();
             System.out.println("Arena: EXIT");
             fillScoreTable();
@@ -83,7 +89,6 @@ public class Arena extends Thread {
         duel = duels.get(i);
         board.clean();
         duel.run();
-        board.draw();
     }
     public void fillScoreTable(){
         mainController.clearScoreTable();

@@ -44,46 +44,18 @@ public class MainController {
     @FXML
     private Slider sizeSlider;
     @FXML
-    private AnchorPane duelBar;
-    @FXML
-    private CheckBox controlCheckBox;
-
-    @FXML
     public AnchorPane mainPane;
-    @FXML
-    private Button btnChangeBoardSize;
     @FXML
     private Label sizeText;
     @FXML
     private Canvas canvas;
     @FXML
-    private TextArea tournamentText;
+    private ProgressIndicator arenaProgressIndicator;
     @FXML
-    private Button btnChoiceDuel;
-    @FXML
-    private Button btnChoiceTournament;
+    private TabPane leftTabPane;
 
-
-    @FXML
-    public DuelBarController duelBarController;
-    @FXML
-    private TournamentBarController tournamentBarController;
-
-    @FXML
-    private Button btnNextMove;
-
-    @FXML
-    private Button acceptButton;
-    @FXML
-    private Button clearButton;
-    @FXML
-    private Button fillBoardButton;
     @FXML
     private Button startButton;
-    @FXML
-    private Button randomButton;
-    @FXML
-    private CheckBox programUserCheckBox;
     @FXML
     private Button directoryButton;
     @FXML
@@ -96,9 +68,6 @@ public class MainController {
     private Guide guide = null;
     private Arena arena;
     private int boardSize = 5;
-    private boolean isControlled = false;
-    private String humanMove="";
-    private boolean humanTurn=false;
     private int humanRectAngle=1;
     private File directory;
     private Board board;
@@ -124,16 +93,16 @@ public class MainController {
     public void bntStartPressed(){
         if(startButton.getText() == "Stop"){
             arena.interrupt();
+            startButton.setText("Start");
+            directoryButton.setDisable(false);
 
         } else {
-
+            directoryButton.setDisable(true);
             startButton.setText("Stop");
             size = (int) sizeSlider.getValue();
             board = new Board(size, canvas);
             board.draw();
 
-            System.out.println(tournamentText);
-            tournamentText.setText("Progressing");
             arena = new Arena(this);
             clearDuelList();
             arena.start();
@@ -141,7 +110,8 @@ public class MainController {
     }
     public void arenaEnded(){
         Platform.runLater(() -> startButton.setText("Start"));
-        Platform.runLater(() -> tournamentText.setText("DONE"));
+        leftTabPane.getSelectionModel().select(leftTabPane.getTabs().get(1));
+        directoryButton.setDisable(false);
     }
 
     public File getDirectory() {
@@ -166,39 +136,27 @@ public class MainController {
     }
 
     public void initDuelList(){
-        duelList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        duelList.setOnMouseClicked(click -> {
+            if (click.getClickCount() == 2) {
 
-            @Override
-            public void handle(MouseEvent click) {
-                if (click.getClickCount() == 2) {
+                System.out.println(duelList.getSelectionModel()
+                        .getSelectedItem());
+                Duel duel = (Duel) duelList.getSelectionModel().getSelectedItem();
+                List<String> moves = duel.loadLogFile();
+                mainTabPane.getSelectionModel().select(mainTabPane.getTabs().get(1));
+                board.clean();
+                board.draw();
+                Guide guide = new Guide(board, moves);
 
-                    System.out.println(duelList.getSelectionModel()
-                            .getSelectedItem());
-                    Duel duel = (Duel) duelList.getSelectionModel().getSelectedItem();
-                    List<String> moves = duel.loadLogFile();
-                    mainTabPane.getSelectionModel().select(mainTabPane.getTabs().get(1));
-                    board.clean();
-                    board.draw();
-                    Guide guide = new Guide(board, moves);
-                    
-                    mainPane.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
-                        @Override
-                        public void handle(KeyEvent event) {
-                            if(event.getCode() == KeyCode.N) {
-                                guide.nextMove();
-                            }
-                        }
-                    });
+                mainPane.getScene().setOnKeyReleased(event -> {
+                    if(event.getCode() == KeyCode.N) {
+                        guide.nextMove();
+                    }
+                });
 
-                }
             }
         });
-        duelList.setCellFactory(new Callback<ListView<Duel>, ListCell<Duel>>() {
-            @Override
-            public ListCell<Duel> call(ListView<Duel> param) {
-                return new ColoredCell();
-            }
-        });
+        duelList.setCellFactory((Callback<ListView<Duel>, ListCell<Duel>>) param -> new ColoredCell());
     }
     public void initScoreTable(){
         TableColumn idCol = new TableColumn("ID");
@@ -277,5 +235,7 @@ public class MainController {
             return flowPane;
         }
     }
-
+    public ProgressIndicator getArenaProgressIndicator() {
+        return arenaProgressIndicator;
+    }
 }
