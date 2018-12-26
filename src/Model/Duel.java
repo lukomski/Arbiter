@@ -6,6 +6,7 @@ import Tools.Position;
 import javafx.geometry.Pos;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -41,15 +42,23 @@ public class Duel{
                 arena.duelEnded();
                 return;
             }
-            //send start info
+            //send board size
+            System.out.println("Duel: before first send and reeceive");
             player.sendMessage(board.getSize() + ""/* + board.getFilledStartPoints()*/);
-            // return OK
             String message = getMessage(player);
             if (!message.equals(confirm)) {
-                System.out.println(message);
-                System.out.println("WARNING Duel: confirm getting start points is not expected");
-             }
+                System.out.println("Duel: confirm not correct:" + message);
+            }
+            System.out.println("Duel: after first send and reeceive");
+
+            // send start points
+            player.sendMessage(board.getFilledStartPoints());
+            message = getMessage(player);
+            if (!message.equals(confirm)) {
+                System.out.println("Duel: confirm not correct:" + message);
+            }
         }
+        System.out.println("#1");
         // send start message to first player
         players[0].sendMessage("Start");
         currPlayerId = 0;
@@ -82,9 +91,8 @@ public class Duel{
     public boolean doNextMove() {
 
         String message = getMessage(players[currPlayerId]);
-        Position[] fields = getFields(message);
 
-        if(fields == null){
+        if(message == null){
             winner=players[(currPlayerId+1)%2];
             winReason="NOT RESPOND WITHIN 0.5 SEC";
             sendStopToPlayers();
@@ -92,7 +100,9 @@ public class Duel{
             return false;
         }
 
-        logWriter.writeMessage("$" + currPlayerId + ":" + Position.pairToString(fields));
+        List<Integer[]> fields = getFields(message);
+
+        logWriter.writeMessage("$" + currPlayerId + ":" + Position.positionList2text(fields));
         if(!board.isCoordsCorrect(fields)){
             logWriter.writeMessage("field is not free");
             System.out.println("Duel: field is not free");
@@ -120,8 +130,8 @@ public class Duel{
             exit = true;
             return false;
         }
-        System.out.println("Duel: Sending = " + Position.pairToString(fields));
-        players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(Position.pairToString(fields));
+        System.out.println("Duel: Sending = " + Position.positionList2text(fields));
+        players[currPlayerId = (currPlayerId + 1) % 2].sendMessage(Position.positionList2text(fields));
         return true;
     }
 
@@ -137,17 +147,14 @@ public class Duel{
         return message;
     }
 
-    private Position[] getFields(String message){
-        Position[] fields = null;
-        try {
-            fields = Position.stringPairToPairPosition(message);
-        } catch(NullPointerException | IndexOutOfBoundsException e){
-            System.out.println("msg: " + message);
-            System.out.println("Duel: Wrong message format Exception");
-        } catch (Exception e){
-            System.out.println("Duel: Something goes wrong but nobody knows what");
+    private List<Integer[]> getFields(String message){
+        List<Integer[]> positions = new ArrayList<>();
+        positions = Position.text2ListPositions(message);
+        if(positions.size() != 2){
+            System.out.println("message:" + message);
+            System.out.println("Warning: count of fields is " + positions.size() );
         }
-        return fields;
+        return positions;
     }
 
 

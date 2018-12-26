@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Guide{
     private Board board;
-    private List<Position[]> moves;
+    private List<List<Integer[]>> moves;
     private int iterator = 0;
     private int currentPlayerId = 0;
     // flags
@@ -24,7 +24,7 @@ public class Guide{
         for (int i = 0; i < mod.size(); i++) {
             try {
                 String s = mod.get(i);
-                Position[] v = Position.stringPairToPairPosition(s);
+                List<Integer[]> v = Position.text2ListPositions(s);
                 moves.add(v);
             } catch (Exception e) {
                 e.printStackTrace();

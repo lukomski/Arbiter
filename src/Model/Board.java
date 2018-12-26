@@ -6,6 +6,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.List;
+
 public class Board {
     private enum FieldStatus{free, firstPlayer, secondPlayer, blocked}
     private FieldStatus[][] matrix;
@@ -65,17 +67,15 @@ public class Board {
             return FieldStatus.blocked;
         }
     }
-    public void fillBoard(Position[] coords, int playerIndex) throws Exception{
-
-        if(!isCoordsCorrect(coords))
-            throw new Exception();
-        matrix[coords[0].getX()][coords[0].getY()] = int2FieldStatus(playerIndex);
-        matrix[coords[1].getX()][coords[1].getY()] = int2FieldStatus(playerIndex);
+    public void fillBoard(List<Integer[]> coords, int playerIndex) throws Exception{
+        for(Integer[] coord: coords) {
+            matrix[coord[0]][coord[1]] = int2FieldStatus(playerIndex);
+        }
     }
 
-    public boolean isCoordsCorrect(Position[] positions){
-        for(Position position: positions){
-            if(!isFieldFree(matrix[position.getX()][position.getY()])){
+    public boolean isCoordsCorrect(List<Integer[]> positions){
+        for(Integer[] position: positions){
+            if(!isFieldFree(matrix[position[0]][position[1]])){
                 return false;
             }
         }
@@ -152,5 +152,9 @@ public class Board {
                     matrix[x][y] = FieldStatus.free;
             }
         }
+    }
+
+    public String getFilledStartPoints() {
+        return filledStartPoints;
     }
 }

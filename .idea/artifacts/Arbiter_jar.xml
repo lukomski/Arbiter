@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/artifacts/Arbiter_jar</output-path>
     <root id="archive" name="Arbiter.jar">
       <element id="module-output" name="Arbiter" />
+      <element id="module-output" name="Program" />
     </root>
   </artifact>
 </component>
