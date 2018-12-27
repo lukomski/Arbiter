@@ -1,10 +1,12 @@
+package Program;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Leszek {
+public class Program {
     private final static String startMessage = "START";
     private final static String confirmMessage = "OK";
     private BufferedReader bufferedReader;
@@ -80,7 +82,7 @@ public class Leszek {
         InputStreamReader inputStreamReader = new InputStreamReader(System.in);
         bufferedReader = new BufferedReader(inputStreamReader);
 
-        // get board size
+        // get board sizee
         String message = getMessage();
         //confirm getting board size
         sendMessage(confirmMessage);
@@ -141,9 +143,7 @@ public class Leszek {
         return stringBuilder.toString();
     }
     public static void main(String[] args) {
-        Leszek leszek = new Leszek();
-        leszek.run();
-        //List<Integer[]> positions = leszek.text2ListPositions("{3,3},{5,6},{7-,8}");
-        //System.out.println(leszek.positionList2text(positions));
+        Program program = new Program();
+        program.run();
     }
 }

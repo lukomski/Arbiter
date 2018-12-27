@@ -42,9 +42,9 @@ public class Duel{
                 arena.duelEnded();
                 return;
             }
+            System.out.println("Duel: before first send and reeceive " + board.getSize() + player);
             //send board size
-            System.out.println("Duel: before first send and reeceive");
-            player.sendMessage(board.getSize() + ""/* + board.getFilledStartPoints()*/);
+            player.sendMessage(board.getSize() + "");
             String message = getMessage(player);
             if (!message.equals(confirm)) {
                 System.out.println("Duel: confirm not correct:" + message);
