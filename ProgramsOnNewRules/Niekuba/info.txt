@@ -1,3 +1,3 @@
 Sors
 Niekuba Paszkakowski
-java Program.Program
+java -jar Program.jar
