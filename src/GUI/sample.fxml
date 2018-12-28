@@ -67,7 +67,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="664.0" prefWidth="651.0">
                            <children>
-                                 <Canvas fx:id="canvas" height="640.0" layoutY="5.0" width="694.0" />
+                                 <Canvas fx:id="canvas" height="640.0" layoutX="30.0" width="640.0" />
                            </children></AnchorPane>
                   </content>
                 </Tab>

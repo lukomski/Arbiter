@@ -121,7 +121,9 @@ public class Board {
 
     public void draw(){
         frame = 5;
-        rectWidth = ( graphicsContext.getCanvas().getWidth() - frame * (size + 1) ) / size;
+        double canvasWidth = graphicsContext.getCanvas().getWidth();
+        double canvasHeight = graphicsContext.getCanvas().getHeight();
+        rectWidth = ((canvasWidth < canvasHeight? canvasWidth : canvasHeight)- frame * (size + 1) ) / size;
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0,0,graphicsContext.getCanvas().getWidth(), graphicsContext.getCanvas().getHeight());
         for(int x = 0; x < size; x++){
@@ -154,6 +156,7 @@ public class Board {
             }
         }
     }
+
     public void clean(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
