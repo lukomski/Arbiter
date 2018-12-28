@@ -85,8 +85,7 @@ public class MainController {
 
     @FXML
     private void btnDirectoryPressed() {
-        DialogReader dr = new DialogReader();
-        directory = dr.readDirectoryFromDialog("Choose Arena directory", mainPane);
+        directory = DialogReader.readDirectoryFromDialog("Choose Arena directory", mainPane);
         if (directory != null) {
             directoryButton.setText(directory.getName());
             startButton.setDisable(false);
@@ -99,7 +98,7 @@ public class MainController {
     }
 
     public void bntStartPressed(){
-        if(startButton.getText() == "Stop"){
+        if(startButton.getText().equals("Stop")){
             arena.interrupt();
             startButton.setText("Start");
             setDisableLeftBarItems(false);
@@ -214,19 +213,16 @@ public class MainController {
 
                         //this.setTextFill(Color.RED);
                         setStyle("-fx-control-inner-background: derive(red, 90%);");
-
                     }
                     else{
                         //this.setTextFill(Color.BLACK);
                         setStyle("-fx-control-inner-background: derive(-fx-base,80%);");
                     }
-
-
                 }
             }
         public FlowPane createText(Duel duel) {
             String greenStyle = "-fx-fill: green;-fx-font-weight: bold;";
-            String orangeStyle = "-fx-fill: #ff6600;-fx-font-weight: bold;";
+            String orangeStyle = "-fx-fill: #ff6600;";
             Text firstPlayer = new Text(duel.getPlayer1().getNick());
             Text secondPlayer = new Text(duel.getPlayer2().getNick());
             FlowPane flowPane = new FlowPane();
