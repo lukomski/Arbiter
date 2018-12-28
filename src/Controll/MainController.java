@@ -7,6 +7,8 @@ import Tools.DialogReader;
 import Tools.Guide;
 import Tools.ScoreResult;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -185,6 +187,30 @@ public class MainController {
         duelList.setCellFactory((Callback<ListView<Duel>, ListCell<Duel>>) param -> new ColoredCell());
     }
     public void initScoreTable(){
+        TableColumn numberCol = new TableColumn("#");
+        numberCol.setMinWidth(20);
+        numberCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ScoreResult, ScoreResult>, ObservableValue<ScoreResult>>() {
+            @Override public ObservableValue<ScoreResult> call(TableColumn.CellDataFeatures<ScoreResult, ScoreResult > p) {
+                return new ReadOnlyObjectWrapper(p.getValue());
+            }
+        });
+
+        numberCol.setCellFactory(new Callback<TableColumn<ScoreResult, ScoreResult>, TableCell<ScoreResult, ScoreResult>>() {
+            @Override public TableCell<ScoreResult, ScoreResult> call(TableColumn<ScoreResult, ScoreResult> param) {
+                return new TableCell<ScoreResult, ScoreResult>() {
+                    @Override protected void updateItem(ScoreResult item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (this.getTableRow() != null && item != null) {
+                            setText(this.getTableRow().getIndex()+1+"");
+                        } else {
+                            setText("");
+                        }
+                    }
+                };
+            }
+        });
+        numberCol.setSortable(false);
         TableColumn idCol = new TableColumn("ID");
         idCol.setMinWidth(85);
         idCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, ScoreResult>("id"));
@@ -198,7 +224,7 @@ public class MainController {
         nickCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, ScoreResult>("nick"));
 
         TableColumn winsCol = new TableColumn("Wins");
-        winsCol.setMinWidth(30);
+        winsCol.setMinWidth(35);
         winsCol.setPrefWidth(35);
         winsCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, Integer>("wins"));
 
@@ -211,7 +237,7 @@ public class MainController {
         disqualificationsCol.setMinWidth(100);
         disqualificationsCol.setCellValueFactory( new PropertyValueFactory<ScoreResult, Integer>("disqualifications"));
 
-        scoreTable.getColumns().addAll(idCol,nameCol,nickCol, winsCol, losesCol,disqualificationsCol);
+        scoreTable.getColumns().addAll(numberCol,idCol,nameCol,nickCol, winsCol, losesCol,disqualificationsCol);
         scoreTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
     }
