@@ -34,6 +34,8 @@ public class Duel{
     }
 
     public void run() {
+        int playerNotConfirm = 0;
+        int i=1;
         for (Player player : players) {
             try {
                 player.initProcess();
@@ -42,11 +44,17 @@ public class Duel{
                 arena.duelEnded();
                 return;
             }
+
+            if(playerNotConfirm==1)
+                break;
             System.out.println("Duel: before first send and reeceive " + board.getSize() + player);
             //send board size
             player.sendMessage(board.getSize() + "");
             String message = getMessage(player);
-            if (!message.equals(confirm)) {
+            if(message==null){
+                playerNotConfirm=i;
+            }
+            else if (!message.equals(confirm)) {
                 System.out.println("Duel: confirm not correct:" + message);
             }
             System.out.println("Duel: after first send and receive");
@@ -55,18 +63,30 @@ public class Duel{
             player.sendMessage(Position.positionList2text(board.getBlockedPointList()));
             System.out.println("Duel: blocked points = " + Position.positionList2text(board.getBlockedPointList()) );
             message = getMessage(player);
-            if (!message.equals(confirm)) {
+            if(message==null){
+                playerNotConfirm=i;
+            }
+            else if (!message.equals(confirm)) {
                 System.out.println("Duel: confirm not correct:" + message);
             }
+            i++;
         }
         // send start message to first player
         players[0].sendMessage("Start");
         currPlayerId = 0;
         logWriter.writeDuelTitle(board.getSize(),Position.positionList2text(board.getBlockedPointList()), players[0].getNick(), players[1].getNick());
         logWriter.writeMessage("$Board:" + Position.positionList2text(board.getBlockedPointList()));
-        while(!exit){
-            doNextMove() ;
+
+        if(playerNotConfirm!=0){
+            winner=players[playerNotConfirm%2];
+            winReason="NOT CONFIRM";
         }
+        else{
+            while(!exit){
+                doNextMove() ;
+            }
+        }
+
         sendStopToPlayers();
         logWriter.getPrintWriter().close();
     }
