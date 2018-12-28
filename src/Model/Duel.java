@@ -104,7 +104,7 @@ public class Duel{
         if(message == null){
             winner=players[(currPlayerId+1)%2];
             winReason="NOT RESPOND WITHIN 0.5 SEC";
-            sendStopToPlayers();
+            //sendStopToPlayers();
             exit = true;
             return false;
         }
@@ -117,7 +117,6 @@ public class Duel{
             System.out.println("Duel: field is not free");
             winner = players[(currPlayerId+1)%2];
             winReason="ALZHEIMER";
-            sendStopToPlayers();
             exit = true;
             return false;
         }
@@ -127,7 +126,6 @@ public class Duel{
             System.out.println("Duel: field out of bouds or not free");
             winner=players[(currPlayerId+1)%2];
             winReason="WRONG MESSAGE";
-            sendStopToPlayers();
             exit = true;
             return false;
         }
@@ -135,7 +133,6 @@ public class Duel{
             winner = players[currPlayerId];
             winReason="NORMAL WIN";
             logWriter.writeWinner(winner.getNick());
-            sendStopToPlayers();
             exit = true;
             return false;
         }
