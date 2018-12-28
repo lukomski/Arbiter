@@ -52,7 +52,8 @@ public class Duel{
             System.out.println("Duel: after first send and reeceive");
 
             // send start points
-            player.sendMessage(board.getFilledStartPoints());
+            player.sendMessage(Position.positionList2text(board.getBlockedPointList()));
+            System.out.println("Duel: blocked points = " + Position.positionList2text(board.getBlockedPointList()) );
             message = getMessage(player);
             if (!message.equals(confirm)) {
                 System.out.println("Duel: confirm not correct:" + message);

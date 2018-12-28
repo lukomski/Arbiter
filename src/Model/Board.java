@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -32,6 +33,7 @@ public class Board {
 
     }
     public void setRandomStartPoints(){
+        System.out.println("Board: start rand blocked fields");
         clean();
         boolean isNewPoint;
         for(int i=0;i<Math.round(size*size*0.1);i++){
@@ -40,17 +42,16 @@ public class Board {
                         Math.random() * graphicsContext.getCanvas().getWidth());
             }while(!isNewPoint);
         }
+        System.out.println("Board: end rand blocked fields");
     }
     public boolean setStartPoint(double x, double y) {
         double rectSize = graphicsContext.getCanvas().getWidth()/size;
         int posX = (int)Math.floor(x/rectSize);
-        int posY=(int)Math.floor(y/rectSize);
+        int posY= (int) Math.floor(y/rectSize);
         if(matrix[posX][posY] == FieldStatus.blocked)
             return false;
         matrix[posX][posY] = FieldStatus.blocked;
-
-        filledStartPoints+="_"+posX+"x"+posY;
-
+        System.out.println("Board: clocked + " + posX + " " + posY);
         return true;
     }
     private boolean isFieldFree(FieldStatus field){
@@ -146,15 +147,35 @@ public class Board {
         return size;
     }
 
-    public void clean(){
+    public void hardClean(){
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
                     matrix[x][y] = FieldStatus.free;
             }
         }
     }
+    public void clean(){
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                if(matrix[x][y] != FieldStatus.blocked) {
+                    matrix[x][y] = FieldStatus.free;
+                }
+            }
+        }
+    }
 
-    public String getFilledStartPoints() {
-        return filledStartPoints;
+    public List<Integer[]> getBlockedPointList() {
+        List<Integer[]> positions = new ArrayList<>();
+        for (int x = 0; x < size; x++){
+            for (int y = 0; y < size; y++){
+                if(matrix[x][y] == FieldStatus.blocked){
+                    Integer[] position = new Integer[2];
+                    position[0] = x;
+                    position[1] = y;
+                    positions.add(position);
+                }
+            }
+        }
+        return positions;
     }
 }

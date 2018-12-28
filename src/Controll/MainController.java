@@ -37,6 +37,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 public class MainController {
     @FXML
@@ -74,6 +75,7 @@ public class MainController {
     private File directory;
     private Board board;
     private int size;
+    private boolean randSizeBoard;
 
     @FXML
     public void initialize(){
@@ -106,8 +108,21 @@ public class MainController {
         } else {
             setDisableLeftBarItems(true);
             startButton.setText("Stop");
-            size = (int) sizeSlider.getValue();
+            if(randCheckBox.isSelected()){
+                Random random = new Random();
+                int max = (int) sizeSlider.getMax();
+                int min = (int) sizeSlider.getMin();
+                int range = max - min;
+                // rand in range [0, range]
+                int randNumber = random.nextInt(range + 1) - 1;
+                randNumber += min;
+                size = randNumber;
+            } else {
+                size = (int) sizeSlider.getValue();
+            }
+            System.out.println("MainContriller: size = " + size);
             board = new Board(size, canvas);
+            board.setRandomStartPoints();
             board.draw();
 
             arena = new Arena(this);
@@ -118,7 +133,9 @@ public class MainController {
     public void arenaEnded(){
         Platform.runLater(() -> startButton.setText("Start"));
         leftTabPane.getSelectionModel().select(leftTabPane.getTabs().get(1));
+        // disable
         setDisableLeftBarItems(false);
+        sizeSlider.setDisable(true);
     }
 
     public File getDirectory() {
