@@ -49,7 +49,7 @@ public class Duel{
             if (!message.equals(confirm)) {
                 System.out.println("Duel: confirm not correct:" + message);
             }
-            System.out.println("Duel: after first send and reeceive");
+            System.out.println("Duel: after first send and receive");
 
             // send start points
             player.sendMessage(Position.positionList2text(board.getBlockedPointList()));
@@ -59,21 +59,29 @@ public class Duel{
                 System.out.println("Duel: confirm not correct:" + message);
             }
         }
-        System.out.println("#1");
         // send start message to first player
         players[0].sendMessage("Start");
         currPlayerId = 0;
-        logWriter.writeDuelTitle(board.getSize(),"TODO start points", players[0].getNick(), players[1].getNick());
+        logWriter.writeDuelTitle(board.getSize(),Position.positionList2text(board.getBlockedPointList()), players[0].getNick(), players[1].getNick());
+        logWriter.writeMessage("$Board:" + Position.positionList2text(board.getBlockedPointList()));
         while(!exit){
             doNextMove() ;
         }
         sendStopToPlayers();
         logWriter.getPrintWriter().close();
     }
+
     public List<String> loadLogFile(){
         List<String> moves;
         try {
             moves = logWriter.loadLogFile();
+            // set start points
+            board.hardClean();
+            List<Integer[]> startPoints = Position.text2ListPositions(logWriter.getStartPointsAsText());
+            for(Integer[] pos: startPoints){
+                board.setStartPoint(pos);
+            }
+            board.draw();
         } catch(IOException e){
             System.out.println("Duel: the file is not readable" );
             return null;

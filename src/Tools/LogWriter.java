@@ -8,6 +8,7 @@ import java.util.Map;
 public class LogWriter {
     private File file;
     private PrintWriter printWriter=null;
+    private String startPointsAsText = null;
     public LogWriter(String logName){
         new File("logs").mkdir();
         file = new File("logs\\"+logName+".txt");
@@ -65,6 +66,7 @@ public class LogWriter {
         return moves;
     }
     public List<String> loadLogFile() throws IOException{
+        boolean firstLine = true;
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         List<String> moves = new ArrayList<>();
@@ -72,7 +74,12 @@ public class LogWriter {
             String line = bufferedReader.readLine();
             if(line.length() >= 1 && line.charAt(0) == '$') {
                 String[] parts = line.split(":");
-                moves.add(parts[1]);
+                if(firstLine){
+                    firstLine = false;
+                    startPointsAsText = parts[1];
+                } else {
+                    moves.add(parts[1]);
+                }
             } else {
                 System.out.println("LogWriter: Ignore: ");
             }
@@ -82,5 +89,9 @@ public class LogWriter {
 
     public PrintWriter getPrintWriter() {
         return printWriter;
+    }
+
+    public String getStartPointsAsText() {
+        return startPointsAsText;
     }
 }

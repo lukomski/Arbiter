@@ -74,18 +74,22 @@ public class Arena extends Thread {
 
     }
     private void makeDuelList(){
-        int playerIndex = 0;
-        for(Player firstPlayer: players) {
-            for(int i=++playerIndex;i<players.size();i++){
-
-                Player secondPlayer = players.get(i);
+        for(int i = 0; i < players.size(); i++) {
+            Player firstPlayer = players.get(i);
+            for(int j = 0; j < players.size(); j++){
+                if(i == j){
+                    continue;
+                }
+                Player secondPlayer = players.get(j);
                 Player[] players = {firstPlayer,  secondPlayer};
                 duels.add(new Duel(players, this));
             }
         }
+        System.out.println("Arena: count duels = " + duels.size());
     }
 
     public void makeDuel(int i) {
+        System.out.println("Arena: making duel " + i);
         duel = duels.get(i);
         board.clean();
         duel.run();

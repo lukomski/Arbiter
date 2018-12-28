@@ -34,11 +34,16 @@ public class Guide{
 
     public void nextMove() {
         System.out.println("KEY PRESSED");
+
         if (iterator >= moves.size()) {
             exit = true;
             return;
         }
         try {
+            for(List<Integer[]> move: moves){
+                System.out.println(Position.positionList2text(move));
+
+            }
             board.fillBoard(moves.get(iterator++), currentPlayerId + 1);
         } catch (Exception e) {
             e.printStackTrace();

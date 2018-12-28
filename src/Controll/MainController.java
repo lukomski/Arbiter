@@ -135,7 +135,9 @@ public class MainController {
         leftTabPane.getSelectionModel().select(leftTabPane.getTabs().get(1));
         // disable
         setDisableLeftBarItems(false);
-        sizeSlider.setDisable(true);
+        if(randCheckBox.isSelected()) {
+            sizeSlider.setDisable(true);
+        }
     }
 
     public File getDirectory() {
@@ -240,8 +242,8 @@ public class MainController {
         public FlowPane createText(Duel duel) {
             String greenStyle = "-fx-fill: green;-fx-font-weight: bold;";
             String orangeStyle = "-fx-fill: #ff6600;";
-            Text firstPlayer = new Text(duel.getPlayer1().getNick());
-            Text secondPlayer = new Text(duel.getPlayer2().getNick());
+            Text firstPlayer = new Text(duel.getPlayer1().getDirName());
+            Text secondPlayer = new Text(duel.getPlayer2().getDirName());
             FlowPane flowPane = new FlowPane();
             if (duel.getWinner().equals(duel.getPlayer1())) {
                 firstPlayer.setStyle(greenStyle);

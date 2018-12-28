@@ -33,25 +33,25 @@ public class Board {
 
     }
     public void setRandomStartPoints(){
+        double rectSize = graphicsContext.getCanvas().getWidth()/size;
         System.out.println("Board: start rand blocked fields");
         clean();
         boolean isNewPoint;
         for(int i=0;i<Math.round(size*size*0.1);i++){
             do {
-                isNewPoint = setStartPoint(Math.random() * graphicsContext.getCanvas().getWidth(),
-                        Math.random() * graphicsContext.getCanvas().getWidth());
+                Integer[] pos = new Integer[2];
+                pos[0] = (int) Math.floor(Math.random() * graphicsContext.getCanvas().getWidth()/rectSize);
+                pos[1] = (int) Math.floor(Math.random() * graphicsContext.getCanvas().getWidth()/rectSize);
+                isNewPoint = setStartPoint(pos);
             }while(!isNewPoint);
         }
         System.out.println("Board: end rand blocked fields");
     }
-    public boolean setStartPoint(double x, double y) {
-        double rectSize = graphicsContext.getCanvas().getWidth()/size;
-        int posX = (int)Math.floor(x/rectSize);
-        int posY= (int) Math.floor(y/rectSize);
-        if(matrix[posX][posY] == FieldStatus.blocked)
+    public boolean setStartPoint(Integer[] pos) {
+        if(matrix[pos[0]][pos[1]] == FieldStatus.blocked)
             return false;
-        matrix[posX][posY] = FieldStatus.blocked;
-        System.out.println("Board: clocked + " + posX + " " + posY);
+        matrix[pos[0]][pos[1]] = FieldStatus.blocked;
+        System.out.println("Board: clocked + " + pos[0] + " " + pos[1]);
         return true;
     }
     private boolean isFieldFree(FieldStatus field){
