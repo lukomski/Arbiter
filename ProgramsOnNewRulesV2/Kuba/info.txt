@@ -1,0 +1,3 @@
+Kuben
+Kukuba Paszkakowski
+java -jar testArbiter.jar

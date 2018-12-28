@@ -1,0 +1,3 @@
+Slabiak
+Slawek Torun
+java -jar testArbiter.jar

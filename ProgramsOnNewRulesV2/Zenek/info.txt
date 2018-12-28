@@ -1,0 +1,3 @@
+Zenonek
+Zenek Paszkakowski
+java -jar testArbiter.jar
