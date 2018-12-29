@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class Position {
     public static List<Integer[]> text2ListPositions(String text){
-        Pattern pattern = Pattern.compile("\\{(\\d+),(\\d+)\\}");
+        Pattern pattern = Pattern.compile("\\{(\\d+);(\\d+)\\}");
         Matcher matcher = pattern.matcher(text);
         ArrayList<Integer[]> positions = new ArrayList<>();
         while(matcher.find()) {
@@ -25,7 +25,7 @@ public class Position {
             if(stringBuilder.length() != 0){
                 stringBuilder.append(",");
             }
-            stringBuilder.append("{" + d[0] + "," + d[1] + "}");
+            stringBuilder.append("{" + d[0] + ";" + d[1] + "}");
         }
         return stringBuilder.toString();
     }

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Arbiter:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/Arbiter_jar2</output-path>
+    <root id="archive" name="Arbiter.jar">
+      <element id="module-output" name="Program" />
+      <element id="module-output" name="Arbiter" />
+    </root>
+  </artifact>
+</component>

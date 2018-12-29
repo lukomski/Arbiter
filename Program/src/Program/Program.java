@@ -27,7 +27,7 @@ public class Program {
         System.out.println(message);
     }
     private String onePosition2Text(int x, int y){
-        return "{" + x + "," + y + "}";
+        return "{" + x + ";" + y + "}";
     }
     private String positions2Text(int x1, int y1, int x2, int y2){
         return onePosition2Text(x1, y1) + "," + onePosition2Text(x2, y2);
@@ -121,7 +121,7 @@ public class Program {
         }
     }
     public List<Integer[]> text2ListPositions(String text){
-        Pattern pattern = Pattern.compile("\\{(\\d+),(\\d+)\\}");
+        Pattern pattern = Pattern.compile("\\{(\\d+);(\\d+)\\}");
         Matcher matcher = pattern.matcher(text);
         ArrayList<Integer[]> positions = new ArrayList<>();
         while(matcher.find()) {
@@ -138,7 +138,7 @@ public class Program {
             if(stringBuilder.length() != 0){
                 stringBuilder.append(",");
             }
-            stringBuilder.append("{" + d[0] + "," + d[1] + "}");
+            stringBuilder.append("{" + d[0] + ";" + d[1] + "}");
         }
         return stringBuilder.toString();
     }

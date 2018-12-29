@@ -78,7 +78,7 @@ public class Duel{
 
         if(playerNotConfirm!=0){
             winner=players[playerNotConfirm%2];
-            winReason="NOT CONFIRM";
+            winReason="not confirm";
         }
         else{
             while(!exit){

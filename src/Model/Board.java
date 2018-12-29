@@ -96,8 +96,8 @@ public class Board {
                 return false;
             }
         }
-        if(!isCoorsNextToEachOther(positions.get(0)[0],positions.get(0)[1],positions.get(1)[0],positions.get(1)[1]))
-            return false;
+       /* if(!isCoorsNextToEachOther(positions.get(0)[0],positions.get(0)[1],positions.get(1)[0],positions.get(1)[1]))
+            return false;*/
         return true;
     }
     private boolean isCoorsNextToEachOther(int x1, int y1, int x2, int y2){

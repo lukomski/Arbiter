@@ -14,7 +14,7 @@
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
+<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
    <children>
       <AnchorPane prefHeight="700.0" prefWidth="300.0" styleClass="leftBar">
          <children>
@@ -30,7 +30,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ProgressIndicator fx:id="arenaProgressIndicator" layoutX="4.0" layoutY="11.0" prefHeight="261.0" prefWidth="273.0" progress="0.0">
+                              <ProgressIndicator fx:id="arenaProgressIndicator" layoutX="4.0" layoutY="11.0" minHeight="261.0" minWidth="273.0" prefHeight="261.0" prefWidth="273.0" progress="0.0">
                                  <effect>
                                     <ColorAdjust />
                                  </effect></ProgressIndicator>
@@ -43,7 +43,7 @@
                      <content>
                         <ScrollPane fx:id="duelsScrollPane" prefHeight="289.0" prefWidth="266.0">
                            <content>
-                              <ListView fx:id="duelList" prefHeight="309.0" prefWidth="297.0" />
+                              <ListView fx:id="duelList" minHeight="309.0" minWidth="297.0" prefHeight="309.0" prefWidth="297.0" />
                            </content></ScrollPane>
                      </content>
                 </Tab>
