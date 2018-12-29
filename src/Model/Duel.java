@@ -139,6 +139,14 @@ public class Duel{
             exit = true;
             return false;
         }
+        if(!board.areFieldsOnBoard(fields)){
+            winReason = "positions are out of board:" + " '" + message + "'";
+            logWriter.writeMessage(winReason);
+            System.out.println("Duel: " + winReason);
+            winner = players[(currPlayerId+1)%2];
+            exit = true;
+            return false;
+        }
         if(!board.isPairPosSticky(fields)){
             winReason = "positions are not sticky:" + " '" + message + "'";
             logWriter.writeMessage(winReason);

@@ -96,15 +96,16 @@ public class Board {
                 return false;
             }
         }
-       /* if(!isCoorsNextToEachOther(positions.get(0)[0],positions.get(0)[1],positions.get(1)[0],positions.get(1)[1]))
-            return false;*/
         return true;
     }
-    private boolean isCoorsNextToEachOther(int x1, int y1, int x2, int y2){
-        return (((x1+1==x2 || x1-1==x2) && y1 == y2) || (x1==x2 && (y1+1==y2 || y1-1==y2)) ||
-                ((Math.abs(x1-x2)==size-1) && y1==y2) || ((Math.abs(y1-y2)==size-1) && x1==x2));
-
+    public boolean areFieldsOnBoard(List<Integer[]> positions){
+        for(Integer[] position: positions){
+            if(position[0]>size-1 || position[0]<0 || position[1]>size-1 || position[1]<0)
+                return false;
+        }
+        return true;
     }
+
 
     public boolean isMovePossible(){
         for(int i = 0; i< size; i++){
