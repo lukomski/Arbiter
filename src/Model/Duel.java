@@ -147,8 +147,8 @@ public class Duel{
             exit = true;
             return false;
         }
-        if(!board.isPairPosSticky(fields)){
-            winReason = "positions are not sticky:" + " '" + message + "'";
+        if(!board.isPairPosNearby(fields)){
+            winReason = "positions are not nearby:" + " '" + message + "'";
             logWriter.writeMessage(winReason);
             System.out.println("Duel: " + winReason);
             winner = players[(currPlayerId+1)%2];

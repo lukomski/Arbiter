@@ -73,7 +73,7 @@ public class Board {
             matrix[coord[0]][coord[1]] = int2FieldStatus(playerIndex);
         }
     }
-    public boolean isPairPosSticky(List<Integer[]> pairPos){
+    public boolean isPairPosNearby(List<Integer[]> pairPos){
         if(pairPos.get(0)[0] == pairPos.get(1)[0]){
             if((pairPos.get(0)[1] + 1) % size == pairPos.get(1)[1]){
                 return true;
