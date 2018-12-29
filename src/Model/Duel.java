@@ -3,7 +3,6 @@ package Model;
 
 import Tools.LogWriter;
 import Tools.Position;
-import javafx.geometry.Pos;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -123,16 +122,16 @@ public class Duel{
 
         if(message == null){
             winner=players[(currPlayerId+1)%2];
-            winReason="NOT RESPOND WITHIN 0.5 SEC";
+            winReason="not respond within 0.5 sec";
             //sendStopToPlayers();
             exit = true;
             return false;
         }
 
         List<Integer[]> fields = getFields(message);
-
         logWriter.writeMessage("$" + currPlayerId + ":" + Position.positionList2text(fields));
-        if(!board.isCoordsCorrect(fields)){
+        //TODO board isboardSticky dodanie sprawdzania tego i obsługa + poprawić napisy winreason aby były bardziej komunikatywne
+        if(!board.areFieldsFree(fields)){
             logWriter.writeMessage("field is not free");
             System.out.println("Duel: field is not free");
             winner = players[(currPlayerId+1)%2];

@@ -73,8 +73,24 @@ public class Board {
             matrix[coord[0]][coord[1]] = int2FieldStatus(playerIndex);
         }
     }
+    public boolean isPairPosSticky(List<Integer[]> pairPos){
+        if(pairPos.get(0)[0] == pairPos.get(1)[0]){
+            if((pairPos.get(0)[1] + 1) % size == pairPos.get(1)[1]){
+                return true;
+            } else if((pairPos.get(0)[1] + size - 1) % size == pairPos.get(1)[1]){
+                return true;
+            }
+        } else if(pairPos.get(0)[1] == pairPos.get(1)[1]){
+            if((pairPos.get(0)[0] + 1) % size == pairPos.get(1)[0]){
+                return true;
+            } else if((pairPos.get(0)[0] + size - 1) % size == pairPos.get(1)[0]){
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public boolean isCoordsCorrect(List<Integer[]> positions){
+    public boolean areFieldsFree(List<Integer[]> positions){
         for(Integer[] position: positions){
             if(!isFieldFree(matrix[position[0]][position[1]])){
                 return false;
