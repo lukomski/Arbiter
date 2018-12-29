@@ -33,7 +33,7 @@ public class Duel{
         logWriter = new LogWriter(players[0].getDirName()+"vs"+players[1].getDirName());
     }
 
-    public void run() {
+    public void run() throws InterruptedException{
         int playerNotConfirm = 0;
         int i=1;
         for (Player player : players) {
@@ -117,7 +117,7 @@ public class Duel{
         arena.duelEnded();
     }
 
-    public boolean doNextMove() {
+    public boolean doNextMove() throws InterruptedException{
 
         String message = getMessage(players[currPlayerId]);
 
@@ -140,15 +140,8 @@ public class Duel{
             exit = true;
             return false;
         }
-        try {
-            board.fillBoard(fields, currPlayerId + 1);
-        } catch (Exception e) {
-            System.out.println("Duel: field out of bouds or not free");
-            winner=players[(currPlayerId+1)%2];
-            winReason="WRONG MESSAGE";
-            exit = true;
-            return false;
-        }
+        board.fillBoard(fields, currPlayerId + 1);
+
         if (!board.isMovePossible()) {
             winner = players[currPlayerId];
             winReason="NORMAL WIN";
@@ -161,14 +154,14 @@ public class Duel{
         return true;
     }
 
-    private String getMessage(Player player){
+    private String getMessage(Player player) throws InterruptedException{
         String message = null;
         try {
             message = player.getMessage();
         } catch (TimeoutException e) {
             System.out.println("Duel: timeout Exception");
-        } catch (Exception e){
-            System.out.println("Duel: Something goes wrong but nobody knows what");
+        } catch (IOException e){
+            System.out.println("Duel: IOException during getting message");
         }
         return message;
     }

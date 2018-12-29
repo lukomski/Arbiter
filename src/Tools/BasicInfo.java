@@ -8,7 +8,7 @@ public class BasicInfo {
     private String name;
     private File directory;
 
-    public BasicInfo(File dir) throws Exception {
+    public BasicInfo(File dir) throws IOException {
         this.directory = dir;
 
         File file = new File(dir.getPath() + "/info.txt");

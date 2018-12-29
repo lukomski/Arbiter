@@ -8,6 +8,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -88,7 +89,7 @@ public class Arena extends Thread {
         System.out.println("Arena: count duels = " + duels.size());
     }
 
-    public void makeDuel(int i) {
+    public void makeDuel(int i) throws InterruptedException {
         System.out.println("Arena: making duel " + i);
         duel = duels.get(i);
         board.clean();
@@ -135,7 +136,7 @@ public class Arena extends Thread {
                 }
                 players.add(player);
 
-            } catch (Exception e){
+            } catch (IOException e){
                 errorLogWriter.writeMessage("Warning: Unable to read basic info about program from directory " + directory + " - omitted");
             }
             k++;

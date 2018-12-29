@@ -15,7 +15,7 @@ public class Player {
     private int id;
     private boolean humanPlayer=false;
 
-    public Player(BasicInfo basicInfo)throws Exception{
+    public Player(BasicInfo basicInfo){
         this.basicInfo = basicInfo;
 
         processBuilder = new ProcessBuilder();
@@ -42,7 +42,7 @@ public class Player {
         output.println( line );
     }
 
-    public String getMessage() throws IOException, TimeoutException, InterruptedException {
+    public String getMessage() throws IOException, TimeoutException, InterruptedException{
         int waitLimit = 500;
 
         int wait = 0;

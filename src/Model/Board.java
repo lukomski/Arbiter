@@ -68,7 +68,7 @@ public class Board {
             return FieldStatus.blocked;
         }
     }
-    public void fillBoard(List<Integer[]> coords, int playerIndex) throws Exception{
+    public void fillBoard(List<Integer[]> coords, int playerIndex){
         for(Integer[] coord: coords) {
             matrix[coord[0]][coord[1]] = int2FieldStatus(playerIndex);
         }

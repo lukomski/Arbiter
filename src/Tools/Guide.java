@@ -42,7 +42,6 @@ public class Guide{
         try {
             for(List<Integer[]> move: moves){
                 System.out.println(Position.positionList2text(move));
-
             }
             board.fillBoard(moves.get(iterator++), currentPlayerId + 1);
         } catch (Exception e) {

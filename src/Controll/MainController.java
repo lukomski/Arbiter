@@ -109,6 +109,8 @@ public class MainController {
 
         } else {
             setDisableLeftBarItems(true);
+            arenaProgressIndicator.setProgress(0);
+            leftTabPane.getSelectionModel().select(leftTabPane.getTabs().get(0));
             startButton.setText("Stop");
             if(randCheckBox.isSelected()){
                 Random random = new Random();
