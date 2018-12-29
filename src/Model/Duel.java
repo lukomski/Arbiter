@@ -130,12 +130,28 @@ public class Duel{
 
         List<Integer[]> fields = getFields(message);
         logWriter.writeMessage("$" + currPlayerId + ":" + Position.positionList2text(fields));
-        //TODO board isboardSticky dodanie sprawdzania tego i obsługa + poprawić napisy winreason aby były bardziej komunikatywne
-        if(!board.areFieldsFree(fields)){
-            logWriter.writeMessage("field is not free");
-            System.out.println("Duel: field is not free");
+
+        if(fields.size() != 2){
+            winReason = "incorrect message:" + " '" + message + "'";
+            logWriter.writeMessage(winReason);
+            System.out.println("Duel: " + winReason);
             winner = players[(currPlayerId+1)%2];
-            winReason="ALZHEIMER";
+            exit = true;
+            return false;
+        }
+        if(!board.isPairPosSticky(fields)){
+            winReason = "positions are not sticky:" + " '" + message + "'";
+            logWriter.writeMessage(winReason);
+            System.out.println("Duel: " + winReason);
+            winner = players[(currPlayerId+1)%2];
+            exit = true;
+            return false;
+        }
+        if(!board.areFieldsFree(fields)){
+            winReason = "fields are not free: " + " '" + message + "'";
+            logWriter.writeMessage(winReason);
+            System.out.println("Duel: " + winReason);
+            winner = players[(currPlayerId+1)%2];
             exit = true;
             return false;
         }

@@ -283,7 +283,9 @@ public class MainController {
             flowPane.getChildren().add(firstPlayer);
             flowPane.getChildren().add(new Text(" vs "));
             flowPane.getChildren().add(secondPlayer);
-            flowPane.getChildren().add(new Text("    " + duel.getWinReason()));
+            if(!duel.getWinReason().equals("NORMAL WIN")) {
+                flowPane.getChildren().add(new Text("    " + duel.getWinReason()));
+            }
             return flowPane;
         }
     }
