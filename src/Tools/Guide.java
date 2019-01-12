@@ -32,12 +32,12 @@ public class Guide{
         }
     }
 
-    public void nextMove() {
+    public boolean nextMove() {
         System.out.println("KEY PRESSED");
 
         if (iterator >= moves.size()) {
             exit = true;
-            return;
+            return false;
         }
         try {
             for(List<Integer[]> move: moves){
@@ -49,5 +49,6 @@ public class Guide{
         }
         currentPlayerId = (currentPlayerId + 1) % 2;
         board.draw();
+        return true;
     }
 }
