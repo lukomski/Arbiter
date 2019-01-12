@@ -13,8 +13,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
+<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controll.MainController">
    <children>
       <AnchorPane prefHeight="700.0" prefWidth="300.0" styleClass="leftBar">
          <children>
@@ -68,6 +69,11 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="664.0" prefWidth="651.0">
                            <children>
                                  <Canvas fx:id="canvas" height="640.0" layoutX="30.0" width="640.0" />
+                              <Label fx:id="pressNText" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="245.0" prefHeight="51.0" prefWidth="599.0" style="-fx-background-color: rgba(0,0,0,0.7);" text="press 'n' to see next next move" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="System Bold" size="35.0" />
+                                 </font>
+                              </Label>
                            </children></AnchorPane>
                   </content>
                 </Tab>

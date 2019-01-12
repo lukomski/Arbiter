@@ -69,6 +69,8 @@ public class MainController {
     private TabPane mainTabPane;
     @FXML
     private CheckBox randCheckBox;
+    @FXML
+    private Label pressNText;
 
     private Guide guide = null;
     private Arena arena;
@@ -173,6 +175,7 @@ public class MainController {
                         .getSelectedItem());
                 Duel duel = (Duel) duelList.getSelectionModel().getSelectedItem();
                 List<String> moves = duel.loadLogFile();
+                pressNText.setVisible(true);
                 mainTabPane.getSelectionModel().select(mainTabPane.getTabs().get(1));
                 board.clean();
                 board.draw();
@@ -180,6 +183,7 @@ public class MainController {
 
                 mainPane.getScene().setOnKeyReleased(event -> {
                     if(event.getCode() == KeyCode.N || event.getCode() == KeyCode.RIGHT) {
+                        pressNText.setVisible(false);
                         guide.nextMove();
                     }
                 });
