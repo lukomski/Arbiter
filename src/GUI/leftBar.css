@@ -23,3 +23,7 @@ Button:hover {
 .doubleShadowed {
     -fx-background-color: rgba(0, 0, 0,0.1) !important;
 }
+.coloredCellClass:hover {
+    -fx-background-color: grey !important;
+    width:150% !important;
+}

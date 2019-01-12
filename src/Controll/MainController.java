@@ -195,11 +195,7 @@ public class MainController {
     public void initScoreTable(){
         TableColumn numberCol = new TableColumn("#");
         numberCol.setMinWidth(20);
-        numberCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ScoreResult, ScoreResult>, ObservableValue<ScoreResult>>() {
-            @Override public ObservableValue<ScoreResult> call(TableColumn.CellDataFeatures<ScoreResult, ScoreResult > p) {
-                return new ReadOnlyObjectWrapper(p.getValue());
-            }
-        });
+        numberCol.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ScoreResult, ScoreResult>, ObservableValue<ScoreResult>>) p -> new ReadOnlyObjectWrapper(p.getValue()));
 
         numberCol.setCellFactory(new Callback<TableColumn<ScoreResult, ScoreResult>, TableCell<ScoreResult, ScoreResult>>() {
             @Override public TableCell<ScoreResult, ScoreResult> call(TableColumn<ScoreResult, ScoreResult> param) {
@@ -258,6 +254,7 @@ public class MainController {
                     setText(null);
                     setGraphic(null);
                     setStyle("-fx-control-inner-background: derive(-fx-base,80%);");
+                    getStyleClass().add("coloredCellClass");
                 } else {
                     setGraphic(createText(duel));
                     if(!duel.isNormalWin()){
@@ -290,6 +287,7 @@ public class MainController {
             if(!duel.getWinReason().equals("NORMAL WIN")) {
                 flowPane.getChildren().add(new Text("    " + duel.getWinReason()));
             }
+            flowPane.getStyleClass().add("flowPaneClass");
             return flowPane;
         }
     }
