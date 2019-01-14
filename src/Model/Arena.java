@@ -31,7 +31,12 @@ public class Arena extends Thread {
 
     public Arena(MainController mainController){
         this.mainController = mainController;
-        this.board = mainController.getBoard();
+        // make copy of board
+        this.board = new Board(mainController.getBoard().getSize(), mainController.getCanvas());
+        for(Integer[] point: mainController.getBoard().getBlockedPointList()){
+            this.board.setStartPoint(point);
+        }
+
         this.progressIndicator = mainController.getArenaProgressIndicator();
         /* dirs */
         directories = new ArrayList<>();
@@ -69,11 +74,8 @@ public class Arena extends Thread {
         } catch(Exception e){
             System.out.println("Arena: FORCE EXIT");
         }
-
-
-
-
     }
+
     private void makeDuelList(){
         for(int i = 0; i < players.size(); i++) {
             Player firstPlayer = players.get(i);
@@ -145,12 +147,8 @@ public class Arena extends Thread {
     private void fillScoreList(){
         for(Player player: players){
             scoreList.put(player.getFullName(), new ScoreResult(player.getDirName(),player.getName(),player.getNick()));
-
         }
     }
-
-
-
 
     public void duelEnded(){
         winner = duel.getWinner();

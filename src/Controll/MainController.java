@@ -309,4 +309,8 @@ public class MainController {
     public ProgressIndicator getArenaProgressIndicator() {
         return arenaProgressIndicator;
     }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
 }
