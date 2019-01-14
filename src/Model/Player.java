@@ -43,7 +43,7 @@ public class Player {
     }
 
     public String getMessage() throws IOException, TimeoutException, InterruptedException{
-        int waitLimit = 500;
+        int waitLimit = 1000;//500
 
         int wait = 0;
 
