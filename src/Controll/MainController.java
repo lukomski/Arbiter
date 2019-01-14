@@ -110,7 +110,9 @@ public class MainController {
             arena.interrupt();
             startButton.setText("Start");
             setDisableLeftBarItems(false);
-
+            if(randCheckBox.isSelected()){
+                sizeSlider.setDisable(true);
+            }
         } else {
             setDisableLeftBarItems(true);
             arenaProgressIndicator.setProgress(0);
