@@ -1,0 +1,3 @@
+Zaderka
+Bartlomiej Zadrozny
+java -jar algorytm-walczacy.jar

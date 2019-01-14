@@ -1,0 +1,3 @@
+Kuba
+KubaKuba
+java -jar AiSD.jar

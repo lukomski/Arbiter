@@ -1,0 +1,3 @@
+glinka
+Jakub Glinka
+java -jar FightAlgorithm.jar

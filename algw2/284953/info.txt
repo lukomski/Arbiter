@@ -1,0 +1,3 @@
+pogodzip
+Piotr Pogodziñski
+cmd /c 284953.exe

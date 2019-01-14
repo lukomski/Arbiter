@@ -1,0 +1,3 @@
+DKol
+Dzmitry Kaliada
+java -jar Domineering.jar

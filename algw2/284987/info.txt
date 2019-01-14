@@ -1,0 +1,3 @@
+algorytmy_2
+Magdalena Karolczuk
+java -jar 284987.jar

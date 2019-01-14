@@ -1,0 +1,3 @@
+Monika
+Monika Osiak
+java -jar minimal_algorithm.jar
