@@ -1,0 +1,5 @@
+Duel:
+Board size: 13 Start filled points: TODO start points Player1: Sors1 Player2: Sors
+$0:{0,0},{1,0}
+$1:{0,1},{1,1}
+field is not free

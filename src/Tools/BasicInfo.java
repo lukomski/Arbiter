@@ -20,12 +20,24 @@ public class BasicInfo {
         name = bufferedReader.readLine();
         command = bufferedReader.readLine();
 
+        if (isExeFile(command))
+            command = "cmd /c " + command;
+
+
     }
     public BasicInfo(){
         nick = "Useros";
         name = "User Userowski";
         directory = new File("User");
         command = "";
+    }
+    private boolean isExeFile(String command){
+        String []commandTab = command.split("\\.");
+
+        if(commandTab.length>0)
+            if(commandTab[commandTab.length-1].equals("exe"))
+                return true;
+        return false;
     }
     public String getCommand(){
         return command;

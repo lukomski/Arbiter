@@ -1,0 +1,13 @@
+Tournament duel results:
+289443- Kamil Tomaszek 'kamilos' vs Kuba- Kukuba Paszkakowski 'Kuben'  Winner: Kuben  NOT CONFIRM
+289443- Kamil Tomaszek 'kamilos' vs Slaby- Slawek Torun 'Slabiak'  Winner: Slabiak  NOT CONFIRM
+289443- Kamil Tomaszek 'kamilos' vs Zenek- Zenek Paszkakowski 'Zenonek'  Winner: Zenonek  NOT CONFIRM
+Kuba- Kukuba Paszkakowski 'Kuben' vs 289443- Kamil Tomaszek 'kamilos'  Winner: Kuben  NOT CONFIRM
+Kuba- Kukuba Paszkakowski 'Kuben' vs Slaby- Slawek Torun 'Slabiak'  Winner: Kuben  ALZHEIMER
+Kuba- Kukuba Paszkakowski 'Kuben' vs Zenek- Zenek Paszkakowski 'Zenonek'  Winner: Zenonek  NORMAL WIN
+Slaby- Slawek Torun 'Slabiak' vs 289443- Kamil Tomaszek 'kamilos'  Winner: Slabiak  NOT CONFIRM
+Slaby- Slawek Torun 'Slabiak' vs Kuba- Kukuba Paszkakowski 'Kuben'  Winner: Kuben  ALZHEIMER
+Slaby- Slawek Torun 'Slabiak' vs Zenek- Zenek Paszkakowski 'Zenonek'  Winner: Zenonek  ALZHEIMER
+Zenek- Zenek Paszkakowski 'Zenonek' vs 289443- Kamil Tomaszek 'kamilos'  Winner: Zenonek  NOT CONFIRM
+Zenek- Zenek Paszkakowski 'Zenonek' vs Kuba- Kukuba Paszkakowski 'Kuben'  Winner: Kuben  NORMAL WIN
+Zenek- Zenek Paszkakowski 'Zenonek' vs Slaby- Slawek Torun 'Slabiak'  Winner: Zenonek  ALZHEIMER

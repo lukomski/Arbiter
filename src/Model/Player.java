@@ -22,6 +22,8 @@ public class Player {
         processBuilder.command(basicInfo.getCommand().split(" ")  );
         processBuilder.directory(basicInfo.getDirectory());
 
+
+
     }
     public Player(BasicInfo basicInfo, boolean humanPlayer){
         this.basicInfo = basicInfo;
@@ -43,7 +45,7 @@ public class Player {
     }
 
     public String getMessage() throws IOException, TimeoutException, InterruptedException{
-        int waitLimit = 1000;//500
+        int waitLimit = 500;
 
         int wait = 0;
 

@@ -71,7 +71,7 @@ public class Duel{
             i++;
         }
         // send start message to first player
-        players[0].sendMessage("Start");
+        players[0].sendMessage("start");
         currPlayerId = 0;
         logWriter.writeDuelTitle(board.getSize(),Position.positionList2text(board.getBlockedPointList()), players[0].getNick(), players[1].getNick());
         logWriter.writeMessage("$Board:" + Position.positionList2text(board.getBlockedPointList()));
